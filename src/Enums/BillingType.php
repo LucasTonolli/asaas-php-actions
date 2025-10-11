@@ -19,6 +19,7 @@ enum BillingType
             self::Boleto => 'Boleto',
             self::CreditCard => 'Cartão de Crédito',
             self::Pix => 'Pix',
+            self::Undefined => 'Indefinido',
         };
     }
 
@@ -30,6 +31,8 @@ enum BillingType
             'boleto', 'boleto_bancario', 'ticket' => self::Boleto,
             'cartão de crédito', 'credit_card' => self::CreditCard,
             'pix' => self::Pix,
+            'indefinido', 'undefined' => self::Undefined,
+            default => throw new \ValueError("Invalid fine type '{$value}'"),
         };
     }
 
