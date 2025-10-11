@@ -16,7 +16,6 @@ enum FineType
 		return match ($this) {
 			self::Fixed => 'Fixo',
 			self::Percentage => 'Porcentagem',
-			default => 'Fixo',
 		};
 	}
 

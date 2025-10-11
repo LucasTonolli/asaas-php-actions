@@ -19,7 +19,6 @@ enum BillingType
             self::Boleto => 'Boleto',
             self::CreditCard => 'Cartão de Crédito',
             self::Pix => 'Pix',
-            default => 'Desconhecido',
         };
     }
 
