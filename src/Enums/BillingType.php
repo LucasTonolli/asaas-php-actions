@@ -31,7 +31,6 @@ enum BillingType
             'boleto', 'boleto_bancario', 'ticket' => self::Boleto,
             'cartão de crédito', 'credit_card' => self::CreditCard,
             'pix' => self::Pix,
-            default => self::Undefined,
         };
     }
 

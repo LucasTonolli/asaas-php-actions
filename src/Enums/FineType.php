@@ -27,7 +27,6 @@ enum FineType
 		return match ($normalized) {
 			'fixed', 'fixo' => self::Fixed,
 			'percentage', 'porcentagem' => self::Percentage,
-			default => self::Fixed,
 		};
 	}
 
