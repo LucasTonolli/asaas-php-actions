@@ -8,7 +8,7 @@ use AsaasPhpSdk\Enums\DiscountType;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
-final class Discount implements AbstractStructuredValueObject
+final class Discount extends AbstractStructuredValueObject
 {
 	private function __construct(
 		private readonly float $value,
@@ -16,7 +16,7 @@ final class Discount implements AbstractStructuredValueObject
 		public readonly DiscountType $discountType
 	) {}
 
-	public static function create(float $value, ?int $dueDateLimitDays, DiscountType|string $discountType): self
+	public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
 	{
 		if ($value <= 0) {
 			throw new \InvalidArgumentException('Value must be greater than 0.');
@@ -39,7 +39,7 @@ final class Discount implements AbstractStructuredValueObject
 		return self::create(
 			value: $data['value'] ?? throw new \InvalidArgumentException('Discount value is required'),
 			dueDateLimitDays: $data['dueDateLimitDays'] ?? throw new \InvalidArgumentException('Discount dueDateLimitDays is required'),
-			discountType: $data['type'] ?? DiscountType::Fixed
+			discountType: $data['type'] ?? 'fixed'
 		);
 	}
 
