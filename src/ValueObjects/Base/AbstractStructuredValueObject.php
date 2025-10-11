@@ -25,9 +25,9 @@ abstract class AbstractStructuredValueObject extends AbstractValueObject
 		foreach (get_object_vars($this) as $key => $value) {
 			if ($value instanceof AbstractStructuredValueObject) {
 				$result[$key] = $value->toArray();
-			} elseif (is_array($value) && !empty($value) && $value[0] instanceof AbstractStructuredValueObject) {
+			} elseif (is_array($value) && !empty($value) && current($value) instanceof self) {
 				$array[$key] = array_map(fn($v) => $v->toArray(), $value);
-			} elseif (method_exists($value, 'value')) {
+			} elseif (is_object($value) && method_exists($value, 'value')) {
 				$result[$key] = $value->value();
 			} else {
 				$result[$key] = $value;
