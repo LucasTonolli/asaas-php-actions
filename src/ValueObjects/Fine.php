@@ -6,7 +6,7 @@ namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Enums\FineType;
 
-final class Interest
+final class Interest extends AbstractStructuredValueObject
 {
 	public function __construct(
 		public readonly int $value,
