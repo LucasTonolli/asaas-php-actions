@@ -4,7 +4,7 @@ namespace AsaasPhpSdk\ValueObjects\Base;
 
 use AsaasPhpSdk\ValueObjects\Base\AbstractValueObject;
 
-abstract class AbstractSimpleValueObject extends AbstractValueObject
+abstract class AbstractSimpleValueObject
 {
 	protected readonly string $value;
 
@@ -24,5 +24,10 @@ abstract class AbstractSimpleValueObject extends AbstractValueObject
 	public function value(): string
 	{
 		return $this->value;
+	}
+
+	public function equals(self $other): bool
+	{
+		return $other instanceof static && $this->value === $other->value;
 	}
 }

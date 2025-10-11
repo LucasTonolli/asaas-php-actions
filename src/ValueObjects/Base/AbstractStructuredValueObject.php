@@ -7,7 +7,7 @@ namespace AsaasPhpSdk\ValueObjects\Base;
 use AsaasPhpSdk\ValueObjects\Base\AbstractValueObject;
 
 
-abstract class AbstractStructuredValueObject extends AbstractValueObject
+abstract class AbstractStructuredValueObject
 {
 	/**
 	 * Converts the structured value object into an array.
@@ -35,5 +35,10 @@ abstract class AbstractStructuredValueObject extends AbstractValueObject
 		}
 
 		return array_filter($result, fn($v) => $v !== null);
+	}
+
+	public function equals(AbstractStructuredValueObject $other): bool
+	{
+		return $this->toArray() === $other->toArray();
 	}
 }
