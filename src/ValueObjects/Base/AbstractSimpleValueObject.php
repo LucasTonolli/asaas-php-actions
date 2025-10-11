@@ -21,7 +21,7 @@ abstract class AbstractSimpleValueObject extends AbstractValueObject
 	/**
 	 * Gets the raw, underlying string value.
 	 */
-	public function value(): string|int|bool
+	public function value(): string
 	{
 		return $this->value;
 	}
