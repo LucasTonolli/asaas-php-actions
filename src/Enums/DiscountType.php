@@ -16,7 +16,6 @@ enum DiscountType
         return match ($this) {
             self::Fixed => 'Fixo',
             self::Percentage => 'Porcentagem',
-            default => 'Fixo',
         };
     }
 
@@ -50,6 +49,6 @@ enum DiscountType
 
     public static function options(): array
     {
-        return array_map(fn ($case) => [$case => $case->label()], self::all());
+        return array_map(fn($case) => [$case => $case->label()], self::all());
     }
 }
