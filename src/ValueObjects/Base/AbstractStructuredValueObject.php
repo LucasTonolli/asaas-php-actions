@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Base;
 
-use AsaasPhpSdk\ValueObjects\Base\AbstractValueObject;
-
-
 abstract class AbstractStructuredValueObject
 {
 	/**

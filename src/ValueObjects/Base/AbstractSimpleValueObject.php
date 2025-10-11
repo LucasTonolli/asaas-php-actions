@@ -2,8 +2,6 @@
 
 namespace AsaasPhpSdk\ValueObjects\Base;
 
-use AsaasPhpSdk\ValueObjects\Base\AbstractValueObject;
-
 abstract class AbstractSimpleValueObject
 {
 	protected readonly string $value;
