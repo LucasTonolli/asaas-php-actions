@@ -26,7 +26,7 @@ abstract class AbstractStructuredValueObject
 			if ($value instanceof AbstractStructuredValueObject) {
 				$result[$key] = $value->toArray();
 			} elseif (is_array($value) && !empty($value) && current($value) instanceof self) {
-				$array[$key] = array_map(fn($v) => $v->toArray(), $value);
+				$result[$key] = array_map(fn($v) => $v->toArray(), $value);
 			} elseif (is_object($value) && method_exists($value, 'value')) {
 				$result[$key] = $value->value();
 			} else {
