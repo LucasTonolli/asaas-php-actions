@@ -50,6 +50,12 @@ enum FineType
 
 	public static function options(): array
 	{
-		return array_map(fn($case) => [$case => $case->label()], self::all());
+		$options = [];
+
+		foreach (self::all() as $billingType) {
+			$options[$billingType->value] = $billingType->label();
+		}
+
+		return $options;
 	}
 }
