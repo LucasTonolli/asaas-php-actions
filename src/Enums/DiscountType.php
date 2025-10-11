@@ -24,8 +24,8 @@ enum DiscountType
         $normalized = DataSanitizer::sanitizeLowercase($value);
 
         return match ($normalized) {
-            'fixed' || 'fixo' => self::Fixed,
-            'percentage' || 'porcentagem' => self::Percentage,
+            'fixed', 'fixo' => self::Fixed,
+            'percentage', 'porcentagem' => self::Percentage,
             default => self::Fixed,
         };
     }
@@ -49,6 +49,12 @@ enum DiscountType
 
     public static function options(): array
     {
-        return array_map(fn($case) => [$case => $case->label()], self::all());
+        $options = [];
+
+        foreach (self::all() as $billingType) {
+            $options[$billingType->value] = $billingType->label();
+        }
+
+        return $options;
     }
 }
