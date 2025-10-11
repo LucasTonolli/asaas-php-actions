@@ -28,8 +28,8 @@ enum BillingType
         $normalized = DataSanitizer::sanitizeLowercase($value);
 
         return match ($normalized) {
-            'boleto' || 'boleto_bancario' || 'ticket' => self::Boleto,
-            'cartão de crédito' || 'credit_card' => self::CreditCard,
+            'boleto', 'boleto_bancario', 'ticket' => self::Boleto,
+            'cartão de crédito', 'credit_card' => self::CreditCard,
             'pix' => self::Pix,
             default => self::Undefined,
         };
@@ -56,6 +56,6 @@ enum BillingType
 
     public static function options(): array
     {
-        return array_map(fn ($case) => [$case => $case->label()], self::all());
+        return array_map(fn($case) => [$case => $case->label()], self::all());
     }
 }
