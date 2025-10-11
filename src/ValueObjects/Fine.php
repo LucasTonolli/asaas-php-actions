@@ -14,7 +14,7 @@ final class Fine extends AbstractStructuredValueObject
 		public readonly FineType $type,
 	) {}
 
-	public static function create(float $value, FineType|string $type): self
+	public static function create(float $value, string $type): self
 	{
 		if ($value < 0) {
 			throw new \InvalidArgumentException('Fine value cannot be negative');
