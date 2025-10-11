@@ -52,8 +52,8 @@ enum FineType
 	{
 		$options = [];
 
-		foreach (self::all() as $billingType) {
-			$options[$billingType->name] = $billingType->label();
+		foreach (self::all() as $fineType) {
+			$options[$fineType->name] = $fineType->label();
 		}
 
 		return $options;

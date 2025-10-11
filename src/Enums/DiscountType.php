@@ -51,8 +51,8 @@ enum DiscountType
     {
         $options = [];
 
-        foreach (self::all() as $billingType) {
-            $options[$billingType->value] = $billingType->label();
+        foreach (self::all() as $discountType) {
+            $options[$discountType->name] = $discountType->label();
         }
 
         return $options;
