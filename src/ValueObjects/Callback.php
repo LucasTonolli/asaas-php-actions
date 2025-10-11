@@ -9,7 +9,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 final class Callback extends AbstractStructuredValueObject
 {
 	private function __construct(
-		public readonly string $successrl,
+		public readonly string $successUrl,
 		public readonly bool $autoRedirect = true
 	) {}
 
