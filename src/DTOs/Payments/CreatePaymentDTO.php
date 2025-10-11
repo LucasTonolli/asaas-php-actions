@@ -91,6 +91,16 @@ final class CreatePaymentDTO extends AbstractDTO
 		if ($billingType === null) {
 			throw new InvalidPaymentDataException('Invalid billing type');
 		}
+		$data['billingType'] = $billingType;
+
+		try {
+			$data['dueDate'] = $data['dueDate'] instanceof \DateTimeImmutable
+				? $data['dueDate']
+				: new \DateTimeImmutable((string) $data['dueDate']);
+		} catch (\Exception $e) {
+			throw new InvalidPaymentDataException('Invalid due date format', 0, $e);
+		}
+
 		try {
 			self::validateStructuredValueObject($data, 'discount', Discount::class);
 			self::validateStructuredValueObject($data, 'interest', Interest::class);
