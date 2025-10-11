@@ -26,7 +26,7 @@ enum DiscountType
         return match ($normalized) {
             'fixed', 'fixo' => self::Fixed,
             'percentage', 'porcentagem' => self::Percentage,
-            default => throw new \ValueError("Invalid fine type '{$value}'"),
+            default => throw new \ValueError("Invalid discount type '{$value}'"),
         };
     }
 

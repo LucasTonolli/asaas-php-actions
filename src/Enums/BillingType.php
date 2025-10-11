@@ -32,7 +32,7 @@ enum BillingType
             'cartão de crédito', 'credit_card' => self::CreditCard,
             'pix' => self::Pix,
             'indefinido', 'undefined' => self::Undefined,
-            default => throw new \ValueError("Invalid fine type '{$value}'"),
+            default => throw new \ValueError("Invalid billing type '{$value}'"),
         };
     }
 
