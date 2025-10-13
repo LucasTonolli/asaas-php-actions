@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Exceptions\InvalidInterestException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidInterestException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Interest extends AbstractStructuredValueObject

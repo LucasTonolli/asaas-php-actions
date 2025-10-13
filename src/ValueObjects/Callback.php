@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Exceptions\InvalidCallbackException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Callback extends AbstractStructuredValueObject

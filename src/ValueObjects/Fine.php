@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Enums\FineType;
-use AsaasPhpSdk\Exceptions\InvalidFineException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Fine extends AbstractStructuredValueObject
