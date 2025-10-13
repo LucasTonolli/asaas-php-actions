@@ -11,7 +11,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 final class Discount extends AbstractStructuredValueObject
 {
 	private function __construct(
-		private readonly float $value,
+		public readonly float $value,
 		public readonly ?int $dueDateLimitDays,
 		public readonly DiscountType $discountType
 	) {}
