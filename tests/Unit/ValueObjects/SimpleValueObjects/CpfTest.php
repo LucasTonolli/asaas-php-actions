@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Exceptions\InvalidCnpjException;
 use AsaasPhpSdk\Exceptions\InvalidCpfException;
-use AsaasPhpSdk\ValueObjects\Cpf;
+use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 
 describe('Cpf Value Object', function (): void {
 	it('can be created with a valid Cpf with formatting', function (): void {

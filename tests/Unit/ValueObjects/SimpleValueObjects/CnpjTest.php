@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\Exceptions\InvalidCnpjException;
-use AsaasPhpSdk\ValueObjects\Cnpj;
+use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 
 describe('Cnpj Value Object', function (): void {
 	it('can be created with a valid CNPJ with formatting', function (): void {

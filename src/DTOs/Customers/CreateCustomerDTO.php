@@ -9,11 +9,11 @@ use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
 use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Cnpj;
-use AsaasPhpSdk\ValueObjects\Cpf;
-use AsaasPhpSdk\ValueObjects\Email;
-use AsaasPhpSdk\ValueObjects\Phone;
-use AsaasPhpSdk\ValueObjects\PostalCode;
+use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
+use AsaasPhpSdk\ValueObjects\Simple\Cpf;
+use AsaasPhpSdk\ValueObjects\Simple\Email;
+use AsaasPhpSdk\ValueObjects\Simple\Phone;
+use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 
 /**
  * A "Strict" Data Transfer Object for creating a new customer.

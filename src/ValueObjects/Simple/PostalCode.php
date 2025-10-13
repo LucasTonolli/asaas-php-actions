@@ -1,6 +1,6 @@
 <?php
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Simple;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Simple;
 
 use AsaasPhpSdk\Exceptions\InvalidPhoneException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
