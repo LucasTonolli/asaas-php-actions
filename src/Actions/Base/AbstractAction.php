@@ -1,6 +1,6 @@
 <?php
 
-namespace AsaasPhpSdk\Actions;
+namespace AsaasPhpSdk\Actions\Base;
 
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
