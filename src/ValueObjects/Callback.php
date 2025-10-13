@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects;
 
+use AsaasPhpSdk\Exceptions\InvalidCallbackException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Callback extends AbstractStructuredValueObject
@@ -17,12 +18,12 @@ final class Callback extends AbstractStructuredValueObject
 	{
 		// Validate URL format
 		if (!filter_var($successUrl, FILTER_VALIDATE_URL)) {
-			throw new \InvalidArgumentException("Invalid success URL: {$successUrl}");
+			throw new InvalidCallbackException("Invalid success URL: {$successUrl}");
 		}
 
 		// Validate HTTPS for security
 		if (!str_starts_with($successUrl, 'https://')) {
-			throw new \InvalidArgumentException('Success URL must use HTTPS protocol');
+			throw new InvalidCallbackException('Success URL must use HTTPS protocol');
 		}
 
 		return new self($successUrl, $autoRedirect);
@@ -31,7 +32,7 @@ final class Callback extends AbstractStructuredValueObject
 	public static function fromArray(array $data): self
 	{
 		return self::create(
-			successUrl: $data['successUrl'] ?? throw new \InvalidArgumentException('successUrl is required'),
+			successUrl: $data['successUrl'] ?? throw new InvalidCallbackException('successUrl is required'),
 			autoRedirect: $data['autoRedirect'] ?? true
 		);
 	}
