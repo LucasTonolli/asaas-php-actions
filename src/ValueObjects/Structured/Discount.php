@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Enums\DiscountType;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidDiscountException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
@@ -19,7 +20,7 @@ final class Discount extends AbstractStructuredValueObject
 	public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
 	{
 		if ($value <= 0) {
-			throw new \InvalidArgumentException('Value must be greater than 0.');
+			throw new InvalidDiscountException('Value must be greater than 0.');
 		}
 
 		$saninitizeddueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
@@ -28,7 +29,7 @@ final class Discount extends AbstractStructuredValueObject
 		$type = DiscountType::tryFromString($discountType);
 
 		if ($type === null) {
-			throw new \InvalidArgumentException('Invalid discount type');
+			throw new InvalidDiscountException('Invalid discount type');
 		}
 
 		return new self($value, $saninitizeddueDateLimitDays, $type);
@@ -37,8 +38,8 @@ final class Discount extends AbstractStructuredValueObject
 	public static function fromArray(array $data): self
 	{
 		return self::create(
-			value: $data['value'] ?? throw new \InvalidArgumentException('Discount value is required'),
-			dueDateLimitDays: $data['dueDateLimitDays'] ?? throw new \InvalidArgumentException('Discount dueDateLimitDays is required'),
+			value: $data['value'] ?? throw new InvalidDiscountException('Discount value is required'),
+			dueDateLimitDays: $data['dueDateLimitDays'] ?? throw new InvalidDiscountException('Discount dueDateLimitDays is required'),
 			discountType: $data['type'] ?? 'fixed'
 		);
 	}
