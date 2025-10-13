@@ -32,6 +32,10 @@ final class Discount extends AbstractStructuredValueObject
 			throw new InvalidDiscountException('Invalid discount type');
 		}
 
+		if ($type === DiscountType::Percentage && $value > 100) {
+			throw new InvalidDiscountException('Discount percentage cannot exceed 100%');
+		}
+
 		return new self($value, $saninitizeddueDateLimitDays, $type);
 	}
 
