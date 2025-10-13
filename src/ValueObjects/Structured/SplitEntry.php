@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Structured;
 
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitEntryException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class SplitEntry extends AbstractStructuredValueObject
@@ -26,11 +27,11 @@ final class SplitEntry extends AbstractStructuredValueObject
 		?string $description = null,
 	): self {
 		if ($fixedValue === null && $percentageValue === null && $totalFixedValue === null) {
-			throw new \InvalidArgumentException('At least one value must be provided');
+			throw new InvalidSplitEntryException('At least one value must be provided');
 		}
 
 		if ($percentageValue !== null && ($percentageValue < 0 || $percentageValue > 100)) {
-			throw new \InvalidArgumentException('Percentual value must be between 0 and 100');
+			throw new InvalidSplitEntryException('Percentual value must be between 0 and 100');
 		}
 
 		return new self($walletId, $fixedValue, $percentageValue, $totalFixedValue, $externalReference, $description);
@@ -39,7 +40,7 @@ final class SplitEntry extends AbstractStructuredValueObject
 	public static function fromArray(array $data): self
 	{
 		return self::create(
-			walletId: $data['walletId'] ?? throw new \InvalidArgumentException('walletId is required'),
+			walletId: $data['walletId'] ?? throw new InvalidSplitEntryException('walletId is required'),
 			fixedValue: $data['fixedValue'] ?? null,
 			percentageValue: $data['percentageValue'] ?? null,
 			totalFixedValue: $data['totalFixedValue'] ?? null,
