@@ -20,9 +20,9 @@ final class RestoreCustomerAction extends AbstractAction
      * @return array An array containing the data of the restored customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException if the customer with the given ID does not exist.
+     * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\Api\NotFoundException if the customer with the given ID does not exist.
      */
     public function handle(string $id): array
     {
@@ -32,7 +32,7 @@ final class RestoreCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->post('customers/'.rawurlencode($normalizedId).'/restore')
+            fn() => $this->client->post('customers/' . rawurlencode($normalizedId) . '/restore')
         );
     }
 }

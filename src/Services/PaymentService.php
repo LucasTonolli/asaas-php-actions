@@ -6,7 +6,7 @@ namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 

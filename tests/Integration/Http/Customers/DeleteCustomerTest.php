@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 
 describe('Delete Customer', function (): void {
     beforeEach(function (): void {
@@ -10,7 +10,7 @@ describe('Delete Customer', function (): void {
 
     it('deletes a customer successfully', function (): void {
         $createCustomerResponse = $this->asaasClient->customer()->create([
-            'name' => 'John Doe'.uniqid(),
+            'name' => 'John Doe' . uniqid(),
             'cpfCnpj' => '898.879.660-88',
         ]);
 

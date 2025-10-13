@@ -2,8 +2,8 @@
 
 use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
-use AsaasPhpSdk\Exceptions\ApiException;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Exception\ConnectException;
 

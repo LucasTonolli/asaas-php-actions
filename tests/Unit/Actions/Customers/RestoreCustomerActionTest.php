@@ -1,9 +1,9 @@
 <?php
 
 use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
-use AsaasPhpSdk\Exceptions\AuthenticationException;
-use AsaasPhpSdk\Exceptions\NotFoundException;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
 describe('Restore Customer Action', function (): void {

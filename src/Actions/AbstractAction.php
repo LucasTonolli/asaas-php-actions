@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\Actions;
 
-use AsaasPhpSdk\Exceptions\ApiException;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -55,19 +55,19 @@ abstract class AbstractAction
                 return $this->responseHandler->handle($e->getResponse());
             }
             throw new ApiException(
-                'Request failed: '.$e->getMessage(),
+                'Request failed: ' . $e->getMessage(),
                 $e->getCode(),
                 $e
             );
         } catch (ConnectException $e) {
             throw new ApiException(
-                'Failed to connect to Asaas API: '.$e->getMessage(),
+                'Failed to connect to Asaas API: ' . $e->getMessage(),
                 0,
                 $e
             );
         } catch (GuzzleException $e) {
             throw new ApiException(
-                'HTTP client error: '.$e->getMessage(),
+                'HTTP client error: ' . $e->getMessage(),
                 $e->getCode(),
                 $e
             );

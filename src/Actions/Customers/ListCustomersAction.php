@@ -18,14 +18,14 @@ final class ListCustomersAction extends AbstractAction
      * @param  ListCustomersDTO  $data  A DTO containing filter and pagination parameters (e.g., name, email, limit, offset).
      * @return array A paginated list of customers. The structure includes pagination info and a 'data' key with the customers array.
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\ValidationException Can be thrown if an invalid filter is sent.
+     * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\Api\ValidationException Can be thrown if an invalid filter is sent.
      */
     public function handle(ListCustomersDTO $data): array
     {
         return $this->executeRequest(
-            fn () => $this->client->get('customers', ['query' => $data->toArray()])
+            fn() => $this->client->get('customers', ['query' => $data->toArray()])
         );
     }
 }

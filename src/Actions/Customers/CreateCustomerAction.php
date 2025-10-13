@@ -20,14 +20,14 @@ final class CreateCustomerAction extends AbstractAction
      * @param  CreateCustomerDTO  $data  A Data Transfer Object containing the validated customer data.
      * @return array An array representing the newly created customer as returned by the API.
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\ValidationException
+     * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\Api\ValidationException
      */
     public function handle(CreateCustomerDTO $data): array
     {
         return $this->executeRequest(
-            fn () => $this->client->post('customers', ['json' => $data->toArray()])
+            fn() => $this->client->post('customers', ['json' => $data->toArray()])
         );
     }
 }

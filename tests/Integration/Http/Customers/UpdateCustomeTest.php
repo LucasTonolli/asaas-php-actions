@@ -8,8 +8,8 @@ describe('Update Customer', function (): void {
 
     it('updates a customer successfully', function (): void {
         $createCustomerResponse = $this->asaasClient->customer()->create([
-            'name' => 'John Doe'.uniqid(),
-            'email' => 'john_doe'.uniqid().'@example.com',
+            'name' => 'John Doe' . uniqid(),
+            'email' => 'john_doe' . uniqid() . '@example.com',
             'cpfCnpj' => '898.879.660-88',
         ]);
 
@@ -26,7 +26,7 @@ describe('Update Customer', function (): void {
         $this->asaasClient->customer()->update('cus_notfound', [
             'name' => 'John Doe Updated',
         ]);
-    })->throws(\AsaasPhpSdk\Exceptions\NotFoundException::class, 'Resource not found');
+    })->throws(\AsaasPhpSdk\Exceptions\Api\NotFoundException::class, 'Resource not found');
 
     it('throws an exception when the customer ID is empty', function (): void {
         $this->asaasClient->customer()->update('', [

@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
 describe('Update Customer Action', function (): void {

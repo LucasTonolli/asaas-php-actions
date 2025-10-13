@@ -22,10 +22,10 @@ final class UpdateCustomerAction extends AbstractAction
      * @return array An array containing the full, updated data of the customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException if the customer with the given ID does not exist.
-     * @throws \AsaasPhpSdk\Exceptions\ValidationException if the data provided is invalid.
+     * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\Api\NotFoundException if the customer with the given ID does not exist.
+     * @throws \AsaasPhpSdk\Exceptions\Api\ValidationException if the data provided is invalid.
      */
     public function handle(string $id, UpdateCustomerDTO $data): array
     {
@@ -35,7 +35,7 @@ final class UpdateCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
+            fn() => $this->client->put('customers/' . rawurlencode($normalizedId), ['json' => $data->toArray()])
         );
     }
 }
