@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidPhoneException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidPhoneException;
 use AsaasPhpSdk\ValueObjects\Simple\Phone;
 
 describe('Phone Value Object', function (): void {

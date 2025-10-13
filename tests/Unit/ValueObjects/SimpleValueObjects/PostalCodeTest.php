@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidPostalCodeException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidPostalCodeException;
 use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 
 describe('PostalCode Value Object', function (): void {

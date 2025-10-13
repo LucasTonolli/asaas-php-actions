@@ -1,7 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidCnpjException;
-use AsaasPhpSdk\Exceptions\InvalidCpfException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCpfException;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 
 describe('Cpf Value Object', function (): void {

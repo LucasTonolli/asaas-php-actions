@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidCnpjException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCnpjException;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 
 describe('Cnpj Value Object', function (): void {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Exceptions;
+namespace AsaasPhpSdk\Exceptions\ValueObjects;
+
+use AsaasPhpSdk\Exceptions\AsaasException;
 
 /**
  * Base exception for errors that occur during Value Object validation.

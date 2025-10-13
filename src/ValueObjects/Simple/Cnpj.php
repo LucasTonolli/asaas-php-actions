@@ -31,11 +31,11 @@ class Cnpj extends AbstractSimpleValueObject implements FormattableContract
         $sanitized = DataSanitizer::onlyDigits($cnpj);
 
         if ($sanitized === null || strlen($sanitized) !== 14) {
-            throw new \AsaasPhpSdk\Exceptions\InvalidCnpjException('Cnpj must contain exactly 14 digits');
+            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCnpjException('Cnpj must contain exactly 14 digits');
         }
 
         if (! self::isValidCnpj($sanitized)) {
-            throw new \AsaasPhpSdk\Exceptions\InvalidCnpjException("Invalid Cnpj: {$cnpj}");
+            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCnpjException("Invalid Cnpj: {$cnpj}");
         }
 
         return new self($sanitized);

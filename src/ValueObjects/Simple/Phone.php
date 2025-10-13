@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects\Simple;
 
-use AsaasPhpSdk\Exceptions\InvalidPhoneException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidPhoneException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
 use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;

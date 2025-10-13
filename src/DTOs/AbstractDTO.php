@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs;
 
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
 /**

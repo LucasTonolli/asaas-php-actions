@@ -13,7 +13,7 @@ use AsaasPhpSdk\ValueObjects\Interest;
 use AsaasPhpSdk\ValueObjects\Split;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidPaymentDataException;
-use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 
 final class CreatePaymentDTO extends AbstractDTO
 {

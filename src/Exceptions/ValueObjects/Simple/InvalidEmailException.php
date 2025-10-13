@@ -1,6 +1,8 @@
 <?php
 
-namespace AsaasPhpSdk\Exceptions;
+namespace AsaasPhpSdk\Exceptions\ValueObjects\Simple;
+
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 
 /**
  * Represents an error for an invalid email address format.

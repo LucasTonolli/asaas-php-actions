@@ -32,11 +32,11 @@ class Cpf extends AbstractSimpleValueObject implements FormattableContract
         $sanitized = DataSanitizer::onlyDigits($cpf);
 
         if ($sanitized === null || strlen($sanitized) !== 11) {
-            throw new \AsaasPhpSdk\Exceptions\InvalidCpfException('CPF must contain exactly 11 digits');
+            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCpfException('CPF must contain exactly 11 digits');
         }
 
         if (! self::isValidCpf($sanitized)) {
-            throw new \AsaasPhpSdk\Exceptions\InvalidCpfException("Invalid CPF: {$cpf}");
+            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidCpfException("Invalid CPF: {$cpf}");
         }
 
         return new self($sanitized);
