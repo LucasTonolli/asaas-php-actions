@@ -1,7 +1,8 @@
 <?php
 
-namespace AsaasPhpSdk\Exceptions;
+namespace AsaasPhpSdk\Exceptions\Api;
 
+use AsaasPhpSdk\Exceptions\AsaasException;
 use Throwable;
 
 /**
