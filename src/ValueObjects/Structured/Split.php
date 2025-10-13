@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Split extends AbstractStructuredValueObject
@@ -16,7 +17,7 @@ final class Split extends AbstractStructuredValueObject
 	private function __construct(array $entries)
 	{
 		if (empty($entries)) {
-			throw new \InvalidArgumentException('Split entries must not be empty');
+			throw new InvalidSplitException('Split entries must not be empty');
 		}
 
 		$this->entries = $entries;
@@ -80,14 +81,14 @@ final class Split extends AbstractStructuredValueObject
 	{
 		$totalPercentage = $this->totalPercentage();
 		if ($totalPercentage > 100) {
-			throw new \InvalidArgumentException(
+			throw new InvalidSplitException(
 				"Split percentages sum to {$totalPercentage}%, which exceeds 100%"
 			);
 		}
 
 		$totalFixed = $this->totalFixedValue();
 		if ($totalFixed > $paymentValue) {
-			throw new \InvalidArgumentException(
+			throw new InvalidSplitException(
 				"Split fixed values sum to R$ {$totalFixed}, which exceeds payment value of R$ {$paymentValue}"
 			);
 		}
