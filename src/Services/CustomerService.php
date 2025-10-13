@@ -13,11 +13,11 @@ use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
-use AsaasPhpSdk\Exceptions\ApiException;
-use AsaasPhpSdk\Exceptions\AuthenticationException;
-use AsaasPhpSdk\Exceptions\NotFoundException;
-use AsaasPhpSdk\Exceptions\RateLimitException;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -194,7 +194,7 @@ final class CustomerService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (\AsaasPhpSdk\Exceptions\InvalidCustomerDataException $e) {
+        } catch (\AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }

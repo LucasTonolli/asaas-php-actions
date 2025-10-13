@@ -6,7 +6,7 @@ namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
