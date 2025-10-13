@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Enums\DiscountType;
+use AsaasPhpSdk\ValueObjects\Structured\Enums\DiscountType;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidDiscountException;
 use AsaasPhpSdk\ValueObjects\Structured\Discount;
 

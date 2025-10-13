@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Enums\FineType;
+use AsaasPhpSdk\ValueObjects\Structured\Enums\FineType;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;
 use AsaasPhpSdk\ValueObjects\Structured\Fine;
 
