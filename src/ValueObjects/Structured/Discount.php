@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
-use AsaasPhpSdk\Enums\DiscountType;
+use AsaasPhpSdk\ValueObjects\Structured\Enums\DiscountType;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidDiscountException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;

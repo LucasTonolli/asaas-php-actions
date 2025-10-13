@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\ValueObjects\Structured\Enums;
+namespace AsaasPhpSdk\DTOs\Payments;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
-enum BillingType
+enum BillingTypeEnum
 {
     case Undefined;
     case Boleto;

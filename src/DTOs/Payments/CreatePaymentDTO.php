@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Payments;
 
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
-use AsaasPhpSdk\Enums\BillingType;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\Callback;
 use AsaasPhpSdk\ValueObjects\Structured\Discount;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;
 use AsaasPhpSdk\ValueObjects\Structured\Split;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\InvalidPaymentDataException;
+use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\ValueObjects\Structured\Fine;
 
@@ -20,7 +19,7 @@ final class CreatePaymentDTO extends AbstractDTO
 {
 	private function __construct(
 		public readonly string $customerId,
-		public readonly BillingType $billingType,
+		public readonly BillingTypeEnum $billingType,
 		public readonly float $value,
 		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
 		public readonly \DateTimeImmutable $dueDate,
@@ -90,7 +89,7 @@ final class CreatePaymentDTO extends AbstractDTO
 			throw new InvalidPaymentDataException('Due date is required');
 		}
 
-		$billingType = BillingType::tryFromString($data['billingType']);
+		$billingType = BillingTypeEnum::tryFromString($data['billingType']);
 
 		if ($billingType === null) {
 			throw new InvalidPaymentDataException('Invalid billing type');
