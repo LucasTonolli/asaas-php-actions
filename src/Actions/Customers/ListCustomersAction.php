@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\AbstractAction;
+use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 
 final class ListCustomersAction extends AbstractAction
