@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidInterestException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidInterestException;
 use AsaasPhpSdk\ValueObjects\Interest;
 
 describe('Interest', function (): void {

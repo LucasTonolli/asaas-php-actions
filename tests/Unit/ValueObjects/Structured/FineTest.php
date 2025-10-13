@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\Enums\FineType;
-use AsaasPhpSdk\Exceptions\InvalidFineException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;
 use AsaasPhpSdk\ValueObjects\Fine;
 
 describe('Fine Value Object', function (): void {

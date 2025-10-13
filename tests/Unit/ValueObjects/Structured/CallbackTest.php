@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\InvalidCallbackException;
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
 use AsaasPhpSdk\ValueObjects\Callback;
 
 describe('Callback Value Object', function (): void {
