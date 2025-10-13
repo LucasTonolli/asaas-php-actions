@@ -10,7 +10,7 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\Callback;
 use AsaasPhpSdk\ValueObjects\Structured\Discount;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;
-use AsaasPhpSdk\ValueObjects\Split;
+use AsaasPhpSdk\ValueObjects\Structured\Split;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
