@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Enums\FineType;
+use AsaasPhpSdk\Exceptions\InvalidFineException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Fine extends AbstractStructuredValueObject
@@ -17,20 +18,20 @@ final class Fine extends AbstractStructuredValueObject
 	public static function create(float $value, string $type): self
 	{
 		if ($value < 0) {
-			throw new \InvalidArgumentException('Fine value cannot be negative');
+			throw new InvalidFineException('Fine value cannot be negative');
 		}
 
 
 		$type = FineType::tryFromString($type);
 
 		if ($type === null) {
-			throw new \InvalidArgumentException('Invalid fine type');
+			throw new InvalidFineException('Invalid fine type');
 		}
 
 
 		// Validate percentage
 		if ($type === FineType::Percentage && $value > 100) {
-			throw new \InvalidArgumentException('Fine percentage cannot exceed 100%');
+			throw new InvalidFineException('Fine percentage cannot exceed 100%');
 		}
 
 		return new self($value, $type);
@@ -39,7 +40,7 @@ final class Fine extends AbstractStructuredValueObject
 	public static function fromArray(array $data): self
 	{
 		return self::create(
-			value: $data['value'] ?? throw new \InvalidArgumentException('Fine value is required'),
+			value: $data['value'] ?? throw new InvalidFineException('Fine value is required'),
 			type: $data['type'] ?? FineType::Percentage
 		);
 	}
