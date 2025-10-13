@@ -6,4 +6,4 @@ namespace AsaasPhpSdk\Exceptions\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 
-class InvalidDiscountException extends InvalidValueObjectException {}
+class InvalidSplitException extends InvalidValueObjectException {}
