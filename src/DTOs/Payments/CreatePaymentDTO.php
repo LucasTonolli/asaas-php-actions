@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Payments;
 
-use AsaasPhpSdk\DTOs\AbstractDTO;
+use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Enums\BillingType;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\Callback;

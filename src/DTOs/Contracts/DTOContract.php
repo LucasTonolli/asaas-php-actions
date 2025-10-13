@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\DTOs;
+namespace AsaasPhpSdk\DTOs\Contracts;
 
 /**
  * Defines the essential public API for all Data Transfer Objects (DTOs).

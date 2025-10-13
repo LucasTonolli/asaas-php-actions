@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\DTOs;
+namespace AsaasPhpSdk\DTOs\Base;
 
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
+use AsaasPhpSdk\DTOs\Contracts\DTOContract;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 

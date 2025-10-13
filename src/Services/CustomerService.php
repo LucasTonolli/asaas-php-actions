@@ -182,7 +182,7 @@ final class CustomerService
      *
      * @internal
      *
-     * @template T of of \AsaasPhpSdk\DTOs\AbstractDTO
+     * @template T of of \AsaasPhpSdk\DTOs\Base\AbstractDTO
      *
      * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
      * @param  array<string, mixed>  $data  The raw data for the DTO.
