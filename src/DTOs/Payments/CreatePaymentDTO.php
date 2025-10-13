@@ -8,7 +8,7 @@ use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\Enums\BillingType;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\Callback;
-use AsaasPhpSdk\ValueObjects\Discount;
+use AsaasPhpSdk\ValueObjects\Structured\Discount;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;
 use AsaasPhpSdk\ValueObjects\Split;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
