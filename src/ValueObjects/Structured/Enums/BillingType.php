@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Enums;
+namespace AsaasPhpSdk\ValueObjects\Structured\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
