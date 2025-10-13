@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Enums\FineType;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;
-use AsaasPhpSdk\ValueObjects\Fine;
+use AsaasPhpSdk\ValueObjects\Structured\Fine;
 
 describe('Fine Value Object', function (): void {
 	it('can be created with a valid fine', function (): void {

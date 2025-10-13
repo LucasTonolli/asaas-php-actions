@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
-use AsaasPhpSdk\ValueObjects\Callback;
+use AsaasPhpSdk\ValueObjects\Structured\Callback;
 
 describe('Callback Value Object', function (): void {
 	it('can be created with a valid callback', function (): void {

@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidInterestException;
-use AsaasPhpSdk\ValueObjects\Interest;
+use AsaasPhpSdk\ValueObjects\Structured\Interest;
 
 describe('Interest', function (): void {
 	it('can be created with a valid interest', function (): void {
