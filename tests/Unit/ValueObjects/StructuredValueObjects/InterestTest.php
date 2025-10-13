@@ -7,6 +7,12 @@ describe('Interest', function (): void {
 	it('can be created with a valid interest', function (): void {
 		$interest = Interest::create(10.0);
 		expect($interest->value)->toBe(10.0);
+
+		$interest = Interest::fromArray([
+			'value' => 10.0
+		]);
+
+		expect($interest->value)->toBe(10.0);
 	});
 
 	it('cannot be created with an invalid interest', function (): void {
