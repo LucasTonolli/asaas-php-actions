@@ -7,13 +7,14 @@ namespace AsaasPhpSdk\DTOs\Payments;
 use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\Enums\BillingType;
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Callback;
+use AsaasPhpSdk\ValueObjects\Structured\Callback;
 use AsaasPhpSdk\ValueObjects\Discount;
-use AsaasPhpSdk\ValueObjects\Interest;
+use AsaasPhpSdk\ValueObjects\Structured\Interest;
 use AsaasPhpSdk\ValueObjects\Split;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
+use AsaasPhpSdk\ValueObjects\Structured\Fine;
 
 final class CreatePaymentDTO extends AbstractDTO
 {
@@ -33,6 +34,8 @@ final class CreatePaymentDTO extends AbstractDTO
 		public readonly ?Discount $discount = null,
 		#[ToArrayMethodAttribute('toArray')]
 		public readonly ?Interest $interest = null,
+		#[ToArrayMethodAttribute('toArray')]
+		public readonly ?Fine $fine = null,
 		public readonly ?bool $postalService = null,
 		#[ToArrayMethodAttribute('toArray')]
 		public readonly ?Split $split = null,
@@ -63,6 +66,7 @@ final class CreatePaymentDTO extends AbstractDTO
 			'installmentValue' => self::optionalFloat($data, 'installmentValue'),
 			'discount' => $data['discount'] ?? null,
 			'interest' => $data['interest'] ?? null,
+			'fine' => $data['fine'] ?? null,
 			'postalService' => self::optionalBoolean($data, 'postalService'),
 			'split' => $data['split'] ?? null,
 			'callback' => $data['callback'] ?? null,
@@ -104,6 +108,7 @@ final class CreatePaymentDTO extends AbstractDTO
 		try {
 			self::validateStructuredValueObject($data, 'discount', Discount::class);
 			self::validateStructuredValueObject($data, 'interest', Interest::class);
+			self::validateStructuredValueObject($data, 'fine', Fine::class);
 			self::validateStructuredValueObject($data, 'split', Split::class);
 			self::validateStructuredValueObject($data, 'callback', Callback::class);
 		} catch (InvalidValueObjectException $e) {

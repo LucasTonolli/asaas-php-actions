@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Enums\FineType;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;

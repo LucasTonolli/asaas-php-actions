@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidInterestException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
