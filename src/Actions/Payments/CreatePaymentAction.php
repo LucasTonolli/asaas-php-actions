@@ -6,6 +6,11 @@ namespace AsaasPhpSdk\Actions\Payments;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class CreatePaymentAction extends AbstractAction
 {
@@ -29,7 +34,7 @@ final class CreatePaymentAction extends AbstractAction
     public function handle(CreatePaymentDTO $data): array
     {
         return $this->executeRequest(
-            fn () => $this->client->post('payments', ['json' => $data->toArray()])
+            fn() => $this->client->post('payments', ['json' => $data->toArray()])
         );
     }
 }
