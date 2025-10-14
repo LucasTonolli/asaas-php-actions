@@ -4,6 +4,7 @@ namespace AsaasPhpSdk\ValueObjects\Simple;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidEmailException;
 
 /**
  * A Value Object representing a valid email address.
@@ -30,7 +31,7 @@ class Email extends AbstractSimpleValueObject
         $sanitized = DataSanitizer::sanitizeEmail($email);
 
         if (! filter_var($sanitized, FILTER_VALIDATE_EMAIL)) {
-            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidEmailException('Email is not valid');
+            throw new InvalidEmailException('Email is not valid');
         }
 
         return new self($sanitized);
