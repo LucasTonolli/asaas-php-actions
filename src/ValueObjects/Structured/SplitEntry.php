@@ -69,7 +69,7 @@ final class SplitEntry extends AbstractStructuredValueObject
         }
 
         if ($percentageValue !== null && ($percentageValue < 0 || $percentageValue > 100)) {
-            throw new InvalidSplitEntryException('Percentual value must be between 0 and 100');
+            throw new InvalidSplitEntryException('Percentage value must be between 0 and 100');
         }
 
         return new self($walletId, $fixedValue, $percentageValue, $totalFixedValue, $externalReference, $description);
