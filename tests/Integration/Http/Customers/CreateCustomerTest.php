@@ -7,7 +7,7 @@ describe('Create Customer', function (): void {
     });
 
     it('creates a customer successfully', function (): void {
-        $name = 'John Doe ' . uniqid();
+        $name = 'John Doe '.uniqid();
 
         $response = $this->asaasClient->customer()->create([
             'name' => $name,
@@ -19,7 +19,7 @@ describe('Create Customer', function (): void {
     });
 
     it('fails to create a customer with invalid cpf', function (): void {
-        expect(fn() => $this->asaasClient->customer()->create([
+        expect(fn () => $this->asaasClient->customer()->create([
             'name' => 'Invalid CPF',
             'cpfCnpj' => '000.000.000-00',
         ]))->toThrow(\AsaasPhpSdk\Exceptions\Api\ValidationException::class, 'Invalid CPF');

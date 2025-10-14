@@ -6,14 +6,14 @@ namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
-use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
-use GuzzleHttp\Client;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
+use AsaasPhpSdk\Helpers\ResponseHandler;
+use GuzzleHttp\Client;
 
 /**
  * Provides a user-friendly interface for all payment-related operations.

@@ -11,7 +11,7 @@ describe('Create Payment', function (): void {
 
         // Create a valid customer to associate with the payment
         $this->customer = $this->asaasClient->customer()->create([
-            'name' => 'Payment Customer ' . uniqid(),
+            'name' => 'Payment Customer '.uniqid(),
             'cpfCnpj' => '898.879.660-88',
         ]);
     });
@@ -37,7 +37,7 @@ describe('Create Payment', function (): void {
     });
 
     it('fails to create a payment with invalid value', function (): void {
-        expect(fn() => $this->asaasClient->payment()->create([
+        expect(fn () => $this->asaasClient->payment()->create([
             'customer' => $this->customer['id'],
             'billingType' => BillingTypeEnum::Boleto->value,
             'value' => -100, // invalid

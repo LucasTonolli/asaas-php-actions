@@ -38,7 +38,7 @@ class Cpf extends AbstractSimpleValueObject implements FormattableContract
         }
 
         if (! self::isValidCpf($sanitized)) {
-            throw new InvalidCpfException("Invalid CPF");
+            throw new InvalidCpfException('Invalid CPF');
         }
 
         return new self($sanitized);

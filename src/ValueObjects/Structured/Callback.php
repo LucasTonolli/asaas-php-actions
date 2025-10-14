@@ -64,7 +64,7 @@ final class Callback extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
-        if (!\array_key_exists('autoRedirect', $data)) {
+        if (! \array_key_exists('autoRedirect', $data)) {
             throw new InvalidCallbackException('autoRedirect must be a boolean');
         }
 

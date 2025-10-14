@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
+use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitEntryException;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
-use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitEntryException;
-use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidValueObjectException;
 
 /**
  * A Value Object representing a collection of payment split entries.
@@ -66,7 +65,7 @@ final class Split extends AbstractStructuredValueObject
     public static function fromArray(array $data): self
     {
         $entries = array_map(
-            fn(array $entry) => SplitEntry::fromArray($entry),
+            fn (array $entry) => SplitEntry::fromArray($entry),
             $data
         );
 
@@ -92,7 +91,7 @@ final class Split extends AbstractStructuredValueObject
      */
     public function entriesToArray(): array
     {
-        return array_map(fn(SplitEntry $entry) => $entry->toArray(), $this->entries);
+        return array_map(fn (SplitEntry $entry) => $entry->toArray(), $this->entries);
     }
 
     /**
@@ -110,7 +109,7 @@ final class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn(float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
+            fn (float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
             0
         );
     }
@@ -122,7 +121,7 @@ final class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn(float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
+            fn (float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
             0
         );
     }
