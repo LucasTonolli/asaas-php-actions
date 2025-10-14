@@ -59,7 +59,7 @@ describe('Create Payment Action', function (): void {
 
 		$dto = CreatePaymentDTO::fromArray([
 			'customer' => 'cus_123',
-			'billingType' => BillingTypeEnum::Boleto->label(),
+			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
 			// intentionally missing dueDate
 		]);
@@ -82,7 +82,7 @@ describe('Create Payment Action', function (): void {
 
 		$dto = CreatePaymentDTO::fromArray([
 			'customer' => 'cus_123',
-			'billingType' => BillingTypeEnum::Boleto->label(),
+			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
 			'dueDate' => '2025-12-31',
 		]);
