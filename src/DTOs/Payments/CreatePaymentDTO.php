@@ -89,7 +89,11 @@ final class CreatePaymentDTO extends AbstractDTO
 			throw InvalidPaymentDataException::missingField('dueDate');
 		}
 
-		$billingType = BillingTypeEnum::tryFromString($data['billingType']);
+		if ($data['billingType'] instanceof BillingTypeEnum) {
+			$billingType = $data['billingType'];
+		} else {
+			$billingType = BillingTypeEnum::tryFromString((string) $data['billingType']);
+		}
 
 		if ($billingType === null) {
 			throw new InvalidPaymentDataException('Invalid billing type');
@@ -112,6 +116,14 @@ final class CreatePaymentDTO extends AbstractDTO
 			self::validateStructuredValueObject($data, 'callback', Callback::class);
 		} catch (InvalidValueObjectException $e) {
 			throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+		}
+
+		if ($data['split'] instanceof Split) {
+			try {
+				$data['split']->validateFor($data['value']);
+			} catch (\Throwable $e) {
+				throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+			}
 		}
 
 
