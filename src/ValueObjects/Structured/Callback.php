@@ -57,7 +57,7 @@ final class Callback extends AbstractStructuredValueObject
     /**
      * Creates a Callback instance from a raw data array.
      *
-     * @param  array{successUrl: string, autoRedirect?: bool}  $data  The raw data array.
+     * @param  array{successUrl?: string, autoRedirect?: bool}  $data  The raw data array.
      * @return self A new, validated Callback instance.
      *
      * @throws InvalidCallbackException If required keys are missing or data types are incorrect.
@@ -65,12 +65,16 @@ final class Callback extends AbstractStructuredValueObject
     public static function fromArray(array $data): self
     {
         $autoRedirect = $data['autoRedirect'] ?? true;
-        if (\array_key_exists('autoRedirect', $data) && ! \is_bool($data['autoRedirect'])) {
+        if (\array_key_exists('autoRedirect', $data)) {
             throw new InvalidCallbackException('autoRedirect must be a boolean');
         }
 
+        if (! \array_key_exists('successUrl', $data)) {
+            throw new InvalidCallbackException('successUrl is required');
+        }
+
         return self::create(
-            successUrl: $data['successUrl'] ?? throw new InvalidCallbackException('successUrl is required'),
+            successUrl: $data['successUrl'],
             autoRedirect: $autoRedirect
         );
     }
