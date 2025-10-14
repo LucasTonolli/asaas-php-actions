@@ -48,10 +48,19 @@ describe('Create Payment Action', function (): void {
 			->and($result['status'])->toBe('PENDING');
 	});
 
-	it('throws ValidationException on 400 error', function (): void {
+	it('throws InvalidPaymentDataException when DTO validation fails', function (): void {
+		CreatePaymentDTO::fromArray([
+			'customer' => 'cus_123',
+			'billingType' => BillingTypeEnum::Boleto->value,
+			'value' => 100,
+			// intentionally missing dueDate
+		]);
+	})->throws(InvalidPaymentDataException::class, "Required field 'dueDate' is missing.");
+
+	it('throws ValidationException on API 400 error', function (): void {
 		$client = mockClient([
 			mockErrorResponse('Input validation failed', 400, [
-				['description' => 'Due date is required'],
+				['description' => 'API validation error'],
 			]),
 		]);
 
@@ -61,11 +70,11 @@ describe('Create Payment Action', function (): void {
 			'customer' => 'cus_123',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
-			// intentionally missing dueDate
+			'dueDate' => '2025-12-31',
 		]);
 
 		$action->handle($dto);
-	})->throws(InvalidPaymentDataException::class, 'Due date is required');
+	})->throws(AsaasPhpSdk\Exceptions\Api\ValidationException::class);
 
 	it('throws ApiException on network connection error', function (): void {
 		$mock = new MockHandler([
