@@ -41,7 +41,7 @@ final class Fine extends AbstractStructuredValueObject
 	{
 		return self::create(
 			value: $data['value'] ?? throw new InvalidFineException('Fine value is required'),
-			type: $data['type'] ?? FineType::Percentage
+			type: $data['type'] ?? FineType::Percentage->value
 		);
 	}
 }
