@@ -6,16 +6,30 @@ namespace AsaasPhpSdk\ValueObjects\Base;
 
 use ReflectionClass;
 
+/**
+ * Provides a base implementation for structured, composite Value Objects.
+ *
+ * This class offers boilerplate for VOs composed of multiple properties,
+ * including other Value Objects. It provides a generic, recursive `toArray`
+ * method and a pragmatic `equals` method based on array comparison.
+ *
+ * @internal This is an internal framework class and should not be used directly.
+ */
 abstract class AbstractStructuredValueObject
 {
 	/**
-	 * Converts the structured value object into an array.
-	 * 
-	 * - Recursively calls toArray() for nested StructuredValueObjects.
-	 * - Uses value() for simple ValueObjects.
-	 * - Removes null values.
+	 * Recursively converts the structured value object into an associative array.
 	 *
-	 * @return array
+	 * This method uses Reflection to access all properties (public, protected,
+	 * and private). It intelligently serializes nested objects:
+	 * - Calls `toArray()` on other structured VOs.
+	 * - Calls `toArray()` on each element in an array of structured VOs.
+	 * - Calls `value()` on simple, string-based VOs.
+	 * - Uses the primitive value for all other types.
+	 *
+	 * Properties with `null` values are excluded from the final array.
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function toArray(): array
 	{
@@ -24,7 +38,7 @@ abstract class AbstractStructuredValueObject
 		$result = [];
 
 		foreach ($properties as $property) {
-			// Ensure the property is initialized before trying to get its value
+
 			if (! $property->isInitialized($this)) {
 				continue;
 			}
@@ -50,7 +64,16 @@ abstract class AbstractStructuredValueObject
 		return $result;
 	}
 
-
+	/**
+	 * Performs a value-based equality comparison by comparing array representations.
+	 *
+	 * This method provides a generic equality check by converting both this object
+	 * and the other object to arrays and then performing a strict comparison.
+	 * This ensures equality is based on the contained values, not object identity.
+	 *
+	 * @param  AbstractStructuredValueObject  $other The other object to compare with.
+	 * @return bool True if the array representations are identical.
+	 */
 	public function equals(AbstractStructuredValueObject $other): bool
 	{
 		return $this->toArray() === $other->toArray();
