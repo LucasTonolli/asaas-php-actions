@@ -41,10 +41,22 @@ final class Discount extends AbstractStructuredValueObject
 
 	public static function fromArray(array $data): self
 	{
+
+		$value = DataSanitizer::sanitizeFloat($data['value'] ?? null);
+		$days = DataSanitizer::sanitizeInteger($data['dueDateLimitDays'] ?? null);
+
+		if ($value === null) {
+			throw new InvalidDiscountException('Discount value is required');
+		}
+
+		if ($days === null) {
+			throw new InvalidDiscountException('Discount dueDateLimitDays is required');
+		}
+
 		return self::create(
-			value: $data['value'] ?? throw new InvalidDiscountException('Discount value is required'),
-			dueDateLimitDays: $data['dueDateLimitDays'] ?? throw new InvalidDiscountException('Discount dueDateLimitDays is required'),
-			discountType: $data['type'] ?? 'fixed'
+			value: $value,
+			dueDateLimitDays: $days,
+			discountType: (string) ($data['type'] ?? 'fixed')
 		);
 	}
 
