@@ -9,14 +9,41 @@ use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidDiscountException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
+/**
+ * A Value Object representing a discount to be applied to a payment.
+ *
+ * This class encapsulates the discount's value, its type (fixed or percentage),
+ * and its application rules (e.g., `dueDateLimitDays`). It contains validation
+ * to ensure a discount is always in a valid state upon creation.
+ */
 final class Discount extends AbstractStructuredValueObject
 {
+	/**
+	 * Discount private constructor.
+	 * @internal
+	 *
+	 * @param  float  $value The numeric value of the discount (either fixed amount or percentage).
+	 * @param  ?int  $dueDateLimitDays Number of days before due date to apply the discount.
+	 * @param  DiscountType  $discountType The type of discount (Fixed or Percentage).
+	 */
 	private function __construct(
 		public readonly float $value,
 		public readonly ?int $dueDateLimitDays,
 		public readonly DiscountType $discountType
 	) {}
 
+	/**
+	 * Creates a new Discount instance with explicit, validated parameters.
+	 *
+	 * This is the primary factory, performing all core business logic validations.
+	 *
+	 * @param  float  $value The amount or percentage of the discount.
+	 * @param  ?int  $dueDateLimitDays The number of days before the due date that the discount is valid.
+	 * @param  string  $discountType The type of discount (e.g., 'fixed', 'percentage').
+	 * @return self A new, validated Discount instance.
+	 *
+	 * @throws InvalidDiscountException If the value is not positive, the type is invalid, or a percentage exceeds 100.
+	 */
 	public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
 	{
 		$sanitizedDueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
@@ -39,6 +66,17 @@ final class Discount extends AbstractStructuredValueObject
 		return new self($sanitizedValue, $sanitizedDueDateLimitDays, $type);
 	}
 
+	/**
+	 * Creates a Discount instance from a raw data array.
+	 *
+	 * This factory handles array-based input, checks for required keys, and
+	 * delegates to the `create()` method for core validation.
+	 *
+	 * @param  array{value: float|string, dueDateLimitDays: int|string, type?: string}  $data The raw data array.
+	 * @return self A new, validated Discount instance.
+	 *
+	 * @throws InvalidDiscountException If required keys are missing from the array.
+	 */
 	public static function fromArray(array $data): self
 	{
 
@@ -60,6 +98,15 @@ final class Discount extends AbstractStructuredValueObject
 		);
 	}
 
+	/**
+	 * Calculates the concrete discount amount for a given payment value.
+	 *
+	 * If the discount is 'Fixed', it returns the fixed value. If it's 'Percentage',
+	 * it calculates the percentage of the provided `paymentValue`.
+	 *
+	 * @param  float  $paymentValue The total value of the payment on which to apply a percentage discount.
+	 * @return float The calculated discount amount.
+	 */
 	public function calculateAmount(float $paymentValue): float
 	{
 		return match ($this->discountType) {
