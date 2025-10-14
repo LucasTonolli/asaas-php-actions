@@ -94,7 +94,7 @@ enum BillingTypeEnum: string
     {
         $options = [];
 
-        foreach (self::all() as $billingType) {
+        foreach (self::cases() as $billingType) {
             $options[$billingType->name] = $billingType->label();
         }
 

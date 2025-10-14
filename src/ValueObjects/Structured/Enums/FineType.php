@@ -91,7 +91,7 @@ enum FineType: string
     {
         $options = [];
 
-        foreach (self::all() as $fineType) {
+        foreach (self::cases() as $fineType) {
             $options[$fineType->name] = $fineType->label();
         }
 

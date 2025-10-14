@@ -91,7 +91,7 @@ enum DiscountType: string
     {
         $options = [];
 
-        foreach (self::all() as $discountType) {
+        foreach (self::cases() as $discountType) {
             $options[$discountType->name] = $discountType->label();
         }
 
