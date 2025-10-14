@@ -2,6 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects\Simple;
 
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidPostalCodeException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
 use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;

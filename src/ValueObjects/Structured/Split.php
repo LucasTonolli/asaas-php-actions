@@ -12,7 +12,7 @@ final class Split extends AbstractStructuredValueObject
 	/**
 	 * @var SplitEntry[]
 	 */
-	private  array $entries = [];
+	private array $entries = [];
 
 	private function __construct(array $entries)
 	{
@@ -69,7 +69,7 @@ final class Split extends AbstractStructuredValueObject
 	{
 		return array_reduce(
 			$this->entries,
-			fn(float $sum, SplitEntry $entry) => $sum + ($entry->fixedValue ?? 0) + ($entry->totalFixedValue ?? 0),
+			fn(float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
 			0
 		);
 	}
