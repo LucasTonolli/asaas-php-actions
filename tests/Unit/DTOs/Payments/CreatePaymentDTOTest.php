@@ -36,7 +36,7 @@ describe('CreatePaymentDTO', function (): void {
 		];
 
 		CreatePaymentDTO::fromArray($data);
-	})->throws(InvalidPaymentDataException::class, 'Customer ID is required');
+	})->throws(InvalidPaymentDataException::class, "Required field 'customer' is missing");
 
 	it('throws an exception if value is missing', function () {
 		$data = [
@@ -46,7 +46,7 @@ describe('CreatePaymentDTO', function (): void {
 		];
 
 		CreatePaymentDTO::fromArray($data);
-	})->throws(InvalidPaymentDataException::class, 'Value is required');
+	})->throws(InvalidPaymentDataException::class, 'Value must be greater than 0');
 
 	it('throws an exception if billingType is invalid', function () {
 		$data = [

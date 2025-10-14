@@ -73,20 +73,20 @@ final class CreatePaymentDTO extends AbstractDTO
 	}
 	private static function validate(array $data): array
 	{
-		if (empty($data['customer'])) {
-			throw new InvalidPaymentDataException('Customer ID is required');
+		if ($data['customer'] === null) {
+			throw InvalidPaymentDataException::missingField('customer');
 		}
 
-		if (empty($data['billingType'])) {
-			throw new InvalidPaymentDataException('Billing type is required');
+		if (!isset($data['billingType'])) {
+			throw InvalidPaymentDataException::missingField('billingType');
 		}
 
-		if (empty($data['value'])) {
-			throw new InvalidPaymentDataException('Value is required');
+		if ($data['value'] === null || $data['value'] <= 0) {
+			throw new InvalidPaymentDataException('Value must be greater than 0');
 		}
 
-		if (empty($data['dueDate'])) {
-			throw new InvalidPaymentDataException('Due date is required');
+		if ($data['dueDate'] === null) {
+			throw InvalidPaymentDataException::missingField('dueDate');
 		}
 
 		$billingType = BillingTypeEnum::tryFromString($data['billingType']);
