@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitEntryException;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 /**
@@ -92,13 +93,22 @@ final class SplitEntry extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
+        $walletId = DataSanitizer::sanitizeString($data['walletId'] ?? null);
+        if ($walletId === null) {
+            throw new InvalidSplitEntryException('walletId is required');
+        }
+
+        $fixedValue = DataSanitizer::sanitizeFloat($data['fixedValue'] ?? null);
+        $percentageValue = DataSanitizer::sanitizeFloat($data['percentageValue'] ?? null);
+        $totalFixedValue = DataSanitizer::sanitizeFloat($data['totalFixedValue'] ?? null);
+
         return self::create(
-            walletId: $data['walletId'] ?? throw new InvalidSplitEntryException('walletId is required'),
-            fixedValue: $data['fixedValue'] ?? null,
-            percentageValue: $data['percentageValue'] ?? null,
-            totalFixedValue: $data['totalFixedValue'] ?? null,
-            externalReference: $data['externalReference'] ?? null,
-            description: $data['description'] ?? null
+            walletId: $walletId,
+            fixedValue: $fixedValue,
+            percentageValue: $percentageValue,
+            totalFixedValue: $totalFixedValue,
+            externalReference: DataSanitizer::sanitizeString($data['externalReference'] ?? null),
+            description: DataSanitizer::sanitizeString($data['description'] ?? null)
         );
     }
 }
