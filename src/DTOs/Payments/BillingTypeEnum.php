@@ -6,12 +6,12 @@ namespace AsaasPhpSdk\DTOs\Payments;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
-enum BillingTypeEnum
+enum BillingTypeEnum: string
 {
-    case Undefined;
-    case Boleto;
-    case CreditCard;
-    case Pix;
+    case Undefined = 'UNDEFINED';
+    case Boleto = 'BOLETO';
+    case CreditCard = 'CREDIT_CARD';
+    case Pix = 'PIX';
 
     public function label(): string
     {
@@ -27,11 +27,11 @@ enum BillingTypeEnum
     {
         $normalized = DataSanitizer::sanitizeLowercase($value);
 
-        return match ($normalized) {
-            'boleto', 'boleto_bancario', 'ticket' => self::Boleto,
-            'cartão de crédito', 'credit_card' => self::CreditCard,
-            'pix' => self::Pix,
-            'indefinido', 'undefined' => self::Undefined,
+        return match (true) {
+            in_array($normalized, ['boleto', 'boleto bancario', 'ticket']) => self::Boleto,
+            in_array($normalized, ['cartão de crédito', 'credit_card', 'creditcard']) => self::CreditCard,
+            $normalized === 'pix' => self::Pix,
+            in_array($normalized, ['indefinido', 'undefined']) => self::Undefined,
             default => throw new \ValueError("Invalid billing type '{$value}'"),
         };
     }
