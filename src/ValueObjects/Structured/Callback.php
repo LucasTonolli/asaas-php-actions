@@ -23,7 +23,7 @@ final class Callback extends AbstractStructuredValueObject
 
 		// Validate HTTPS for security
 		$scheme = parse_url($successUrl, PHP_URL_SCHEME);
-		if (mb_strtolower((string) $scheme) !== 'https') {
+		if (strtolower((string) $scheme) !== 'https') {
 			throw new InvalidCallbackException('Success URL must use HTTPS protocol');
 		}
 
@@ -32,9 +32,14 @@ final class Callback extends AbstractStructuredValueObject
 
 	public static function fromArray(array $data): self
 	{
+		$autoRedirect = $data['autoRedirect'] ?? true;
+		if (\array_key_exists('autoRedirect', $data) && !\is_bool($data['autoRedirect'])) {
+			throw new InvalidCallbackException('autoRedirect must be a boolean');
+		}
+
 		return self::create(
 			successUrl: $data['successUrl'] ?? throw new InvalidCallbackException('successUrl is required'),
-			autoRedirect: $data['autoRedirect'] ?? true
+			autoRedirect: $autoRedirect
 		);
 	}
 }
