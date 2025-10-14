@@ -35,14 +35,18 @@ abstract class AbstractAction
      * Executes a given request callable with standardized error handling.
      *
      * This method wraps the API call in a try-catch block, handling common
-     * Guzzle exceptions. It delegates successful responses and known error
-     * responses to the ResponseHandler. Unhandled exceptions are wrapped in
-     * a generic ApiException to provide a consistent error contract.
+     * Guzzle exceptions. It delegates responses to the ResponseHandler, which will
+     * throw specific exceptions for API errors (4xx, 5xx). Unhandled client
+     * exceptions are wrapped in a generic ApiException.
      *
-     * @param  callable  $request  A callable function that executes the Guzzle request and returns a ResponseInterface.
-     * @return array The associative array parsed from the API response body by the ResponseHandler.
+     * @param  callable  $request A callable function that executes the Guzzle request.
+     * @return array The associative array parsed from the API response body.
      *
-     * @throws ApiException if a connection error or an unhandled client error occurs.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     protected function executeRequest(callable $request): array
     {
