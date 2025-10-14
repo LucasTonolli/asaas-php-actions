@@ -7,21 +7,44 @@ namespace AsaasPhpSdk\ValueObjects\Structured;
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
+/**
+ * A Value Object representing callback settings for a transaction.
+ *
+ * This class encapsulates the URL to which a user should be redirected after a
+ * successful payment. It ensures the URL is valid and secure (HTTPS).
+ */
 final class Callback extends AbstractStructuredValueObject
 {
+	/**
+	 * Callback private constructor.
+	 * @internal
+	 *
+	 * @param  string  $successUrl The secure URL for redirection upon success.
+	 * @param  bool  $autoRedirect Whether to automatically redirect the user.
+	 */
 	private function __construct(
 		public readonly string $successUrl,
 		public readonly bool $autoRedirect = true
 	) {}
 
+	/**
+	 * Creates a new Callback instance with explicit, validated parameters.
+	 *
+	 * This factory validates the URL format and enforces the use of the HTTPS protocol.
+	 *
+	 * @param  string  $successUrl The URL for successful payment redirection.
+	 * @param  bool  $autoRedirect Whether to automatically redirect the user.
+	 * @return self A new, validated Callback instance.
+	 *
+	 * @throws InvalidCallbackException If the success URL is not a valid HTTPS URL.
+	 */
 	public static function create(string $successUrl, bool $autoRedirect = true): self
 	{
-		// Validate URL format
+
 		if (!filter_var($successUrl, FILTER_VALIDATE_URL)) {
 			throw new InvalidCallbackException("Invalid success URL");
 		}
 
-		// Validate HTTPS for security
 		$scheme = parse_url($successUrl, PHP_URL_SCHEME);
 		if (strtolower((string) $scheme) !== 'https') {
 			throw new InvalidCallbackException('Success URL must use HTTPS protocol');
@@ -30,6 +53,14 @@ final class Callback extends AbstractStructuredValueObject
 		return new self($successUrl, $autoRedirect);
 	}
 
+	/**
+	 * Creates a Callback instance from a raw data array.
+	 *
+	 * @param  array{successUrl: string, autoRedirect?: bool}  $data The raw data array.
+	 * @return self A new, validated Callback instance.
+	 *
+	 * @throws InvalidCallbackException If required keys are missing or data types are incorrect.
+	 */
 	public static function fromArray(array $data): self
 	{
 		$autoRedirect = $data['autoRedirect'] ?? true;
