@@ -24,9 +24,12 @@ abstract class AbstractDTO implements DTOContract
      * Converts the DTO's public properties to an associative array.
      *
      * This method uses Reflection to dynamically build an array. It intelligently
-     * handles Value Objects by checking for a `#[ToArrayMethodAttribute]` to call a
-     * custom method (e.g., `->formatted()`); otherwise, it defaults to `->value()`.
-     * Properties with `null` values are excluded from the output.
+     * serializes objects:
+     * - Obeys a `#[ToArrayMethodAttribute]` if present.
+     * - Converts Backed Enums to their scalar value (e.g., 'CREDIT_CARD').
+     * - Converts Pure Enums to their case name (e.g., 'Boleto').
+     * - Calls `->value()` on simple Value Objects.
+     * - Excludes properties with `null` values from the output.
      *
      * @return array<string, mixed> The DTO's data as an array.
      */
@@ -65,14 +68,11 @@ abstract class AbstractDTO implements DTOContract
     }
 
     /**
-     * Validates and instantiates a Value Object from a raw data key.
+     * Validates and instantiates a simple Value Object (that uses `::from()`).
      *
-     * Attempts to create a VO using its `from()` static constructor. If creation
-     * fails, it wraps the original exception in an `InvalidValueObjectException`.
-     *
-     * @param  array<string, mixed>  &$data  The data array, passed by reference.
-     * @param  string  $key  The key in the data array to validate.
-     * @param  class-string  $valueObjectClass  The fully qualified class name of the Value Object.
+     * @param  array<string, mixed>  &$data The data array, passed by reference.
+     * @param  string  $key The key in the data array to validate.
+     * @param  class-string  $valueObjectClass The fully qualified class name of the Value Object.
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
@@ -93,6 +93,15 @@ abstract class AbstractDTO implements DTOContract
         }
     }
 
+    /**
+     * Validates and instantiates a structured Value Object (that uses `::fromArray()`).
+     *
+     * @param  array<string, mixed>  &$data The data array, passed by reference.
+     * @param  string  $key The key in the data array to validate.
+     * @param  class-string  $voClass The fully qualified class name of the structured VO.
+     *
+     * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
+     */
     protected static function validateStructuredValueObject(array &$data, string $key, string $voClass): void
     {
         if (isset($data[$key]) && is_array($data[$key])) {
@@ -168,6 +177,13 @@ abstract class AbstractDTO implements DTOContract
         return DataSanitizer::sanitizeInteger($data[$key]);
     }
 
+    /**
+     * Sanitizes an optional float value from the data array.
+     *
+     * @param  array<string, mixed>  $data The source data array.
+     * @param  string  $key The key to look for.
+     * @return ?float The sanitized float, or null if the key doesn't exist or the value is empty.
+     */
     protected static function optionalFloat(array $data, string $key): ?float
     {
         if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
