@@ -20,7 +20,7 @@ describe('Callback Value Object', function (): void {
 	it('cannot be created with an invalid callback', function (): void {
 		expect(fn() => Callback::fromArray([
 			'successUrl' => 'https:/www.example'
-		]))->toThrow(InvalidCallbackException::class, 'Invalid success URL: https:/www.example');
+		]))->toThrow(InvalidCallbackException::class, 'Invalid success URL');
 
 		expect(fn() => Callback::create('http://www.example'))->toThrow(InvalidCallbackException::class, 'Success URL must use HTTPS protocol');
 	});

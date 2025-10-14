@@ -18,11 +18,12 @@ final class Callback extends AbstractStructuredValueObject
 	{
 		// Validate URL format
 		if (!filter_var($successUrl, FILTER_VALIDATE_URL)) {
-			throw new InvalidCallbackException("Invalid success URL: {$successUrl}");
+			throw new InvalidCallbackException("Invalid success URL");
 		}
 
 		// Validate HTTPS for security
-		if (!str_starts_with($successUrl, 'https://')) {
+		$scheme = parse_url($successUrl, PHP_URL_SCHEME);
+		if (mb_strtolower((string) $scheme) !== 'https') {
 			throw new InvalidCallbackException('Success URL must use HTTPS protocol');
 		}
 
