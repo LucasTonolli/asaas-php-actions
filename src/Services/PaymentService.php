@@ -81,7 +81,6 @@ final class PaymentService
      *
      * @internal
      *
-     * @template T of AbstractDTO
      * @template T of \AsaasPhpSdk\DTOs\Base\AbstractDTO
      *
      * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
