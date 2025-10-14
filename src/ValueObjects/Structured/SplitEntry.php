@@ -60,6 +60,10 @@ final class SplitEntry extends AbstractStructuredValueObject
         ?string $externalReference = null,
         ?string $description = null,
     ): self {
+        $walletId = trim($walletId);
+        if ($walletId === '') {
+            throw new InvalidSplitEntryException('walletId must be a non-empty string');
+        }
         if ($fixedValue === null && $percentageValue === null && $totalFixedValue === null) {
             throw new InvalidSplitEntryException('At least one value must be provided');
         }
