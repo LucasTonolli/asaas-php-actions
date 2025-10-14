@@ -34,7 +34,7 @@ describe('Get Customer', function (): void {
     });
 
     it('throws an exception when the customer is not found (404)', function (): void {
-        expect(fn () => $this->asaasClient->customer()->get('invalid-customer-id'))->toThrow(AsaasPhpSdk\Exceptions\NotFoundException::class, 'Resource not found');
+        expect(fn () => $this->asaasClient->customer()->get('invalid-customer-id'))->toThrow(AsaasPhpSdk\Exceptions\Api\NotFoundException::class, 'Resource not found');
     });
 
     it('throws an exception when the customer ID is empty', function (): void {

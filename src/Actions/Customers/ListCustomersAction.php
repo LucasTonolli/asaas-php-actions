@@ -2,8 +2,12 @@
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\AbstractAction;
+use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class ListCustomersAction extends AbstractAction
 {
@@ -18,9 +22,10 @@ final class ListCustomersAction extends AbstractAction
      * @param  ListCustomersDTO  $data  A DTO containing filter and pagination parameters (e.g., name, email, limit, offset).
      * @return array A paginated list of customers. The structure includes pagination info and a 'data' key with the customers array.
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\ValidationException Can be thrown if an invalid filter is sent.
+     * @throws ApiException
+     * @throws ValidationException Can be thrown if an invalid filter is sent.
+     * @throws AuthenticationException
+     * @throws RateLimitException
      */
     public function handle(ListCustomersDTO $data): array
     {

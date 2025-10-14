@@ -2,11 +2,11 @@
 
 namespace AsaasPhpSdk\DTOs\Customers;
 
-use AsaasPhpSdk\DTOs\AbstractDTO;
+use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Cnpj;
-use AsaasPhpSdk\ValueObjects\Cpf;
-use AsaasPhpSdk\ValueObjects\Email;
+use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
+use AsaasPhpSdk\ValueObjects\Simple\Cpf;
+use AsaasPhpSdk\ValueObjects\Simple\Email;
 
 /**
  * A "Lenient" Data Transfer Object for filtering and paginating customers.

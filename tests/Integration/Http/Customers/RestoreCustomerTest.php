@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 
 describe('Restore Customer', function (): void {
     beforeEach(function (): void {

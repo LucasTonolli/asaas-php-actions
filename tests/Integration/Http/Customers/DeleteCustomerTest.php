@@ -1,6 +1,6 @@
 <?php
 
-use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 
 describe('Delete Customer', function (): void {
     beforeEach(function (): void {

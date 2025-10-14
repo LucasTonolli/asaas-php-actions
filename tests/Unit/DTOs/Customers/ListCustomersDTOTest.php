@@ -1,9 +1,9 @@
 <?php
 
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
-use AsaasPhpSdk\ValueObjects\Cnpj;
-use AsaasPhpSdk\ValueObjects\Cpf;
-use AsaasPhpSdk\ValueObjects\Email;
+use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
+use AsaasPhpSdk\ValueObjects\Simple\Cpf;
+use AsaasPhpSdk\ValueObjects\Simple\Email;
 
 describe('ListCustomersDTO', function (): void {
 

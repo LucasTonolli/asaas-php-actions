@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
-use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
 
 describe('UpdateCustomerDTO', function (): void {
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use AsaasPhpSdk\Exceptions\ApiException;
-use AsaasPhpSdk\Exceptions\AuthenticationException;
-use AsaasPhpSdk\Exceptions\NotFoundException;
-use AsaasPhpSdk\Exceptions\RateLimitException;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
 describe('ResponseHandler', function (): void {

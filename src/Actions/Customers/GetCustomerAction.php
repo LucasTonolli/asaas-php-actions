@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\AbstractAction;
+use AsaasPhpSdk\Actions\Base\AbstractAction;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class GetCustomerAction extends AbstractAction
 {
@@ -20,9 +25,11 @@ final class GetCustomerAction extends AbstractAction
      * @return array An array containing the data of the specified customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException if the customer with the given ID does not exist.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function handle(string $id): array
     {

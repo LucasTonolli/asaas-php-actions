@@ -6,7 +6,6 @@ namespace AsaasPhpSdk\Helpers;
 
 use AsaasPhpSdk\Config\AsaasConfig;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -83,10 +82,6 @@ final class HttpClientFactory
             ): bool {
                 if ($retries >= self::MAX_RETRIES) {
                     return false;
-                }
-
-                if ($exception instanceof ConnectException) {
-                    return true;
                 }
 
                 if ($response && in_array($response->getStatusCode(), [429, 500, 502, 503, 504])) {

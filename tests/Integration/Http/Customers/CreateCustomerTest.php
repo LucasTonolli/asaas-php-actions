@@ -22,7 +22,7 @@ describe('Create Customer', function (): void {
         expect(fn () => $this->asaasClient->customer()->create([
             'name' => 'Invalid CPF',
             'cpfCnpj' => '000.000.000-00',
-        ]))->toThrow(\AsaasPhpSdk\Exceptions\ValidationException::class, 'Invalid CPF: 000.000.000-00');
+        ]))->toThrow(\AsaasPhpSdk\Exceptions\Api\ValidationException::class, 'Invalid CPF');
     });
 
     it('matches the expected response structure', function (): void {

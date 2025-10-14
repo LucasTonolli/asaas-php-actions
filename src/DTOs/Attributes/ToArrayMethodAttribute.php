@@ -7,24 +7,29 @@ use Attribute;
 /**
  * A PHP Attribute to specify a custom method for array conversion in DTOs.
  *
- * When a DTO is converted to an array, its Value Object properties are usually
- * serialized by calling their `->value()` method. This attribute allows you to
- * override that default behavior for a specific property.
- *
- * It is especially useful for Value Objects that have multiple string representations,
- * such as a raw value versus a formatted value.
+ * When a DTO's `toArray()` method is called, it usually serializes object
+ * properties by calling a default method (like `->value()`). This attribute
+ * allows you to override that behavior, specifying a different method and even
+ * passing arguments to it.
  *
  * @example
  * final class CreatePaymentDTO extends AbstractDTO
  * {
- * // When this DTO's toArray() is called, it will use $this->dueDate->formatted()
- * // instead of the default $this->dueDate->value().
- * #[ToArrayMethodAttribute('formatted')]
- * public readonly ?Date $dueDate = null;
+ * // When this DTO's toArray() is called, it will execute:
+ * // $this->dueDate->format('Y-m-d')
+ *
+ * #[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+ * public readonly \DateTimeImmutable $dueDate;
  * }
  */
 #[Attribute(\Attribute::TARGET_PROPERTY)]
 final class ToArrayMethodAttribute
 {
+    /**
+     * ToArrayMethodAttribute constructor.
+     *
+     * @param  string  $method  The name of the method to call on the property's object during array conversion.
+     * @param  array<int, mixed>  $args  An optional array of arguments to pass to the specified method.
+     */
     public function __construct(public readonly string $method, public readonly array $args = []) {}
 }

@@ -15,5 +15,10 @@ namespace AsaasPhpSdk\ValueObjects\Contracts;
  */
 interface FormattableContract
 {
+    /**
+     * Returns a user-friendly, formatted string representation of the value.
+     *
+     * @return string The formatted string.
+     */
     public function formatted(): string;
 }

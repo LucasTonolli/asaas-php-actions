@@ -24,7 +24,7 @@ It follows **clean architecture** principles:
 ### Install via Composer
 
 ```bash
-composer require lucas-tonolli/asaas-php-sdk
+composer require lucas-tonolli/asaas-php-actions
 ```
 
 ### Quick Example

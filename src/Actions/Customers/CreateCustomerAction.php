@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\AbstractAction;
+use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class CreateCustomerAction extends AbstractAction
 {
@@ -20,9 +25,11 @@ final class CreateCustomerAction extends AbstractAction
      * @param  CreateCustomerDTO  $data  A Data Transfer Object containing the validated customer data.
      * @return array An array representing the newly created customer as returned by the API.
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\ValidationException
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function handle(CreateCustomerDTO $data): array
     {

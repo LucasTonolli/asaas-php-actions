@@ -13,11 +13,12 @@ use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
-use AsaasPhpSdk\Exceptions\ApiException;
-use AsaasPhpSdk\Exceptions\AuthenticationException;
-use AsaasPhpSdk\Exceptions\NotFoundException;
-use AsaasPhpSdk\Exceptions\RateLimitException;
-use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -35,12 +36,17 @@ use GuzzleHttp\Client;
 final class CustomerService
 {
     /**
+     * @var ResponseHandler The handler for processing API responses.
+     *
      * @internal
      */
     private readonly ResponseHandler $responseHandler;
 
     /**
      * CustomerService constructor.
+     *
+     * @param  Client  $client  The configured Guzzle HTTP client.
+     * @param  ?ResponseHandler  $responseHandler  Optional custom response handler.
      *
      * @internal
      */
@@ -182,7 +188,7 @@ final class CustomerService
      *
      * @internal
      *
-     * @template T of of \AsaasPhpSdk\DTOs\AbstractDTO
+     * @template T of \AsaasPhpSdk\DTOs\Base\AbstractDTO
      *
      * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
      * @param  array<string, mixed>  $data  The raw data for the DTO.
@@ -190,11 +196,11 @@ final class CustomerService
      *
      * @throws ValidationException Wraps internal validation exceptions.
      */
-    private function createDTO(string $dtoClass, array $data): object
+    private function createDTO(string $dtoClass, array $data): \AsaasPhpSdk\DTOs\Base\AbstractDTO
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (\AsaasPhpSdk\Exceptions\InvalidCustomerDataException $e) {
+        } catch (InvalidCustomerDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }

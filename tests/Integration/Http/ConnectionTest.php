@@ -11,6 +11,6 @@ describe('Test connection', function (): void {
         expect(fn () => $client->customer()->create([
             'name' => 'Auth Fail',
             'cpfCnpj' => '898.879.660-88',
-        ]))->toThrow(AsaasPhpSdk\Exceptions\AuthenticationException::class);
+        ]))->toThrow(AsaasPhpSdk\Exceptions\Api\AuthenticationException::class);
     });
 });

@@ -74,6 +74,9 @@ class AsaasConfig
     /**
      * Gets the default Asaas API URL based on the environment.
      *
+     * @param  bool  $isSandbox  The environment mode.
+     * @return string The default base URL for the specified environment.
+     *
      * @internal
      */
     private function getDefaultUrl(bool $isSandbox): string

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Customers;
 
-use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
-use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
+use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Cnpj;
-use AsaasPhpSdk\ValueObjects\Cpf;
-use AsaasPhpSdk\ValueObjects\Email;
-use AsaasPhpSdk\ValueObjects\Phone;
-use AsaasPhpSdk\ValueObjects\PostalCode;
+use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
+use AsaasPhpSdk\ValueObjects\Simple\Cpf;
+use AsaasPhpSdk\ValueObjects\Simple\Email;
+use AsaasPhpSdk\ValueObjects\Simple\Phone;
+use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 
 /**
  * A "Strict" Data Transfer Object for updating an existing customer.
