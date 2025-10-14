@@ -15,53 +15,53 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  */
 final class Interest extends AbstractStructuredValueObject
 {
-    /**
-     * Interest private constructor.
-     *
-     * @internal Forces creation via static factory methods.
-     *
-     * @param  float  $value  The interest percentage value.
-     */
-    private function __construct(
-        public readonly float $value,
-    ) {}
+	/**
+	 * Interest private constructor.
+	 *
+	 * @internal Forces creation via static factory methods.
+	 *
+	 * @param  float  $value  The interest percentage value.
+	 */
+	private function __construct(
+		public readonly float $value,
+	) {}
 
-    /**
-     * Creates a new Interest instance with an explicit, validated percentage value.
-     *
-     * This is the primary factory, performing all core validations to ensure the
-     * value is between 0 and 100.
-     *
-     * @param  float  $value  The interest percentage.
-     * @return self A new, validated Interest instance.
-     *
-     * @throws InvalidInterestException If the value is negative or exceeds 100.
-     */
-    public static function create(float $value): self
-    {
-        if ($value < 0) {
-            throw new InvalidInterestException('Interest value cannot be negative');
-        }
+	/**
+	 * Creates a new Interest instance with an explicit, validated percentage value.
+	 *
+	 * This is the primary factory, performing all core validations to ensure the
+	 * value is between 0 and 100.
+	 *
+	 * @param  float  $value  The interest percentage.
+	 * @return self A new, validated Interest instance.
+	 *
+	 * @throws InvalidInterestException If the value is negative or exceeds 100.
+	 */
+	public static function create(float $value): self
+	{
+		if ($value < 0) {
+			throw new InvalidInterestException('Interest value cannot be negative');
+		}
 
-        if ($value > 100) {
-            throw new InvalidInterestException('Interest value cannot exceed 100%');
-        }
+		if ($value > 100) {
+			throw new InvalidInterestException('Interest value cannot exceed 100%');
+		}
 
-        return new self($value);
-    }
+		return new self($value);
+	}
 
-    /**
-     * Creates an Interest instance from a raw data array.
-     *
-     * @param  array{value: float|string}  $data  The raw data array.
-     * @return self A new, validated Interest instance.
-     *
-     * @throws InvalidInterestException If the required 'value' key is missing.
-     */
-    public static function fromArray(array $data): self
-    {
-        return self::create(
-            value: $data['value'] ?? throw new InvalidInterestException('Interest value is required')
-        );
-    }
+	/**
+	 * Creates an Interest instance from a raw data array.
+	 *
+	 * @param  array{value?: float|string}  $data  The raw data array.
+	 * @return self A new, validated Interest instance.
+	 *
+	 * @throws InvalidInterestException If the required 'value' key is missing.
+	 */
+	public static function fromArray(array $data): self
+	{
+		return self::create(
+			value: $data['value'] ?? throw new InvalidInterestException('Interest value is required')
+		);
+	}
 }

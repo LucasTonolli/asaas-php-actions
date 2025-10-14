@@ -75,7 +75,7 @@ final class SplitEntry extends AbstractStructuredValueObject
      * Creates a SplitEntry instance from a raw data array.
      *
      * @param  array{
-     * walletId: string,
+     * walletId?: string,
      * fixedValue?: float|string,
      * percentageValue?: float|string,
      * totalFixedValue?: float|string,

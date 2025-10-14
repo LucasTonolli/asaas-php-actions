@@ -63,7 +63,7 @@ final class Fine extends AbstractStructuredValueObject
     /**
      * Creates a Fine instance from a raw data array.
      *
-     * @param  array{value: float|string, type?: string}  $data  The raw data array.
+     * @param  array{value?: float|string, type?: string}  $data  The raw data array.
      * @return self A new, validated Fine instance.
      *
      * @throws InvalidFineException If the required 'value' key is missing from the array.
