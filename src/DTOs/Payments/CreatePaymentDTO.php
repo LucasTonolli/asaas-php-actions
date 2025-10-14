@@ -171,15 +171,15 @@ final class CreatePaymentDTO extends AbstractDTO
             }
         }
 
-        if ($data['installmentCount'] && $data['installment'] < 0) {
+        if ($data['installmentCount'] !== null && $data['installmentCount'] <= 0) {
             throw new InvalidPaymentDataException('Installment count must be greater than 0');
         }
 
-        if ($data['installmentValue'] && $data['installmentValue'] < 0) {
+        if ($data['installmentValue'] !== null && $data['installmentValue'] <= 0) {
             throw new InvalidPaymentDataException('Installment value must be greater than 0');
         }
 
-        if ($data['totalValue'] && $data['totalValue'] < 0) {
+        if ($data['totalValue'] !== null && $data['totalValue'] <= 0) {
             throw new InvalidPaymentDataException('Total value must be greater than 0');
         }
 
