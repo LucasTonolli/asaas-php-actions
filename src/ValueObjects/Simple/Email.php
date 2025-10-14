@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AsaasPhpSdk\ValueObjects\Simple;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
