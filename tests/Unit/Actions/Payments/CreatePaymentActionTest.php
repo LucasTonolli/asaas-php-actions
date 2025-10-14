@@ -31,7 +31,7 @@ describe('Create Payment Action', function (): void {
 		$action = new CreatePaymentAction($client, new ResponseHandler);
 
 		$dto = CreatePaymentDTO::fromArray([
-			'customerId' => 'cus_123',
+			'customer' => 'cus_123',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 150.75,
 			'dueDate' => '2025-12-31',
@@ -58,7 +58,7 @@ describe('Create Payment Action', function (): void {
 		$action = new CreatePaymentAction($client, new ResponseHandler);
 
 		$dto = CreatePaymentDTO::fromArray([
-			'customerId' => 'cus_123',
+			'customer' => 'cus_123',
 			'billingType' => BillingTypeEnum::Boleto->label(),
 			'value' => 100,
 			// intentionally missing dueDate
@@ -81,7 +81,7 @@ describe('Create Payment Action', function (): void {
 		$action = new CreatePaymentAction($client, new ResponseHandler);
 
 		$dto = CreatePaymentDTO::fromArray([
-			'customerId' => 'cus_123',
+			'customer' => 'cus_123',
 			'billingType' => BillingTypeEnum::Boleto->label(),
 			'value' => 100,
 			'dueDate' => '2025-12-31',

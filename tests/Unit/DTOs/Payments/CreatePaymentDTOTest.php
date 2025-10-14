@@ -9,7 +9,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Interest;
 describe('CreatePaymentDTO', function (): void {
 	it('creates a payment DTO with valid data', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 150.75,
 			'dueDate' => '2025-12-31',
@@ -20,7 +20,7 @@ describe('CreatePaymentDTO', function (): void {
 
 		expect($dto)
 			->toBeInstanceOf(CreatePaymentDTO::class)
-			->customerId->toBe('cus_12345')
+			->customer->toBe('cus_12345')
 			->billingType->toBeInstanceOf(BillingTypeEnum::class)
 			->value->toBe(150.75)
 			->dueDate->toBeInstanceOf(DateTimeImmutable::class)
@@ -28,7 +28,7 @@ describe('CreatePaymentDTO', function (): void {
 		expect($dto->toArray())->toMatchArray($data);
 	});
 
-	it('throws an exception if customerId is missing', function () {
+	it('throws an exception if customer is missing', function () {
 		$data = [
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
@@ -40,7 +40,7 @@ describe('CreatePaymentDTO', function (): void {
 
 	it('throws an exception if value is missing', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'dueDate' => '2025-12-31',
 		];
@@ -50,7 +50,7 @@ describe('CreatePaymentDTO', function (): void {
 
 	it('throws an exception if billingType is invalid', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => 'INVALID_TYPE',
 			'value' => 100,
 			'dueDate' => '2025-12-31',
@@ -61,7 +61,7 @@ describe('CreatePaymentDTO', function (): void {
 
 	it('throws an exception if dueDate is invalid', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
 			'dueDate' => 'invalid-date',
@@ -72,7 +72,7 @@ describe('CreatePaymentDTO', function (): void {
 
 	it('sanitizes string and float fields correctly', function () {
 		$data = [
-			'customerId' => '  cus_999  ',
+			'customer' => '  cus_999  ',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => ' 200.50 ',
 			'dueDate' => '2025-12-31',
@@ -80,13 +80,13 @@ describe('CreatePaymentDTO', function (): void {
 
 		$dto = CreatePaymentDTO::fromArray($data);
 
-		expect($dto->customerId)->toBe('cus_999')
+		expect($dto->customer)->toBe('cus_999')
 			->and($dto->value)->toBe(200.50);
 	});
 
 	it('validates and creates structured value objects', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
 			'dueDate' => '2025-12-31',
@@ -102,7 +102,7 @@ describe('CreatePaymentDTO', function (): void {
 
 	it('throws an exception if discount value object is invalid', function () {
 		$data = [
-			'customerId' => 'cus_12345',
+			'customer' => 'cus_12345',
 			'billingType' => BillingTypeEnum::Boleto->value,
 			'value' => 100,
 			'dueDate' => '2025-12-31',
