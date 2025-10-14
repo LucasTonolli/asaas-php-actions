@@ -134,7 +134,7 @@ final class CreateCustomerDTO extends AbstractDTO
      * @param  array<string, mixed>  $data  The sanitized data array.
      * @return array<string, mixed> The validated data array with values converted to VOs.
      *
-     * @throws InvalidCustomerDataException|InvalidValueObjectException
+     * @throws InvalidCustomerDataException
      */
     private static function validate(array $data): array
     {
