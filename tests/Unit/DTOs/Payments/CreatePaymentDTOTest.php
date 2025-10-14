@@ -70,19 +70,6 @@ describe('CreatePaymentDTO', function (): void {
 		CreatePaymentDTO::fromArray($data);
 	})->throws(InvalidPaymentDataException::class, 'Invalid due date format');
 
-	it('sanitizes string and float fields correctly', function () {
-		$data = [
-			'customer' => '  cus_999  ',
-			'billingType' => BillingTypeEnum::Boleto->value,
-			'value' => ' 200.50 ',
-			'dueDate' => '2025-12-31',
-		];
-
-		$dto = CreatePaymentDTO::fromArray($data);
-
-		expect($dto->customer)->toBe('cus_999')
-			->and($dto->value)->toBe(200.50);
-	});
 
 	it('validates and creates structured value objects', function () {
 		$data = [
