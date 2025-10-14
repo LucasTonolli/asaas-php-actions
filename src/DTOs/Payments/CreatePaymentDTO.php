@@ -53,9 +53,9 @@ final class CreatePaymentDTO extends AbstractDTO
 	protected static function sanitize(array $data): array
 	{
 		return [
-			'customerId' => DataSanitizer::sanitizeString($data['customerId']),
+			'customerId' => DataSanitizer::sanitizeString($data['customerId'] ?? null),
 			'billingType' => $data['billingType'] ?? null,
-			'value' => DataSanitizer::sanitizeFloat($data['value']),
+			'value' => DataSanitizer::sanitizeFloat($data['value'] ?? null),
 			'dueDate' => $data['dueDate'] ?? null,
 			'description' => self::optionalString($data, 'description'),
 			'daysAfterDueDateToRegistrationCancellation' => self::optionalInteger($data, 'daysAfterDueDateToRegistrationCancellation'),
