@@ -73,7 +73,9 @@ class AsaasConfig
 
     /**
      * Gets the default Asaas API URL based on the environment.
-     *
+     * 
+     * @param  bool  $isSandbox The environment mode.
+     * @return string The default base URL for the specified environment.
      * @internal
      */
     private function getDefaultUrl(bool $isSandbox): string
@@ -83,6 +85,8 @@ class AsaasConfig
 
     /**
      * Gets the configured API token.
+     * 
+     * @return string
      */
     public function getToken(): string
     {
@@ -91,6 +95,8 @@ class AsaasConfig
 
     /**
      * Gets the configured API base URL.
+     * 
+     * @return string
      */
     public function getBaseUrl(): string
     {
@@ -99,6 +105,8 @@ class AsaasConfig
 
     /**
      * Checks if the configuration is for the sandbox environment.
+     * 
+     * @return bool
      */
     public function isSandbox(): bool
     {
@@ -107,6 +115,8 @@ class AsaasConfig
 
     /**
      * Checks if logging is enabled.
+     * 
+     * @return bool
      */
     public function isLogsEnabled(): bool
     {
