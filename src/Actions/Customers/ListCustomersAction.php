@@ -19,7 +19,6 @@ final class ListCustomersAction extends AbstractAction
      * @return array A paginated list of customers. The structure includes pagination info and a 'data' key with the customers array.
      *
      * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\Api\ValidationException Can be thrown if an invalid filter is sent.
      */
     public function handle(ListCustomersDTO $data): array

@@ -54,7 +54,7 @@ final class HttpClientFactory
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,
@@ -83,10 +83,6 @@ final class HttpClientFactory
             ): bool {
                 if ($retries >= self::MAX_RETRIES) {
                     return false;
-                }
-
-                if ($exception instanceof ConnectException) {
-                    return true;
                 }
 
                 if ($response && in_array($response->getStatusCode(), [429, 500, 502, 503, 504])) {

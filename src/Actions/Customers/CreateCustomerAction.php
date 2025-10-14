@@ -21,7 +21,6 @@ final class CreateCustomerAction extends AbstractAction
      * @return array An array representing the newly created customer as returned by the API.
      *
      * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\Api\ValidationException
      */
     public function handle(CreateCustomerDTO $data): array

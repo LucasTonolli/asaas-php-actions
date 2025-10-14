@@ -76,7 +76,7 @@ abstract class AbstractDTO implements DTOContract
      */
     protected static function validateSimpleValueObject(array &$data, string $key, string $valueObjectClass): void
     {
-        if (! isset($data[$key]) || $data[$key] === null) {
+        if (! isset($data[$key])) {
             return;
         }
 
