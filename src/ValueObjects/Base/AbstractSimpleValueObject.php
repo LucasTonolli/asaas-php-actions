@@ -44,8 +44,9 @@ abstract class AbstractSimpleValueObject
     /**
      * Compares this Value Object with another for value equality.
      *
-     * The `self` type hint ensures this method can only be called with an
-     * object of the same concrete class.
+     * The parameter type ensures only instances of this base type are accepted;
+     * the runtime check (`$other instanceof static`) restricts equality to the
+     * same concrete class.
      *
      * @param  self  $other  The other Value Object to compare with.
      * @return bool True if the values are identical.
