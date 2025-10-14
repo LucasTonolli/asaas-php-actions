@@ -73,7 +73,7 @@ final class Discount extends AbstractStructuredValueObject
      * This factory handles array-based input, checks for required keys, and
      * delegates to the `create()` method for core validation.
      *
-     * @param  array{value: float|string, dueDateLimitDays: int|string, type?: string}  $data  The raw data array.
+     * @param  array{value?: float|string|null, dueDateLimitDays?: int|string|null, type?: string}  $data  The raw data array.
      * @return self A new, validated Discount instance.
      *
      * @throws InvalidDiscountException If required keys are missing from the array.
