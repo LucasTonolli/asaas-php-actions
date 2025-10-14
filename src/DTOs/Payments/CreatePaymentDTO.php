@@ -18,7 +18,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Fine;
 final class CreatePaymentDTO extends AbstractDTO
 {
 	private function __construct(
-		public readonly string $customerId,
+		public readonly string $customer,
 		public readonly BillingTypeEnum $billingType,
 		public readonly float $value,
 		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
@@ -53,7 +53,7 @@ final class CreatePaymentDTO extends AbstractDTO
 	protected static function sanitize(array $data): array
 	{
 		return [
-			'customerId' => DataSanitizer::sanitizeString($data['customerId'] ?? null),
+			'customer' => DataSanitizer::sanitizeString($data['customer'] ?? null),
 			'billingType' => $data['billingType'] ?? null,
 			'value' => DataSanitizer::sanitizeFloat($data['value'] ?? null),
 			'dueDate' => $data['dueDate'] ?? null,
@@ -73,7 +73,7 @@ final class CreatePaymentDTO extends AbstractDTO
 	}
 	private static function validate(array $data): array
 	{
-		if (empty($data['customerId'])) {
+		if (empty($data['customer'])) {
 			throw new InvalidPaymentDataException('Customer ID is required');
 		}
 
