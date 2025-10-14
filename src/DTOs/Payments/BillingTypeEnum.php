@@ -79,12 +79,7 @@ enum BillingTypeEnum: string
      */
     public static function all(): array
     {
-        return [
-            self::Boleto,
-            self::CreditCard,
-            self::Pix,
-            self::Undefined,
-        ];
+        return self::cases();
     }
 
     /**

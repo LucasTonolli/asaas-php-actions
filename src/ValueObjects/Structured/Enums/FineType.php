@@ -76,10 +76,7 @@ enum FineType: string
      */
     public static function all(): array
     {
-        return [
-            self::Fixed,
-            self::Percentage,
-        ];
+        return self::cases();
     }
 
     /**
