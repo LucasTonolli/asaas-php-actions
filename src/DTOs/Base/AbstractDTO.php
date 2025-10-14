@@ -86,7 +86,7 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
@@ -107,9 +107,9 @@ abstract class AbstractDTO implements DTOContract
         if (isset($data[$key]) && is_array($data[$key])) {
             try {
                 $data[$key] = $voClass::fromArray($data[$key]);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': ".$e->getMessage(),
+                    "Invalid format for '{$key}': " . $e->getMessage(),
                     0,
                     $e
                 );
