@@ -10,13 +10,13 @@ describe('Cpf Value Object', function (): void {
 		expect($cpf->formatted())->toBe('199.003.930-82');
 	});
 
-	it('can be created with a valid CNPJ without formatting', function (): void {
+	it('can be created with a valid CPF without formatting', function (): void {
 		$cpf = Cpf::from('96682822057');
 		expect($cpf->value())->toBe('96682822057');
 		expect($cpf->formatted())->toBe('966.828.220-57');
 	});
 
-	it('cannot be created with an invalid CNPJ', function (): void {
+	it('cannot be created with an invalid CPF', function (): void {
 		expect(fn() => Cpf::from('11111111111'))->toThrow(InvalidCpfException::class, 'Invalid CPF: 11111111111');
 	});
 
