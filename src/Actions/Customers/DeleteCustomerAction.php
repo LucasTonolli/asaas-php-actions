@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Actions\Customers;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class DeleteCustomerAction extends AbstractAction
 {
@@ -20,9 +25,11 @@ final class DeleteCustomerAction extends AbstractAction
      * @return array An array confirming the deletion, typically containing a 'deleted' flag.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
-     * @throws \AsaasPhpSdk\Exceptions\Api\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\Api\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\Api\NotFoundException if the customer with the given ID does not exist.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function handle(string $id): array
     {
