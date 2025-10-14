@@ -18,15 +18,18 @@ describe('Callback Value Object', function (): void {
     });
 
     it('cannot be created with an invalid callback', function (): void {
-        expect(fn () => Callback::fromArray([
+        expect(fn() => Callback::fromArray([
+            'autoRedirect' => true,
             'successUrl' => 'https:/www.example',
         ]))->toThrow(InvalidCallbackException::class, 'Invalid success URL');
 
-        expect(fn () => Callback::create('http://www.example'))->toThrow(InvalidCallbackException::class, 'Success URL must use HTTPS protocol');
+        expect(fn() => Callback::create('http://www.example'))->toThrow(InvalidCallbackException::class, 'Success URL must use HTTPS protocol');
     });
 
     it('value is required', function (): void {
-        expect(fn () => Callback::fromArray([]))->toThrow(InvalidCallbackException::class, 'successUrl is required');
+        expect(fn() => Callback::fromArray([
+            'autoRedirect' => false,
+        ]))->toThrow(InvalidCallbackException::class, 'successUrl is required');
     });
 
     it('compares the same callback', function (): void {
