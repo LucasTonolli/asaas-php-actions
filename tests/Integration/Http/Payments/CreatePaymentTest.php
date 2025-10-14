@@ -11,7 +11,7 @@ describe('Create Payment', function (): void {
 
         // Create a valid customer to associate with the payment
         $this->customer = $this->asaasClient->customer()->create([
-            'name' => 'Payment Customer '.uniqid(),
+            'name' => 'Payment Customer ' . uniqid(),
             'cpfCnpj' => '898.879.660-88',
         ]);
     });
@@ -23,7 +23,7 @@ describe('Create Payment', function (): void {
     it('creates a payment successfully', function (): void {
         $response = $this->asaasClient->payment()->create([
             'customer' => $this->customer['id'],
-            'billingType' => BillingTypeEnum::Boleto->label(),
+            'billingType' => BillingTypeEnum::Boleto->value,
             'value' => 150.75,
             'dueDate' => '2025-12-31',
             'description' => 'Integration test payment',
@@ -37,9 +37,9 @@ describe('Create Payment', function (): void {
     });
 
     it('fails to create a payment with invalid value', function (): void {
-        expect(fn () => $this->asaasClient->payment()->create([
+        expect(fn() => $this->asaasClient->payment()->create([
             'customer' => $this->customer['id'],
-            'billingType' => BillingTypeEnum::Boleto->label(),
+            'billingType' => BillingTypeEnum::Boleto->value,
             'value' => -100, // invalid
             'dueDate' => '2025-12-31',
         ]))->toThrow(ValidationException::class);
@@ -48,7 +48,7 @@ describe('Create Payment', function (): void {
     it('matches the expected response structure', function (): void {
         $response = $this->asaasClient->payment()->create([
             'customer' => $this->customer['id'],
-            'billingType' => BillingTypeEnum::Boleto->label(),
+            'billingType' => BillingTypeEnum::Boleto->value,
             'value' => 200.50,
             'dueDate' => '2025-12-31',
             'description' => 'Snapshot structure test',
