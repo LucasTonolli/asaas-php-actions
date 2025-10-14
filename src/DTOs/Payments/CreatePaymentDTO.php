@@ -36,7 +36,7 @@ final class CreatePaymentDTO extends AbstractDTO
      * @param  ?int  $daysAfterDueDateToRegistrationCancellation  Optional number of days after due date to cancel registration.
      * @param  ?string  $externalReference  A unique external identifier.
      * @param  ?int  $installmentCount  Number of installments (for credit card payments).
-     * @param  ?float  $totalValue  Total value if it's a parcelled payment.
+     * @param  ?float  $totalValue  Total value if it's a parcelled payment. For installments: when provided, installmentValue is not required (calculated from totalValue / installmentCount)
      * @param  ?float  $installmentValue  Value of each installment.
      * @param  ?Discount  $discount  Discount settings.
      * @param  ?Interest  $interest  Interest settings for late payment.
@@ -55,7 +55,7 @@ final class CreatePaymentDTO extends AbstractDTO
         public readonly ?int $daysAfterDueDateToRegistrationCancellation = null,
         public readonly ?string $externalReference = null,
         public readonly ?int $installmentCount = null,
-        public readonly ?float $totalValue = null, // Only for installments and if filled, it's unnecessary installment value
+        public readonly ?float $totalValue = null,
         public readonly ?float $installmentValue = null,
         #[ToArrayMethodAttribute('toArray')]
         public readonly ?Discount $discount = null,
