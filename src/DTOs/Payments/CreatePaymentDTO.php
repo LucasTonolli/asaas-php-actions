@@ -171,6 +171,11 @@ final class CreatePaymentDTO extends AbstractDTO
             }
         }
 
+        $hasInstallmentData = $data['installmentCount'] !== null || $data['installmentValue'] !== null || $data['totalValue'] !== null;
+        if ($hasInstallmentData && $data['billingType'] !== BillingTypeEnum::CreditCard) {
+            throw new InvalidPaymentDataException('Installment fields can only be used with CREDIT_CARD billing type.');
+        }
+
         if ($data['installmentCount'] !== null && $data['installmentCount'] <= 0) {
             throw new InvalidPaymentDataException('Installment count must be greater than 0');
         }
@@ -181,6 +186,10 @@ final class CreatePaymentDTO extends AbstractDTO
 
         if ($data['totalValue'] !== null && $data['totalValue'] <= 0) {
             throw new InvalidPaymentDataException('Total value must be greater than 0');
+        }
+
+        if ($data['installmentValue'] === null && $data['installmentCount'] !== null && $data['totalValue'] !== null) {
+            $data['installmentValue'] = round($data['totalValue'] / $data['installmentCount'], 2);
         }
 
         return $data;
