@@ -190,7 +190,7 @@ final class CustomerService
      *
      * @throws ValidationException Wraps internal validation exceptions.
      */
-    private function createDTO(string $dtoClass, array $data): object
+    private function createDTO(string $dtoClass, array $data): \AsaasPhpSdk\DTOs\Base\AbstractDTO
     {
         try {
             return $dtoClass::fromArray($data);
