@@ -31,7 +31,7 @@ class PostalCode extends AbstractSimpleValueObject implements FormattableContrac
         $sanitized = DataSanitizer::onlyDigits($postalCode);
 
         if ($sanitized === null || strlen($sanitized) !== 8) {
-            throw new \AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidPostalCodeException('Postal code must contain exactly 8 digits');
+            throw new InvalidPostalCodeException('Postal code must contain exactly 8 digits');
         }
 
         return new self($sanitized);
