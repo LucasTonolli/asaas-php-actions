@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidFineException;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 use AsaasPhpSdk\ValueObjects\Structured\Enums\FineType;
 
@@ -70,9 +71,17 @@ final class Fine extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
+        $value = DataSanitizer::sanitizeFloat($data['value'] ?? null);
+
+        if ($value === null) {
+            throw new InvalidFineException('Fine value is required');
+        }
+
+        $type = (string) ($data['type'] ?? FineType::Percentage->value);
+
         return self::create(
-            value: $data['value'] ?? throw new InvalidFineException('Fine value is required'),
-            type: $data['type'] ?? FineType::Percentage->value
+            value: $value,
+            type: $type
         );
     }
 }
