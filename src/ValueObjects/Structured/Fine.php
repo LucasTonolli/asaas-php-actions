@@ -10,7 +10,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 final class Fine extends AbstractStructuredValueObject
 {
-	public function __construct(
+	private function __construct(
 		public readonly float $value,
 		public readonly FineType $type,
 	) {}
