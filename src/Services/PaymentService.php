@@ -7,6 +7,7 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -31,7 +32,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (\AsaasPhpSdk\Exceptions\InvalidPaymentDataException $e) {
+        } catch (InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
