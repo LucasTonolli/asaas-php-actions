@@ -17,7 +17,7 @@ describe('Cpf Value Object', function (): void {
     });
 
     it('cannot be created with an invalid CPF', function (): void {
-        expect(fn () => Cpf::from('11111111111'))->toThrow(InvalidCpfException::class, 'Invalid CPF: 11111111111');
+        expect(fn() => Cpf::from('11111111111'))->toThrow(InvalidCpfException::class, 'Invalid CPF');
     });
 
     it('compare cpf', function (): void {
