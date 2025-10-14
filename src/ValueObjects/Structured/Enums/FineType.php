@@ -6,10 +6,10 @@ namespace AsaasPhpSdk\ValueObjects\Structured\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
-enum FineType
+enum FineType: string
 {
-	case Fixed;
-	case Percentage;
+	case Fixed = 'FIXED';
+	case Percentage = 'PERCENTAGE';
 
 	public function label(): string
 	{
@@ -23,9 +23,9 @@ enum FineType
 	{
 		$normalized = DataSanitizer::sanitizeLowercase($value);
 
-		return match ($normalized) {
-			'fixed', 'fixo' => self::Fixed,
-			'percentage', 'porcentagem' => self::Percentage,
+		return match (true) {
+			in_array($normalized, ['fixed', 'fixo']) => self::Fixed,
+			in_array($normalized, ['percentage', 'porcentagem']) => self::Percentage,
 			default => throw new \ValueError("Invalid fine type '{$value}'"),
 		};
 	}
