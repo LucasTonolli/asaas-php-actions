@@ -122,7 +122,7 @@ final class CreatePaymentDTO extends AbstractDTO
             throw InvalidPaymentDataException::missingField('customer');
         }
 
-        if (! isset($data['billingType'])) {
+        if ($data['billingType'] === null) {
             throw InvalidPaymentDataException::missingField('billingType');
         }
 
