@@ -73,6 +73,9 @@ final class SplitEntry extends AbstractStructuredValueObject
             throw new InvalidSplitEntryException('Percentage value must be between 0 and 100');
         }
 
+        $externalReference = DataSanitizer::sanitizeString($externalReference);
+        $description = DataSanitizer::sanitizeString($description);
+
         return new self($walletId, $fixedValue, $percentageValue, $totalFixedValue, $externalReference, $description);
     }
 
