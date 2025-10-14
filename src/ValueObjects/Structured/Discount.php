@@ -19,24 +19,24 @@ final class Discount extends AbstractStructuredValueObject
 
 	public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
 	{
-		if ($value <= 0) {
-			throw new InvalidDiscountException('Value must be greater than 0.');
-		}
-
-		$saninitizeddueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
-		$value = DataSanitizer::sanitizeFloat($value);
+		$saninitizedDueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
+		$sanitizedValue = DataSanitizer::sanitizeFloat($value);
 		$discountType = DataSanitizer::sanitizeLowercase($discountType);
 		$type = DiscountType::tryFromString($discountType);
+
+		if ($sanitizedValue === null || $sanitizedValue <= 0) {
+			throw new InvalidDiscountException('Value must be greater than 0.');
+		}
 
 		if ($type === null) {
 			throw new InvalidDiscountException('Invalid discount type');
 		}
 
-		if ($type === DiscountType::Percentage && $value > 100) {
+		if ($type === DiscountType::Percentage && $sanitizedValue > 100) {
 			throw new InvalidDiscountException('Discount percentage cannot exceed 100%');
 		}
 
-		return new self($value, $saninitizeddueDateLimitDays, $type);
+		return new self($sanitizedValue, $saninitizedDueDateLimitDays, $type);
 	}
 
 	public static function fromArray(array $data): self
