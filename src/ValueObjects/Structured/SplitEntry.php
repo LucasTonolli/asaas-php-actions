@@ -80,9 +80,9 @@ final class SplitEntry extends AbstractStructuredValueObject
      *
      * @param  array{
      * walletId?: string,
-     * fixedValue?: float|string,
-     * percentageValue?: float|string,
-     * totalFixedValue?: float|string,
+     * fixedValue?: float,
+     * percentageValue?: float,
+     * totalFixedValue?: float,
      * externalReference?: string,
      * description?: string
      * }  $data The raw data array.
