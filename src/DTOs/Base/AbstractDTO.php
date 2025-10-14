@@ -52,6 +52,8 @@ abstract class AbstractDTO implements DTOContract
                 $result[$key] = $value->{$method}(...$args);
             } elseif ($value instanceof \BackedEnum) {
                 $result[$key] = $value->value;
+            } elseif ($value instanceof \UnitEnum) {
+                $result[$key] = $value->name;
             } elseif (is_object($value) && method_exists($value, 'value')) {
                 $result[$key] = $value->value();
             } else {
