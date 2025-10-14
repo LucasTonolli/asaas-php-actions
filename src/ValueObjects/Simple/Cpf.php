@@ -9,7 +9,6 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
 use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
 
-
 /**
  * A Value Object representing a Brazilian Individual Taxpayer Registry (CPF).
  *

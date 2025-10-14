@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Payments;
 
+use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\Callback;
 use AsaasPhpSdk\ValueObjects\Structured\Discount;
+use AsaasPhpSdk\ValueObjects\Structured\Fine;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;
 use AsaasPhpSdk\ValueObjects\Structured\Split;
-use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
-use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
-use AsaasPhpSdk\ValueObjects\Structured\Fine;
 
 /**
  * A "Strict" Data Transfer Object for creating a new payment.
@@ -25,151 +25,152 @@ use AsaasPhpSdk\ValueObjects\Structured\Fine;
  */
 final class CreatePaymentDTO extends AbstractDTO
 {
-	/**
-	 * Private constructor to enforce object creation via the static `fromArray` factory method.
-	 *
-	 * @param  string  $customer The ID of the customer to whom the payment belongs.
-	 * @param  BillingTypeEnum  $billingType The payment method.
-	 * @param  float  $value The monetary value of the payment.
-	 * @param  \DateTimeImmutable  $dueDate The payment's due date.
-	 * @param  ?string  $description Optional description for the payment.
-	 * @param  ?int  $daysAfterDueDateToRegistrationCancellation Optional number of days after due date to cancel registration.
-	 * @param  ?string  $externalReference A unique external identifier.
-	 * @param  ?int  $installmentCount Number of installments (for credit card payments).
-	 * @param  ?float  $totalValue Total value if it's a parcelled payment.
-	 * @param  ?float  $installmentValue Value of each installment.
-	 * @param  ?Discount  $discount Discount settings.
-	 * @param  ?Interest  $interest Interest settings for late payment.
-	 * @param  ?Fine  $fine Fine settings for late payment.
-	 * @param  ?bool  $postalService Indicates if the invoice should be sent by postal service.
-	 * @param  ?Split  $split Payment split settings.
-	 * @param  ?Callback  $callback Callback and redirection settings.
-	 */
-	private function __construct(
-		public readonly string $customer,
-		public readonly BillingTypeEnum $billingType,
-		public readonly float $value,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
-		public readonly \DateTimeImmutable $dueDate,
-		public readonly ?string $description = null,
-		public readonly ?int $daysAfterDueDateToRegistrationCancellation = null,
-		public readonly ?string $externalReference = null,
-		public readonly ?int $installmentCount = null,
-		public readonly ?float $totalValue = null, // Only for installments and if filled, it's unnecessary installment value
-		public readonly ?float $installmentValue = null,
-		#[ToArrayMethodAttribute('toArray')]
-		public readonly ?Discount $discount = null,
-		#[ToArrayMethodAttribute('toArray')]
-		public readonly ?Interest $interest = null,
-		#[ToArrayMethodAttribute('toArray')]
-		public readonly ?Fine $fine = null,
-		public readonly ?bool $postalService = null,
-		#[ToArrayMethodAttribute('toArray')]
-		public readonly ?Split $split = null,
-		#[ToArrayMethodAttribute('toArray')]
-		public readonly ?Callback $callback = null
-	) {}
+    /**
+     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     *
+     * @param  string  $customer  The ID of the customer to whom the payment belongs.
+     * @param  BillingTypeEnum  $billingType  The payment method.
+     * @param  float  $value  The monetary value of the payment.
+     * @param  \DateTimeImmutable  $dueDate  The payment's due date.
+     * @param  ?string  $description  Optional description for the payment.
+     * @param  ?int  $daysAfterDueDateToRegistrationCancellation  Optional number of days after due date to cancel registration.
+     * @param  ?string  $externalReference  A unique external identifier.
+     * @param  ?int  $installmentCount  Number of installments (for credit card payments).
+     * @param  ?float  $totalValue  Total value if it's a parcelled payment.
+     * @param  ?float  $installmentValue  Value of each installment.
+     * @param  ?Discount  $discount  Discount settings.
+     * @param  ?Interest  $interest  Interest settings for late payment.
+     * @param  ?Fine  $fine  Fine settings for late payment.
+     * @param  ?bool  $postalService  Indicates if the invoice should be sent by postal service.
+     * @param  ?Split  $split  Payment split settings.
+     * @param  ?Callback  $callback  Callback and redirection settings.
+     */
+    private function __construct(
+        public readonly string $customer,
+        public readonly BillingTypeEnum $billingType,
+        public readonly float $value,
+        #[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+        public readonly \DateTimeImmutable $dueDate,
+        public readonly ?string $description = null,
+        public readonly ?int $daysAfterDueDateToRegistrationCancellation = null,
+        public readonly ?string $externalReference = null,
+        public readonly ?int $installmentCount = null,
+        public readonly ?float $totalValue = null, // Only for installments and if filled, it's unnecessary installment value
+        public readonly ?float $installmentValue = null,
+        #[ToArrayMethodAttribute('toArray')]
+        public readonly ?Discount $discount = null,
+        #[ToArrayMethodAttribute('toArray')]
+        public readonly ?Interest $interest = null,
+        #[ToArrayMethodAttribute('toArray')]
+        public readonly ?Fine $fine = null,
+        public readonly ?bool $postalService = null,
+        #[ToArrayMethodAttribute('toArray')]
+        public readonly ?Split $split = null,
+        #[ToArrayMethodAttribute('toArray')]
+        public readonly ?Callback $callback = null
+    ) {}
 
-	/**
-	 * Creates a new CreatePaymentDTO instance from a raw array of data.
-	 *
-	 * @param  array<string, mixed>  $data Raw data for the new payment.
-	 * @return self A new, validated instance of the DTO.
-	 *
-	 * @throws InvalidPaymentDataException if the data is invalid.
-	 */
-	public static function fromArray(array $data): self
-	{
-		$sanitizedData = self::sanitize($data);
-		$validatedData = self::validate($sanitizedData);
+    /**
+     * Creates a new CreatePaymentDTO instance from a raw array of data.
+     *
+     * @param  array<string, mixed>  $data  Raw data for the new payment.
+     * @return self A new, validated instance of the DTO.
+     *
+     * @throws InvalidPaymentDataException if the data is invalid.
+     */
+    public static function fromArray(array $data): self
+    {
+        $sanitizedData = self::sanitize($data);
+        $validatedData = self::validate($sanitizedData);
 
-		return new self(...$validatedData);
-	}
+        return new self(...$validatedData);
+    }
 
-	/**
-	 * @internal
-	 */
-	protected static function sanitize(array $data): array
-	{
-		return [
-			'customer' => DataSanitizer::sanitizeString($data['customer'] ?? null),
-			'billingType' => $data['billingType'] ?? null,
-			'value' => DataSanitizer::sanitizeFloat($data['value'] ?? null),
-			'dueDate' => $data['dueDate'] ?? null,
-			'description' => self::optionalString($data, 'description'),
-			'daysAfterDueDateToRegistrationCancellation' => self::optionalInteger($data, 'daysAfterDueDateToRegistrationCancellation'),
-			'externalReference' => self::optionalString($data, 'externalReference'),
-			'installmentCount' => self::optionalInteger($data, 'installmentCount'),
-			'totalValue' => self::optionalFloat($data, 'totalValue'),
-			'installmentValue' => self::optionalFloat($data, 'installmentValue'),
-			'discount' => $data['discount'] ?? null,
-			'interest' => $data['interest'] ?? null,
-			'fine' => $data['fine'] ?? null,
-			'postalService' => self::optionalBoolean($data, 'postalService'),
-			'split' => $data['split'] ?? null,
-			'callback' => $data['callback'] ?? null,
-		];
-	}
-	/**
-	 * @internal
-	 * @throws InvalidPaymentDataException|InvalidValueObjectException
-	 */
-	private static function validate(array $data): array
-	{
-		if ($data['customer'] === null) {
-			throw InvalidPaymentDataException::missingField('customer');
-		}
+    /**
+     * @internal
+     */
+    protected static function sanitize(array $data): array
+    {
+        return [
+            'customer' => DataSanitizer::sanitizeString($data['customer'] ?? null),
+            'billingType' => $data['billingType'] ?? null,
+            'value' => DataSanitizer::sanitizeFloat($data['value'] ?? null),
+            'dueDate' => $data['dueDate'] ?? null,
+            'description' => self::optionalString($data, 'description'),
+            'daysAfterDueDateToRegistrationCancellation' => self::optionalInteger($data, 'daysAfterDueDateToRegistrationCancellation'),
+            'externalReference' => self::optionalString($data, 'externalReference'),
+            'installmentCount' => self::optionalInteger($data, 'installmentCount'),
+            'totalValue' => self::optionalFloat($data, 'totalValue'),
+            'installmentValue' => self::optionalFloat($data, 'installmentValue'),
+            'discount' => $data['discount'] ?? null,
+            'interest' => $data['interest'] ?? null,
+            'fine' => $data['fine'] ?? null,
+            'postalService' => self::optionalBoolean($data, 'postalService'),
+            'split' => $data['split'] ?? null,
+            'callback' => $data['callback'] ?? null,
+        ];
+    }
 
-		if (!isset($data['billingType'])) {
-			throw InvalidPaymentDataException::missingField('billingType');
-		}
+    /**
+     * @internal
+     *
+     * @throws InvalidPaymentDataException|InvalidValueObjectException
+     */
+    private static function validate(array $data): array
+    {
+        if ($data['customer'] === null) {
+            throw InvalidPaymentDataException::missingField('customer');
+        }
 
-		if ($data['value'] === null || $data['value'] <= 0) {
-			throw new InvalidPaymentDataException('Value must be greater than 0');
-		}
+        if (! isset($data['billingType'])) {
+            throw InvalidPaymentDataException::missingField('billingType');
+        }
 
-		if ($data['dueDate'] === null) {
-			throw InvalidPaymentDataException::missingField('dueDate');
-		}
+        if ($data['value'] === null || $data['value'] <= 0) {
+            throw new InvalidPaymentDataException('Value must be greater than 0');
+        }
 
-		if ($data['billingType'] instanceof BillingTypeEnum) {
-			$billingType = $data['billingType'];
-		} else {
-			$billingType = BillingTypeEnum::tryFromString((string) $data['billingType']);
-		}
+        if ($data['dueDate'] === null) {
+            throw InvalidPaymentDataException::missingField('dueDate');
+        }
 
-		if ($billingType === null) {
-			throw new InvalidPaymentDataException('Invalid billing type');
-		}
-		$data['billingType'] = $billingType;
+        if ($data['billingType'] instanceof BillingTypeEnum) {
+            $billingType = $data['billingType'];
+        } else {
+            $billingType = BillingTypeEnum::tryFromString((string) $data['billingType']);
+        }
 
-		try {
-			$data['dueDate'] = $data['dueDate'] instanceof \DateTimeImmutable
-				? $data['dueDate']
-				: new \DateTimeImmutable((string) $data['dueDate']);
-		} catch (\Exception $e) {
-			throw new InvalidPaymentDataException('Invalid due date format', 0, $e);
-		}
+        if ($billingType === null) {
+            throw new InvalidPaymentDataException('Invalid billing type');
+        }
+        $data['billingType'] = $billingType;
 
-		try {
-			self::validateStructuredValueObject($data, 'discount', Discount::class);
-			self::validateStructuredValueObject($data, 'interest', Interest::class);
-			self::validateStructuredValueObject($data, 'fine', Fine::class);
-			self::validateStructuredValueObject($data, 'split', Split::class);
-			self::validateStructuredValueObject($data, 'callback', Callback::class);
-		} catch (InvalidValueObjectException $e) {
-			throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
-		}
+        try {
+            $data['dueDate'] = $data['dueDate'] instanceof \DateTimeImmutable
+                ? $data['dueDate']
+                : new \DateTimeImmutable((string) $data['dueDate']);
+        } catch (\Exception $e) {
+            throw new InvalidPaymentDataException('Invalid due date format', 0, $e);
+        }
 
-		if ($data['split'] instanceof Split) {
-			try {
-				$data['split']->validateFor($data['value']);
-			} catch (\Throwable $e) {
-				throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
-			}
-		}
+        try {
+            self::validateStructuredValueObject($data, 'discount', Discount::class);
+            self::validateStructuredValueObject($data, 'interest', Interest::class);
+            self::validateStructuredValueObject($data, 'fine', Fine::class);
+            self::validateStructuredValueObject($data, 'split', Split::class);
+            self::validateStructuredValueObject($data, 'callback', Callback::class);
+        } catch (InvalidValueObjectException $e) {
+            throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+        }
 
+        if ($data['split'] instanceof Split) {
+            try {
+                $data['split']->validateFor($data['value']);
+            } catch (\Throwable $e) {
+                throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+            }
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 }

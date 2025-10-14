@@ -30,7 +30,7 @@ final class ListCustomersAction extends AbstractAction
     public function handle(ListCustomersDTO $data): array
     {
         return $this->executeRequest(
-            fn() => $this->client->get('customers', ['query' => $data->toArray()])
+            fn () => $this->client->get('customers', ['query' => $data->toArray()])
         );
     }
 }

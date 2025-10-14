@@ -35,8 +35,10 @@ enum BillingTypeEnum: string
      * Creates an enum instance from various case-insensitive string representations.
      *
      * @internal This is the strict factory, used by `tryFromString`.
-     * @param  string  $value The string representation of the type (e.g., 'boleto', 'credit_card').
+     *
+     * @param  string  $value  The string representation of the type (e.g., 'boleto', 'credit_card').
      * @return self The corresponding enum instance.
+     *
      * @throws \ValueError If the string does not match any known type.
      */
     private static function fromString(string $value): self
@@ -58,7 +60,7 @@ enum BillingTypeEnum: string
      * This is a lenient factory that accepts multiple aliases. If the string
      * is not valid, it returns `null` instead of throwing an exception.
      *
-     * @param  string  $value The string representation of the type.
+     * @param  string  $value  The string representation of the type.
      * @return self|null The corresponding enum instance or `null` if the value is invalid.
      */
     public static function tryFromString(string $value): ?self

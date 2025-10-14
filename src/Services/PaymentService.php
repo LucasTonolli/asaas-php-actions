@@ -32,6 +32,7 @@ final class PaymentService
 {
     /**
      * @var ResponseHandler The handler for processing API responses.
+     *
      * @internal
      */
     private readonly ResponseHandler $responseHandler;
@@ -39,8 +40,9 @@ final class PaymentService
     /**
      * PaymentService constructor.
      *
-     * @param  Client  $client The configured Guzzle HTTP client.
-     * @param  ?ResponseHandler  $responseHandler Optional custom response handler.
+     * @param  Client  $client  The configured Guzzle HTTP client.
+     * @param  ?ResponseHandler  $responseHandler  Optional custom response handler.
+     *
      * @internal
      */
     public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
@@ -53,7 +55,7 @@ final class PaymentService
      *
      * @see https://docs.asaas.com/reference/criar-nova-cobranca
      *
-     * @param  array<string, mixed>  $data Payment data (e.g., ['customer' => '...', 'billingType' => '...', 'value' => ...]).
+     * @param  array<string, mixed>  $data  Payment data (e.g., ['customer' => '...', 'billingType' => '...', 'value' => ...]).
      * @return array An array representing the newly created payment.
      *
      * @throws ValidationException
@@ -74,12 +76,12 @@ final class PaymentService
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
-     * @template T of AbstractDTO
      *
+     * @template T of AbstractDTO
      * @template T of \AsaasPhpSdk\DTOs\Base\AbstractDTO
      *
      * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
-     * @param  array<string, mixed>  $data The raw data for the DTO.
+     * @param  array<string, mixed>  $data  The raw data for the DTO.
      * @return T The created DTO instance.
      *
      * @throws ValidationException Wraps internal DTO validation exceptions.

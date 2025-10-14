@@ -8,8 +8,8 @@ describe('Update Customer', function (): void {
 
     it('updates a customer successfully', function (): void {
         $createCustomerResponse = $this->asaasClient->customer()->create([
-            'name' => 'John Doe' . uniqid(),
-            'email' => 'john_doe' . uniqid() . '@example.com',
+            'name' => 'John Doe'.uniqid(),
+            'email' => 'john_doe'.uniqid().'@example.com',
             'cpfCnpj' => '898.879.660-88',
         ]);
 

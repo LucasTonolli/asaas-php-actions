@@ -70,9 +70,9 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Validates and instantiates a simple Value Object (that uses `::from()`).
      *
-     * @param  array<string, mixed>  &$data The data array, passed by reference.
-     * @param  string  $key The key in the data array to validate.
-     * @param  class-string  $valueObjectClass The fully qualified class name of the Value Object.
+     * @param  array<string, mixed>  &$data  The data array, passed by reference.
+     * @param  string  $key  The key in the data array to validate.
+     * @param  class-string  $valueObjectClass  The fully qualified class name of the Value Object.
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
@@ -86,7 +86,7 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': " . $e->getMessage(),
+                "Invalid format for '{$key}': ".$e->getMessage(),
                 0,
                 $e
             );
@@ -96,9 +96,9 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Validates and instantiates a structured Value Object (that uses `::fromArray()`).
      *
-     * @param  array<string, mixed>  &$data The data array, passed by reference.
-     * @param  string  $key The key in the data array to validate.
-     * @param  class-string  $voClass The fully qualified class name of the structured VO.
+     * @param  array<string, mixed>  &$data  The data array, passed by reference.
+     * @param  string  $key  The key in the data array to validate.
+     * @param  class-string  $voClass  The fully qualified class name of the structured VO.
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
@@ -109,7 +109,7 @@ abstract class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Exception $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': " . $e->getMessage(),
+                    "Invalid format for '{$key}': ".$e->getMessage(),
                     0,
                     $e
                 );
@@ -180,8 +180,8 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Sanitizes an optional float value from the data array.
      *
-     * @param  array<string, mixed>  $data The source data array.
-     * @param  string  $key The key to look for.
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
      * @return ?float The sanitized float, or null if the key doesn't exist or the value is empty.
      */
     protected static function optionalFloat(array $data, string $key): ?float
@@ -192,6 +192,7 @@ abstract class AbstractDTO implements DTOContract
 
         return DataSanitizer::sanitizeFloat($data[$key]);
     }
+
     /**
      * Defines the contract for sanitizing the DTO's raw input data.
      *

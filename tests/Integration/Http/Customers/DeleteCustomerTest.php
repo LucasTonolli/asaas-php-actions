@@ -10,7 +10,7 @@ describe('Delete Customer', function (): void {
 
     it('deletes a customer successfully', function (): void {
         $createCustomerResponse = $this->asaasClient->customer()->create([
-            'name' => 'John Doe' . uniqid(),
+            'name' => 'John Doe'.uniqid(),
             'cpfCnpj' => '898.879.660-88',
         ]);
 

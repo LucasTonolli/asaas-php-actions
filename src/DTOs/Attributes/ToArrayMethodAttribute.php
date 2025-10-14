@@ -28,8 +28,8 @@ final class ToArrayMethodAttribute
     /**
      * ToArrayMethodAttribute constructor.
      *
-     * @param  string  $method The name of the method to call on the property's object during array conversion.
-     * @param  array<int, mixed>  $args An optional array of arguments to pass to the specified method.
+     * @param  string  $method  The name of the method to call on the property's object during array conversion.
+     * @param  array<int, mixed>  $args  An optional array of arguments to pass to the specified method.
      */
     public function __construct(public readonly string $method, public readonly array $args = []) {}
 }

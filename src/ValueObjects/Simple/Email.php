@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Simple;
 
+use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidEmailException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
-use AsaasPhpSdk\Exceptions\ValueObjects\Simple\InvalidEmailException;
 
 /**
  * A Value Object representing a valid email address.

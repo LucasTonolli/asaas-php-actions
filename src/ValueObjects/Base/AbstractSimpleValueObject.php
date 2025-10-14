@@ -18,40 +18,40 @@ namespace AsaasPhpSdk\ValueObjects\Base;
  */
 abstract class AbstractSimpleValueObject
 {
-	/** @var string The raw, immutable string value. */
-	protected readonly string $value;
+    /** @var string The raw, immutable string value. */
+    protected readonly string $value;
 
+    /**
+     * Protected constructor to enforce immutability and the factory pattern.
+     *
+     * @internal Should only be called from a static factory method like `from()`.
+     *
+     * @param  string  $value  The validated string value to encapsulate.
+     */
+    protected function __construct(string $value)
+    {
+        $this->value = $value;
+    }
 
-	/**
-	 * Protected constructor to enforce immutability and the factory pattern.
-	 *
-	 * @internal Should only be called from a static factory method like `from()`.
-	 * @param  string  $value The validated string value to encapsulate.
-	 */
-	protected function __construct(string $value)
-	{
-		$this->value = $value;
-	}
+    /**
+     * Gets the raw, underlying string value.
+     */
+    public function value(): string
+    {
+        return $this->value;
+    }
 
-	/**
-	 * Gets the raw, underlying string value.
-	 */
-	public function value(): string
-	{
-		return $this->value;
-	}
-
-	/**
-	 * Compares this Value Object with another for value equality.
-	 *
-	 * The `self` type hint ensures this method can only be called with an
-	 * object of the same concrete class.
-	 *
-	 * @param  self  $other The other Value Object to compare with.
-	 * @return bool True if the values are identical.
-	 */
-	public function equals(self $other): bool
-	{
-		return $other instanceof static && $this->value === $other->value;
-	}
+    /**
+     * Compares this Value Object with another for value equality.
+     *
+     * The `self` type hint ensures this method can only be called with an
+     * object of the same concrete class.
+     *
+     * @param  self  $other  The other Value Object to compare with.
+     * @return bool True if the values are identical.
+     */
+    public function equals(self $other): bool
+    {
+        return $other instanceof static && $this->value === $other->value;
+    }
 }

@@ -37,6 +37,7 @@ final class CustomerService
 {
     /**
      * @var ResponseHandler The handler for processing API responses.
+     *
      * @internal
      */
     private readonly ResponseHandler $responseHandler;
@@ -44,8 +45,9 @@ final class CustomerService
     /**
      * CustomerService constructor.
      *
-     * @param  Client  $client The configured Guzzle HTTP client.
-     * @param  ?ResponseHandler  $responseHandler Optional custom response handler.
+     * @param  Client  $client  The configured Guzzle HTTP client.
+     * @param  ?ResponseHandler  $responseHandler  Optional custom response handler.
+     *
      * @internal
      */
     public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
