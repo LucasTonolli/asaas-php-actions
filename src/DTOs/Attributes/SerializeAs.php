@@ -23,13 +23,18 @@ use Attribute;
  * }
  */
 #[Attribute(\Attribute::TARGET_PROPERTY)]
-final class ToArrayMethodAttribute
+final class SerializeAs
 {
     /**
      * ToArrayMethodAttribute constructor.
      *
+     * @param  string  $key  The name of the property to call the method on.
      * @param  string  $method  The name of the method to call on the property's object during array conversion.
      * @param  array<int, mixed>  $args  An optional array of arguments to pass to the specified method.
      */
-    public function __construct(public readonly string $method, public readonly array $args = []) {}
+    public function __construct(
+        public readonly ?string $key,
+        public readonly ?string $method,
+        public readonly array $args = []
+    ) {}
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Payments;
 
-use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
+use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\DTOs\Payments\Enums\InvoiceStatusEnum;
@@ -54,22 +54,22 @@ final class ListPaymentsDTO extends AbstractDTO
 		public readonly ?PaymentStatusEnum $status = null,
 		public readonly ?string $subscription = null,
 		public readonly ?string $externalReference = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $paymentDate = null,
 		public readonly ?InvoiceStatusEnum $invoiceStatus = null,
 		public readonly ?bool $anticipated = null,
 		public readonly ?bool $anticipable = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'dateCreated[ge]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $dateCreatedStart = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'dateCreated[le]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $dateCreatedEnd = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'paymentDate[ge]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $paymentDateStart = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'paymentDate[le]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $paymentDateEnd = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'dueDate[ge]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $dueDateStart = null,
-		#[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+		#[SerializeAs(key: 'dueDate[le]', method: 'format', args: ['Y-m-d'])]
 		public readonly ?\DateTimeImmutable $dueDateEnd = null
 	) {}
 
