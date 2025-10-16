@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\DTOs\Payments;
+namespace AsaasPhpSdk\DTOs\Payments\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 

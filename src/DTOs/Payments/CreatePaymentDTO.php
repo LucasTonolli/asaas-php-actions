@@ -6,6 +6,7 @@ namespace AsaasPhpSdk\DTOs\Payments;
 
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
