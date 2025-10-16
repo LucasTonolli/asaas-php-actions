@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
+use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
+use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
@@ -72,6 +74,26 @@ final class PaymentService
     {
         $dto = $this->createDTO(CreatePaymentDTO::class, $data);
         $action = new CreatePaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($dto);
+    }
+
+    /**
+     * List payments.
+     *
+     * @see https://docs.asaas.com/reference/listar-cobrancas
+     *
+     * @param  array<string, mixed>  $filters  Optional filters (e.g., ['installment' => 'xxxxx', 'limit' => 10]).
+     * @return array A paginated list of payments.
+     *
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function list(array $filters = []): array
+    {
+        $dto = $this->createDTO(ListPaymentsDTO::class, $filters);
+        $action = new ListPaymentsAction($this->client, $this->responseHandler);
 
         return $action->handle($dto);
     }
