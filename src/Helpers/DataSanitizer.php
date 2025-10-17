@@ -129,13 +129,7 @@ final class DataSanitizer
             return $value;
         }
 
-        if (is_string($value)) {
-            $lower = mb_strtolower(trim($value));
-
-            return in_array($lower, ['true', 'on', 'yes', 'y', '1', 'sim']);
-        }
-
-        return (bool) $value;
+        return null;
     }
 
     /**
