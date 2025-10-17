@@ -114,7 +114,6 @@ final class DataSanitizer
     /**
      * Sanitizes a mixed value into a boolean.
      *
-     * It correctly interprets string values like 'true', '1', 'on', 'yes', 'sim'.
      *
      * @param  mixed  $value  The value to convert.
      * @return ?bool The sanitized boolean value, or null for empty inputs.
