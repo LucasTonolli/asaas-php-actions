@@ -7,204 +7,207 @@ use AsaasPhpSdk\DTOs\Payments\Enums\PaymentStatusEnum;
 use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
 
 dataset('payments_filters', [
+
 	[
-		[
-			'key' => 'installment',
-			'value' => 'xxxxx',
-		],
-		[
-			'key' => 'offset',
-			'value' => 10,
-		],
-		[
-			'key' => 'limit',
-			'value' => 5,
-		],
-		[
-			'key' => 'customer',
-			'value' => 'cus_123',
-		],
-		[
-			'key' => 'customerGroupName',
-			'value' => 'group_123',
-		],
-		[
-			'key' => 'billingType',
-			'value' => BillingTypeEnum::Boleto->value,
-		],
-		[
-			'key' => 'status',
-			'value' => PaymentStatusEnum::Pending->value,
-		],
-		[
-			'key' => 'subscription',
-			'value' => 'sub_123',
-		],
-		[
-			'key' => 'externalReference',
-			'value' => 'ref_123',
-		],
-		[
-			'key' => 'paymentDate',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'invoiceStatus',
-			'value' => InvoiceStatusEnum::Scheduled->value,
-		],
-		[
-			'key' => 'anticipated',
-			'value' => true,
-		],
-		[
-			'key' => 'anticipable',
-			'value' => true,
-		],
-		[
-			'key' => 'dateCreatedStart',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'dateCreatedEnd',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'paymentDateStart',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'paymentDateEnd',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'dueDateStart',
-			'value' => '2023-01-01',
-		],
-		[
-			'key' => 'dueDateEnd',
-			'value' => '2023-01-01',
-		]
+		'key' => 'installment',
+		'value' => 'xxxxx',
+	],
+	[
+		'key' => 'offset',
+		'value' => 10,
+	],
+	[
+		'key' => 'limit',
+		'value' => 5,
+	],
+	[
+		'key' => 'customer',
+		'value' => 'cus_123',
+	],
+	[
+		'key' => 'customerGroupName',
+		'value' => 'group_123',
+	],
+	[
+		'key' => 'billingType',
+		'value' => BillingTypeEnum::Boleto->value,
+	],
+	[
+		'key' => 'status',
+		'value' => PaymentStatusEnum::Pending->value,
+	],
+	[
+		'key' => 'subscription',
+		'value' => 'sub_123',
+	],
+	[
+		'key' => 'externalReference',
+		'value' => 'ref_123',
+	],
+	[
+		'key' => 'paymentDate',
+		'value' => '2023-01-01',
+	],
+	[
+		'key' => 'invoiceStatus',
+		'value' => InvoiceStatusEnum::Scheduled->value,
+	],
+	[
+		'key' => 'anticipated',
+		'value' => true,
+	],
+	[
+		'key' => 'anticipable',
+		'value' => true,
 	],
 ]);
 
-dataset('payments_filters_invalid_values', [
+dataset('payments_filters_custom_keys', [
 	[
-		[
-			'key' => 'offset',
-			'value' => -10,
-		],
-		[
-			'key' => 'installment',
-			'value' => '  ',
-		],
-		[
-			'key' => 'customer',
-			'value' => ' ',
-		],
-		[
-			'key' => 'customerGroupName',
-			'value' => '  ',
-		],
-		[
-			'key' => 'billingType',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'status',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'subscription',
-			'value' => '  ',
-		],
-		[
-			'key' => 'externalReference',
-			'value' => '  ',
-		],
-		[
-			'key' => 'invoiceStatus',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'anticipated',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'anticipable',
-			'value' => 'invalid',
-		],
+		'attr' => 'dateCreatedStart',
+		'key' => 'dateCreated[ge]',
+		'value' => '2023-01-01',
+	],
+	[
+		'attr' => 'dateCreatedEnd',
+		'key' => 'dateCreated[le]',
+		'value' => '2023-01-01',
+	],
+	[
+		'attr' => 'paymentDateStart',
+		'key' => 'paymentDate[ge]',
+		'value' => '2023-01-01',
+	],
+	[
+		'attr' => 'paymentDateEnd',
+		'key' => 'paymentDate[le]',
+		'value' => '2023-01-01',
+	],
+	[
+		'attr' => 'dueDateStart',
+		'key' => 'dueDate[ge]',
+		'value' => '2023-01-01',
+	],
+	[
+		'attr' => 'dueDateEnd',
+		'key' => 'dueDate[le]',
+		'value' => '2023-01-01',
 	]
 ]);
 
-dataset('payments_filters_values_to_be_fixed', [
+dataset('payments_filters_invalid_values', [
+
 	[
-		[
-			'key' => 'limit',
-			'value' => -5,
-			'expected' => 1,
-		],
-		[
-			'key' => 'limit',
-			'value' => 102,
-			'expected' => 100,
-		]
+		'key' => 'offset',
+		'value' => -10,
+	],
+	[
+		'key' => 'installment',
+		'value' => '  ',
+	],
+	[
+		'key' => 'customer',
+		'value' => ' ',
+	],
+	[
+		'key' => 'customerGroupName',
+		'value' => '  ',
+	],
+	[
+		'key' => 'billingType',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'status',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'subscription',
+		'value' => '  ',
+	],
+	[
+		'key' => 'externalReference',
+		'value' => '  ',
+	],
+	[
+		'key' => 'invoiceStatus',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'anticipated',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'anticipable',
+		'value' => 'invalid',
+	],
+
+]);
+
+dataset('payments_filters_values_to_be_fixed', [
+
+	[
+		'key' => 'limit',
+		'value' => -5,
+		'expected' => 1,
+	],
+	[
+		'key' => 'limit',
+		'value' => 102,
+		'expected' => 100,
 	]
 ]);
 
 dataset('payments_filters_error_values', [
 	[
-		[
-			'key' => 'paymentDate',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'dateCreatedStart',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'dateCreatedEnd',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'paymentDateStart',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'paymentDateEnd',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'dueDateStart',
-			'value' => 'invalid',
-		],
-		[
-			'key' => 'dueDateEnd',
-			'value' => 'invalid',
-		],
-	]
+		'key' => 'paymentDate',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dateCreatedStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dateCreatedEnd',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'paymentDateStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'paymentDateEnd',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dueDateStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dueDateEnd',
+		'value' => 'invalid',
+	],
 ]);
 
 dataset('payments_invalid_range_values', [
 	[
-		[
-			'start-key' => 'dateCreatedStart',
-			'start-value' => '2023-01-02',
-			'end-key' => 'dateCreatedEnd',
-			'end-value' => '2023-01-01',
-		],
-		[
-			'start-key' => 'paymentDateStart',
-			'start-value' => '2023-01-02',
-			'end-key' => 'paymentDateEnd',
-			'end-value' => '2023-01-01',
-		],
-		[
-			'start-key' => 'dueDateStart',
-			'start-value' => '2023-01-02',
-			'end-key' => 'dueDateEnd',
-			'end-value' => '2023-01-01',
-		],
-	]
+		'dateCreatedStart',
+		'2023-01-02',
+		'dateCreatedEnd',
+		'2023-01-01',
+	],
+	[
+		'paymentDateStart',
+		'2023-01-02',
+		'paymentDateEnd',
+		'2023-01-01',
+	],
+	[
+		'dueDateStart',
+		'2023-01-02',
+		'dueDateEnd',
+		'2023-01-01',
+	],
 ]);
 
 const PAYMENT_FILTER_KEYS = [
@@ -221,12 +224,12 @@ const PAYMENT_FILTER_KEYS = [
 	'invoiceStatus',
 	'anticipated',
 	'anticipable',
-	'dateCreatedStart',
-	'dateCreatedEnd',
-	'paymentDateStart',
-	'paymentDateEnd',
-	'dueDateStart',
-	'dueDateEnd',
+	'dateCreat',
+	'dateCreated[le]',
+	'paymentDate[ge]',
+	'paymentDate[le]',
+	'dueDate[ge]',
+	'dueDate[le]',
 ];
 
 describe('List Payments DTO', function (): void {
@@ -247,44 +250,52 @@ describe('List Payments DTO', function (): void {
 		]);
 	});
 
-	it('filters fields', function ($args): void {
+	it('filters fields', function ($key, $value): void {
 
 		$dto = ListPaymentsDTO::fromArray([
-			$args['key'] => $args['value'],
+			$key => $value,
 		]);
-
-		expect($dto->toArray())->toHaveKey($args['key'])
-			->and($dto->toArray()[$args['key']])->toBe($args['value']);
-		expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn(string $key): bool => $key !== $args['key']));
+		expect($dto->toArray())->toHaveKey($key)
+			->and($dto->toArray()[$key])->toBe($value);
+		expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
 	})->with('payments_filters');
 
-	it('filters fields with invalid values become null', function ($args): void {
-		$dto = ListPaymentsDTO::fromArray([
-			$args['key'] => $args['value'],
-		]);
+	it('filters fields with custom keys', function ($attr, $key, $value): void {
 
-		expect($dto->toArray())->not()->toHaveKey($args['key']);
+		$dto = ListPaymentsDTO::fromArray([
+			$attr => $value,
+		]);
+		expect($dto->toArray())->toHaveKey($key)
+			->and($dto->toArray()[$key])->toBe($value);
+		expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
+	})->with('payments_filters_custom_keys');
+
+	it('filters fields with invalid values become null', function ($key, $value): void {
+		$dto = ListPaymentsDTO::fromArray([
+			$key => $value,
+		]);
+		expect($dto->toArray())->not()->toHaveKey($key);
 	})->with('payments_filters_invalid_values');
 
-	it('fixes filter values', function ($args): void {
+	it('fixes filter values', function ($key, $value, $expected): void {
 		$dto = ListPaymentsDTO::fromArray([
-			$args['key'] => $args['value'],
+			$key => $value,
 		]);
 
-		expect($dto->toArray())->toHaveKey($args['key'])
-			->and($dto->toArray()[$args['key']])->toBe($args['expected']);
+		expect($dto->toArray())->toHaveKey($key)
+			->and($dto->toArray()[$key])->toBe($expected);
 	})->with('payments_filters_values_to_be_fixed');
 
-	it('throws an exception for invalid values', function ($args): void {
+	it('throws an exception for invalid values', function ($key, $value): void {
 		expect(fn() => ListPaymentsDTO::fromArray([
-			$args['key'] => $args['value'],
+			$key => $value,
 		]))->toThrow(DateMalformedStringException::class);
 	})->with('payments_filters_error_values');
 
-	it('throws an exception for invalid range values', function ($args): void {
+	it('throws an exception for invalid range values', function ($startKey, $startValue, $endKey, $endValue): void {
 		expect(fn() => ListPaymentsDTO::fromArray([
-			$args['start-key'] => $args['start-value'],
-			$args['end-key'] => $args['end-value'],
-		]))->toThrow(InvalidDateRangeException::class, "The \"{$args['start-key']}\" must be before \"{$args['end-key']}\"");
+			$startKey => $startValue,
+			$endKey => $endValue,
+		]))->toThrow(InvalidDateRangeException::class, "The \"{$startKey}\" must be before \"{$endKey}\"");
 	})->with('payments_invalid_range_values');
 });
