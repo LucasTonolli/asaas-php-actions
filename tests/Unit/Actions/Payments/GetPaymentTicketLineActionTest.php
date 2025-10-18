@@ -12,7 +12,7 @@ describe('Get Payment Ticket Line Action', function (): void {
 			mockResponse([
 				'identificationField' => '1234567890',
 				'nossoNumero' => '0987654321',
-				'barcode' => '00190500954014481606906809350314337370000000100',
+				'barCode' => '00190500954014481606906809350314337370000000100',
 			], 200),
 		]);
 
@@ -24,7 +24,7 @@ describe('Get Payment Ticket Line Action', function (): void {
 			->and($result)->toHaveKeys([
 				'identificationField',
 				'nossoNumero',
-				'barcode',
+				'barCode',
 			]);
 	});
 
