@@ -53,7 +53,7 @@ final class Interest extends AbstractStructuredValueObject
     /**
      * Creates an Interest instance from a raw data array.
      *
-     * @param  array{value?: float|string}  $data  The raw data array.
+     * @param  array{value?: float}  $data  The raw data array.
      * @return self A new, validated Interest instance.
      *
      * @throws InvalidInterestException If the required 'value' key is missing.
