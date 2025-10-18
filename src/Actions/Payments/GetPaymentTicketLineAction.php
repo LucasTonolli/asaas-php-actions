@@ -33,7 +33,7 @@ final class GetPaymentTicketLineAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->get('payments/' . rawurlencode($normalizedId) . '/identificationField')
+            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/identificationField')
         );
     }
 }
