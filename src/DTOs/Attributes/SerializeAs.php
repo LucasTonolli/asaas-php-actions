@@ -28,7 +28,7 @@ final class SerializeAs
     /**
      * ToArrayMethodAttribute constructor.
      *
-     * @param  ?string  $key  The name of the property to call the method on.
+     * @param  ?string  $key  Optional custom key name for serialization. If null, uses the property name.
      * @param  ?string  $method  The name of the method to call on the property's object during array conversion.
      * @param  array<int, mixed>  $args  An optional array of arguments to pass to the specified method.
      */
