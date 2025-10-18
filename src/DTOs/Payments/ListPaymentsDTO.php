@@ -78,9 +78,14 @@ final class ListPaymentsDTO extends AbstractDTO
 	 * 
 	 * This factory method takes a raw array and sanitizes it. It does not
 	 * perform strict validation and will not throw exceptions for invalid filters.
+	 * This factory method sanitizes and validates the input array. Most invalid
+	 * filter values are silently ignored, but it will throw InvalidDateRangeException
+	 * if date range constraints are violated.
 	 *
 	 * @param  array<string, mixed>  $data  Raw filter data.
 	 * @return self A new instance of the DTO with sanitized filters.
+	 * 
+	 * @throws InvalidDateRangeException
 	 */
 	public static function fromArray(array $data): self
 	{
