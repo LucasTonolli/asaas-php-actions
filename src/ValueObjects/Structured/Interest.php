@@ -63,8 +63,12 @@ final class Interest extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
-        return self::create(
-            value: $data['value'] ?? throw new InvalidInterestException('Interest value is required')
-        );
+        $value = DataSanitizer::sanitizeFloat($data['value'] ?? null);
+
+        if ($value === null) {
+            throw new InvalidInterestException('Interest value is required');
+        }
+
+        return self::create(value: $value);
     }
 }
