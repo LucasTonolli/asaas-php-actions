@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidInterestException;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 /**
@@ -39,6 +40,9 @@ final class Interest extends AbstractStructuredValueObject
      */
     public static function create(float $value): self
     {
+        if (! is_finite($value)) {
+            throw new InvalidInterestException('Interest value must be a finite number');
+        }
         if ($value < 0) {
             throw new InvalidInterestException('Interest value cannot be negative');
         }
@@ -53,15 +57,19 @@ final class Interest extends AbstractStructuredValueObject
     /**
      * Creates an Interest instance from a raw data array.
      *
-     * @param  array{value?: float|string}  $data  The raw data array.
+     * @param  array{value?: float}  $data  The raw data array.
      * @return self A new, validated Interest instance.
      *
      * @throws InvalidInterestException If the required 'value' key is missing.
      */
     public static function fromArray(array $data): self
     {
-        return self::create(
-            value: $data['value'] ?? throw new InvalidInterestException('Interest value is required')
-        );
+        $value = DataSanitizer::sanitizeFloat($data['value'] ?? null);
+
+        if ($value === null) {
+            throw new InvalidInterestException('Interest value is required');
+        }
+
+        return self::create(value: $value);
     }
 }

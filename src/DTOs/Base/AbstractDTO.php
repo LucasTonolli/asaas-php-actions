@@ -194,6 +194,13 @@ abstract class AbstractDTO implements DTOContract
         return DataSanitizer::sanitizeFloat($data[$key]);
     }
 
+    /**
+     * Sanitizes an optional DateTimeImmutable value from the data array.
+     *
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
+     * @return ?\DateTimeImmutable The sanitized DateTimeImmutable, or null if the key doesn't exist or the value is empty.
+     */
     protected static function optionalDateTime(array $data, string $key): ?\DateTimeImmutable
     {
         if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {

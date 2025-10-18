@@ -20,7 +20,7 @@ final class ListCustomersAction extends AbstractAction
      * @see https://docs.asaas.com/reference/listar-clientes Official Asaas API Documentation
      *
      * @param  ListCustomersDTO  $data  A DTO containing filter and pagination parameters (e.g., name, email, limit, offset).
-     * @return array A paginated list of customers. The structure includes pagination info and a 'data' key with the customers array.
+     * @return array<string, mixed> A paginated list of customers. The structure includes pagination info and a 'data' key with the customers array.
      *
      * @throws ApiException
      * @throws ValidationException Can be thrown if an invalid filter is sent.

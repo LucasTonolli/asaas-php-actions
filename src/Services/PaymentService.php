@@ -8,6 +8,7 @@ use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
@@ -67,7 +68,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/criar-nova-cobranca
      *
      * @param  array<string, mixed>  $data  Payment data (e.g., ['customer' => '...', 'billingType' => '...', 'value' => ...]).
-     * @return array An array representing the newly created payment.
+     * @return array<string, mixed> An array representing the newly created payment.
      *
      * @throws ValidationException
      * @throws AuthenticationException
@@ -89,7 +90,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/listar-cobrancas
      *
      * @param  array<string, mixed>  $filters  Optional filters (e.g., ['installment' => 'xxxxx', 'limit' => 10]).
-     * @return array A paginated list of payments.
+     * @return array<string, mixed> A paginated list of payments.
      *
      * @throws AuthenticationException
      * @throws RateLimitException
@@ -109,7 +110,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca
      *
      * @param  string  $id  The ID of the payment to retrieve.
-     * @return array An array containing the data of the specified payment.
+     * @return array<string, mixed> An array containing the data of the specified payment.
      *
      * @throws AuthenticationException
      * @throws NotFoundException
@@ -130,7 +131,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/excluir-cobranca
      *
      * @param  string  $id  The ID of the payment to delete.
-     * @return array An array confirming the deletion, typically containing a 'deleted' flag.
+     * @return array<string, mixed> An array confirming the deletion, typically containing a 'deleted' flag.
      *
      * @throws AuthenticationException
      * @throws NotFoundException
@@ -152,7 +153,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/restaurar-cobranca-removida
      *
      * @param  string  $id  The ID of the payment to restore.
-     * @return array An array containing the restored payment's data.
+     * @return array<string, mixed> An array containing the restored payment's data.
      *
      * @throws \InvalidArgumentException
      * @throws NotFoundException
@@ -171,10 +172,10 @@ final class PaymentService
      * Retrieves the status of a specific payment by its ID.
      *
      * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca
-     * 
+     *
      * @param  string  $id  The ID of the payment whose status is to be retrieved.
-     * @return array An array containing the status of the specified payment.
-     * 
+     * @return array<string, mixed> An array containing the status of the specified payment.
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
@@ -185,6 +186,28 @@ final class PaymentService
     public function getStatus(string $id): array
     {
         $action = new GetPaymentStatusAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Retrieves the ticket line information for a boleto or undefined payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/obter-linha-digitavel-do-boleto
+     *
+     * @param  string  $id  The ID of the payment whose ticket line is to be retrieved.
+     * @return array<string, mixed> An array containing the ticket line information, including 'identificationField', 'nossoNumero', and 'barcode'.
+     *
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function getTicketLine(string $id): array
+    {
+        $action = new GetPaymentTicketLineAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
@@ -206,7 +229,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }

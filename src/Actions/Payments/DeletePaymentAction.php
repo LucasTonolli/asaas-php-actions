@@ -22,7 +22,7 @@ final class DeletePaymentAction extends AbstractAction
      * @see https://docs.asaas.com/reference/excluir-cobranca Official Asaas API Documentation
      *
      * @param  string  $paymentId  The ID of the payment to delete.
-     * @return array An array confirming the deletion, typically containing a 'deleted' flag.
+     * @return array<string, mixed> An array confirming the deletion, typically containing a 'deleted' flag.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws AuthenticationException

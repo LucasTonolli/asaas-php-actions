@@ -126,6 +126,9 @@ final class UpdateCustomerDTO extends AbstractDTO
      *
      * @internal
      *
+     * @param  array<string, mixed>  $data  The sanitized data to validate.
+     * @return array<string, mixed> The validated data.
+     *
      * @throws InvalidCustomerDataException
      */
     private static function validate(array $data): array

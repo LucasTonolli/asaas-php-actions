@@ -44,7 +44,7 @@ abstract class AbstractAction
      * exceptions are wrapped in a generic ApiException.
      *
      * @param  callable  $request  A callable function that executes the Guzzle request.
-     * @return array The associative array parsed from the API response body.
+     * @return array<string, mixed> The associative array parsed from the API response body.
      *
      * @throws AuthenticationException
      * @throws NotFoundException
