@@ -43,6 +43,9 @@ final class Fine extends AbstractStructuredValueObject
      */
     public static function create(float $value, string $type): self
     {
+        if (! is_finite($value)) {
+            throw new InvalidFineException('Fine value must be a finite number');
+        }
         if ($value < 0) {
             throw new InvalidFineException('Fine value cannot be negative');
         }
