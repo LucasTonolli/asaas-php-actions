@@ -52,7 +52,7 @@ final class Discount extends AbstractStructuredValueObject
         $discountType = DataSanitizer::sanitizeLowercase($discountType);
         $type = DiscountType::tryFromString($discountType);
 
-        if (! is_finite($value)) {
+        if (! is_finite($sanitizedValue)) {
             throw new InvalidDiscountException('Discount value must be a finite number');
         }
 
