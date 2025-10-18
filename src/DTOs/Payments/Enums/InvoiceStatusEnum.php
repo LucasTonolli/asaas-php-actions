@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Payments\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Traits\Enums\EnumEnhancements;
 
 /**
  * Defines the possible invoice statuses.
  */
 enum InvoiceStatusEnum: string
 {
+	use EnumEnhancements;
+
 	case Scheduled = 'SCHEDULED';
 	case Authorized = 'AUTHORIZED';
 	case ProcessingCancellation = 'PROCESSING_CANCELLATION';
@@ -45,33 +48,5 @@ enum InvoiceStatusEnum: string
 			in_array($normalized, ['erro', 'error']) => self::Error,
 			default => throw new \ValueError("Invalid invoice status '{$value}'"),
 		};
-	}
-
-	/**
-	 * Safely creates an enum instance from a string representation.
-	 * 
-	 * This is a lenient factory that accepts multiple aliases. If the string
-	 * is not valid, it returns `null` instead of throwing an exception.
-	 * 
-	 * @param  string  $value  The string representation of the type.
-	 * @return self|null The corresponding enum instance or `null` if the value is invalid.
-	 */
-	public static function tryFromString(string $value): ?self
-	{
-		try {
-			return self::fromString($value);
-		} catch (\ValueError) {
-			return null;
-		}
-	}
-
-	/**
-	 * Gets an array containing all possible enum cases.
-	 * 
-	 * @return array<int, self> An array of all enum instances.
-	 */
-	public static function all(): array
-	{
-		return self::cases();
 	}
 }

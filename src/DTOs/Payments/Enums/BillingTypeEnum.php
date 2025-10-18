@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Payments\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Traits\Enums\EnumEnhancements;
 
 /**
  * Defines the possible billing types for a payment.
  */
 enum BillingTypeEnum: string
 {
+    use EnumEnhancements;
+
     case Undefined = 'UNDEFINED';
     case Boleto = 'BOLETO';
     case CreditCard = 'CREDIT_CARD';
@@ -52,52 +55,5 @@ enum BillingTypeEnum: string
             in_array($normalized, ['indefinido', 'undefined']) => self::Undefined,
             default => throw new \ValueError("Invalid billing type '{$value}'"),
         };
-    }
-
-    /**
-     * Safely creates an enum instance from various string representations.
-     *
-     * This is a lenient factory that accepts multiple aliases. If the string
-     * is not valid, it returns `null` instead of throwing an exception.
-     *
-     * @param  string  $value  The string representation of the type.
-     * @return self|null The corresponding enum instance or `null` if the value is invalid.
-     */
-    public static function tryFromString(string $value): ?self
-    {
-        try {
-            return self::fromString($value);
-        } catch (\ValueError) {
-            return null;
-        }
-    }
-
-    /**
-     * Gets an array containing all possible enum cases.
-     *
-     * @return array<int, self> An array of all enum instances.
-     */
-    public static function all(): array
-    {
-        return self::cases();
-    }
-
-    /**
-     * Gets a key-value array of all options, suitable for UI elements like dropdowns.
-     *
-     * The array key is the case name (e.g., 'Boleto') and the value is the
-     * human-readable label (e.g., 'Boleto').
-     *
-     * @return array<string, string> An associative array of options.
-     */
-    public static function options(): array
-    {
-        $options = [];
-
-        foreach (self::cases() as $billingType) {
-            $options[$billingType->name] = $billingType->label();
-        }
-
-        return $options;
     }
 }

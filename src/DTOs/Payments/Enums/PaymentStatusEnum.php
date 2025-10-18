@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Payments\Enums;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Traits\Enums\EnumEnhancements;
 
 /**
  * Defines the possible payment statuses.
  */
 enum PaymentStatusEnum: string
 {
+	use EnumEnhancements;
+
 	case Pending = 'PENDING';
 	case Received = 'RECEIVED';
 	case Confirmed = 'CONFIRMED';
@@ -72,33 +75,5 @@ enum PaymentStatusEnum: string
 			in_array($normalized, ['aguardando análise de risco', 'awaiting risk analysis']) => self::AwaitingRiskAnalysis,
 			default => throw new \ValueError("Invalid payment status '{$value}'"),
 		};
-	}
-
-	/**
-	 * Safely creates an enum instance from a string representation.
-	 * 
-	 * This is a lenient factory that accepts multiple aliases. If the string
-	 * is not valid, it returns `null` instead of throwing an exception.
-	 * 
-	 * @param  string  $value  The string representation of the type.
-	 * @return self|null The corresponding enum instance or `null` if the value is invalid.
-	 */
-	public static function tryFromString(string $value): ?self
-	{
-		try {
-			return self::fromString($value);
-		} catch (\ValueError) {
-			return null;
-		}
-	}
-
-	/**
-	 * Gets an array containing all possible enum cases.
-	 * 
-	 * @return array<int, self> An array of all enum instances.
-	 */
-	public static function all(): array
-	{
-		return self::cases();
 	}
 }
