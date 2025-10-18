@@ -7,6 +7,7 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
@@ -183,7 +184,7 @@ final class PaymentService
      */
     public function getStatus(string $id): array
     {
-        $action = new GetPaymentAction($this->client, $this->responseHandler);
+        $action = new GetPaymentStatusAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
