@@ -3,9 +3,9 @@
 use AsaasPhpSdk\AsaasClient;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 
-describe('List Payments', function () {
+describe('List Payments', function (): void {
 
-    beforeEach(function () {
+    beforeEach(function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasClient($config);
 
@@ -23,11 +23,11 @@ describe('List Payments', function () {
         ]);
     });
 
-    afterEach(function () {
+    afterEach(function (): void {
         $this->asaasClient->customer()->delete($this->customer['id']);
     });
 
-    it('lists and filters payments successfully', function () {
+    it('lists and filters payments successfully', function (): void {
 
         $filters = [
             'customer' => $this->customer['id'],
@@ -48,7 +48,7 @@ describe('List Payments', function () {
             ->and($foundPayment['value'])->toBe(500); // Check the exact value
     });
 
-    it('matches the expected response structure', function () {
+    it('matches the expected response structure', function (): void {
         $response = $this->asaasClient->payment()->list();
 
         expect($response)->toHaveKeys([

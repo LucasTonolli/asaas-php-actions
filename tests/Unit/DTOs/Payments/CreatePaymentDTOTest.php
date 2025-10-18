@@ -7,7 +7,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Discount;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;
 
 describe('CreatePaymentDTO', function (): void {
-    it('creates a payment DTO with valid data', function () {
+    it('creates a payment DTO with valid data', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => BillingTypeEnum::Boleto->value,
@@ -28,7 +28,7 @@ describe('CreatePaymentDTO', function (): void {
         expect($dto->toArray())->toMatchArray($data);
     });
 
-    it('throws an exception if customer is missing', function () {
+    it('throws an exception if customer is missing', function (): void {
         $data = [
             'billingType' => BillingTypeEnum::Boleto->value,
             'value' => 100,
@@ -38,7 +38,7 @@ describe('CreatePaymentDTO', function (): void {
         CreatePaymentDTO::fromArray($data);
     })->throws(InvalidPaymentDataException::class, "Required field 'customer' is missing");
 
-    it('throws an exception if value is missing', function () {
+    it('throws an exception if value is missing', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => BillingTypeEnum::Boleto->value,
@@ -48,7 +48,7 @@ describe('CreatePaymentDTO', function (): void {
         CreatePaymentDTO::fromArray($data);
     })->throws(InvalidPaymentDataException::class, 'Value must be greater than 0');
 
-    it('throws an exception if billingType is invalid', function () {
+    it('throws an exception if billingType is invalid', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => 'INVALID_TYPE',
@@ -59,7 +59,7 @@ describe('CreatePaymentDTO', function (): void {
         CreatePaymentDTO::fromArray($data);
     })->throws(InvalidPaymentDataException::class, 'Invalid billing type');
 
-    it('throws an exception if dueDate is invalid', function () {
+    it('throws an exception if dueDate is invalid', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => BillingTypeEnum::Boleto->value,
@@ -70,7 +70,7 @@ describe('CreatePaymentDTO', function (): void {
         CreatePaymentDTO::fromArray($data);
     })->throws(InvalidPaymentDataException::class, 'Invalid due date format');
 
-    it('validates and creates structured value objects', function () {
+    it('validates and creates structured value objects', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => BillingTypeEnum::Boleto->value,
@@ -86,7 +86,7 @@ describe('CreatePaymentDTO', function (): void {
             ->and($dto->interest)->toBeInstanceOf(Interest::class);
     });
 
-    it('throws an exception if discount value object is invalid', function () {
+    it('throws an exception if discount value object is invalid', function (): void {
         $data = [
             'customer' => 'cus_12345',
             'billingType' => BillingTypeEnum::Boleto->value,

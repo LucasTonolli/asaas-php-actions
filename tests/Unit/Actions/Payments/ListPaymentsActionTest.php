@@ -80,7 +80,7 @@ describe('List Payments Action', function (): void {
         $action->handle($dto);
     });
 
-    it('throws ValidationException on API 400 error', function () {
+    it('throws ValidationException on API 400 error', function (): void {
         $client = mockClient([
             mockResponse(['error' => 'Bad Request'], 400),
         ]);
