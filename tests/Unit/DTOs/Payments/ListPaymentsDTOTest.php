@@ -298,4 +298,37 @@ describe('List Payments DTO', function (): void {
 			$endKey => $endValue,
 		]))->toThrow(InvalidDateRangeException::class, "The \"{$startKey}\" must be before \"{$endKey}\"");
 	})->with('payments_invalid_range_values');
+
+	it('toArray return only non-null fields', function (): void {
+		$dto = ListPaymentsDTO::fromArray([
+			'limit' => 5,
+			'offset' => 0,
+			'dateCreatedStart' => '2023-01-01',
+			'dateCreatedEnd' => '2023-01-02',
+		]);
+
+		expect($dto->toArray())->toHaveKeys([
+			'limit',
+			'offset',
+			'dateCreated[ge]',
+			'dateCreated[le]',
+		])
+			->and($dto->toArray())->not()->toHaveKeys([
+				'installment',
+				'customer',
+				'customerGroupName',
+				'billingType',
+				'status',
+				'subscription',
+				'externalReference',
+				'paymentDate',
+				'invoiceStatus',
+				'anticipated',
+				'anticipable',
+				'paymentDate[ge]',
+				'paymentDate[le]',
+				'dueDate[ge]',
+				'dueDate[le]',
+			]);
+	});
 });
