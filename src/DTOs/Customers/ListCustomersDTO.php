@@ -78,6 +78,14 @@ class ListCustomersDTO extends AbstractDTO
         ];
     }
 
+    /**
+     * Validates and adjusts the filter data as needed.
+     * 
+     * @internal
+     * @param  array<string, mixed>  $data  The sanitized filter data.
+     * @return array<string, mixed> The validated filter array.
+     * 
+     */
     private static function validate(array $data): array
     {
         if (isset($data['limit'])) {
