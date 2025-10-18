@@ -19,7 +19,7 @@ final class GetPaymentStatusAction extends AbstractAction
      * This action performs a pre-request validation to ensure the ID is not
      * empty and then sends a GET request to the 'payments/{id}/status' endpoint.
      *
-     * @see https://docs.asaas.com/reference/ecuperar-status-de-uma-cobranca Official Asaas API Documentation
+     * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca Official Asaas API Documentation
      *
      * @param  string  $paymentId  The unique identifier of the payment whose status is to be retrieved.
      * @return array <string, mixed> An array containing the status information of the specified payment.
@@ -39,7 +39,7 @@ final class GetPaymentStatusAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/status')
+            fn() => $this->client->get('payments/' . rawurlencode($normalizedId) . '/status')
         );
     }
 }
