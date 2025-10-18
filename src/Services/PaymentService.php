@@ -172,10 +172,10 @@ final class PaymentService
      * Retrieves the status of a specific payment by its ID.
      *
      * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca
-     * 
+     *
      * @param  string  $id  The ID of the payment whose status is to be retrieved.
      * @return array An array containing the status of the specified payment.
-     * 
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
@@ -192,13 +192,12 @@ final class PaymentService
 
     /**
      * Retrieves the ticket line information for a boleto or undefined payment by its ID.
-     * 
+     *
      * @see https://docs.asaas.com/reference/obter-linha-digitavel-do-boleto
-     * 
+     *
      * @param  string  $id  The ID of the payment whose ticket line is to be retrieved.
-     * @return array An array containing the ticket line information, including 'identificationField',
-     * 'nossoNumero', and 'barcode'.
-     * 
+     * @return array An array containing the ticket line information, including 'identificationField', 'nossoNumero', and 'barcode'.
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
@@ -230,7 +229,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
