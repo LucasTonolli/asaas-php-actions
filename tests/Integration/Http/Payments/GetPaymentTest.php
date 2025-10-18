@@ -44,20 +44,7 @@ describe('Get Payment', function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
 
-        $getCustomersResponse = $this->asaasClient->customer()->list([
-            'limit' => 1,
-            'cpfCnpj' => '00264272000107',
-        ]);
-
-        if (empty($getCustomersResponse['data'])) {
-            $createCustomerResponse = $this->asaasClient->customer()->create([
-                'name' => 'Maria Oliveira',
-                'cpfCnpj' => '00264272000107',
-            ]);
-            $this->customerId = $createCustomerResponse['id'];
-        } else {
-            $this->customerId = $getCustomersResponse['data'][0]['id'];
-        }
+        $this->customerId = getDefaultCustomer();
     });
 
     it('retrieves a payment successfully (200)', function (): void {
@@ -80,11 +67,11 @@ describe('Get Payment', function (): void {
     });
 
     it('throws an exception when the payment is not found (404)', function (): void {
-        expect(fn () => $this->asaasClient->payment()->get('invalid-id'))->toThrow(NotFoundException::class, 'Resource not found');
+        expect(fn() => $this->asaasClient->payment()->get('invalid-id'))->toThrow(NotFoundException::class, 'Resource not found');
     });
 
     it('throws an exception when the payment ID is empty', function (): void {
-        expect(fn () => $this->asaasClient->payment()->get(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn() => $this->asaasClient->payment()->get(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 
     it('matches the expected response structure', function (): void {

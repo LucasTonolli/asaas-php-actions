@@ -8,22 +8,7 @@ describe('Get Customer', function (): void {
     });
 
     it('retrieves a customer successfully (200)', function (): void {
-        $customerId = null;
-
-        $getCustomersResponse = $this->asaasClient->customer()->list([
-            'limit' => 1,
-            'cpfCnpj' => '00264272000107',
-        ]);
-
-        if (empty($getCustomersResponse['data'])) {
-            $createCustomerResponse = $this->asaasClient->customer()->create([
-                'name' => 'Maria Oliveira',
-                'cpfCnpj' => '00264272000107',
-            ]);
-            $customerId = $createCustomerResponse['id'];
-        } else {
-            $customerId = $getCustomersResponse['data'][0]['id'];
-        }
+        $customerId = getDefaultCustomer();
 
         $response = $this->asaasClient->customer()->get($customerId);
         expect($response)->toBeArray()
@@ -34,28 +19,15 @@ describe('Get Customer', function (): void {
     });
 
     it('throws an exception when the customer is not found (404)', function (): void {
-        expect(fn () => $this->asaasClient->customer()->get('invalid-customer-id'))->toThrow(AsaasPhpSdk\Exceptions\Api\NotFoundException::class, 'Resource not found');
+        expect(fn() => $this->asaasClient->customer()->get('invalid-customer-id'))->toThrow(AsaasPhpSdk\Exceptions\Api\NotFoundException::class, 'Resource not found');
     });
 
     it('throws an exception when the customer ID is empty', function (): void {
-        expect(fn () => $this->asaasClient->customer()->get(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+        expect(fn() => $this->asaasClient->customer()->get(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
     });
 
     it('matches the expected response structure', function (): void {
-        $getCustomersResponse = $this->asaasClient->customer()->list([
-            'limit' => 1,
-            'cpfCnpj' => '00264272000107',
-        ]);
-
-        if (empty($getCustomersResponse['data'])) {
-            $createCustomerResponse = $this->asaasClient->customer()->create([
-                'name' => 'Maria Oliveira',
-                'cpfCnpj' => '00264272000107',
-            ]);
-            $customerId = $createCustomerResponse['id'];
-        } else {
-            $customerId = $getCustomersResponse['data'][0]['id'];
-        }
+        $customerId = getDefaultCustomer();
 
         $response = $this->asaasClient->customer()->get($customerId);
         expect($response['id'])->toBe($customerId);

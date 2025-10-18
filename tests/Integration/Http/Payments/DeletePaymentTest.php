@@ -11,20 +11,7 @@ describe('Delete Payment Action', function (): void {
 
     it('deletes a payment successfully', function (): void {
 
-        $getCustomersResponse = $this->asaasClient->customer()->list([
-            'limit' => 1,
-            'cpfCnpj' => '00264272000107',
-        ]);
-
-        if (empty($getCustomersResponse['data'])) {
-            $createCustomerResponse = $this->asaasClient->customer()->create([
-                'name' => 'Maria Oliveira',
-                'cpfCnpj' => '00264272000107',
-            ]);
-            $customerId = $createCustomerResponse['id'];
-        } else {
-            $customerId = $getCustomersResponse['data'][0]['id'];
-        }
+        $customerId = getDefaultCustomer();
 
         $createPaymentResponse = $this->asaasClient->payment()->create([
             'customer' => $customerId,
