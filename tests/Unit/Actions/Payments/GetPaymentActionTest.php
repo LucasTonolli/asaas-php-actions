@@ -6,7 +6,7 @@ use AsaasPhpSdk\Helpers\ResponseHandler;
 
 describe('Get Payment Action', function (): void {
 
-    it('retrives a payment successfully', function (): void {
+    it('retrieves a payment successfully', function (): void {
         $paymentId = 'pay_123';
 
         $client = mockClient([
