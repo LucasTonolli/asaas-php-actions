@@ -87,7 +87,7 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': " . $e->getMessage(),
+                "Invalid format for '{$key}': ".$e->getMessage(),
                 0,
                 $e
             );
@@ -110,7 +110,7 @@ abstract class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': " . $e->getMessage(),
+                    "Invalid format for '{$key}': ".$e->getMessage(),
                     0,
                     $e
                 );
@@ -196,7 +196,7 @@ abstract class AbstractDTO implements DTOContract
 
     /**
      * Sanitizes an optional DateTimeImmutable value from the data array.
-     * 
+     *
      * @param  array<string, mixed>  $data  The source data array.
      * @param  string  $key  The key to look for.
      * @return ?\DateTimeImmutable The sanitized DateTimeImmutable, or null if the key doesn't exist or the value is empty.

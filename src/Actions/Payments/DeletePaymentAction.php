@@ -39,7 +39,7 @@ final class DeletePaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->delete('payments/' . rawurlencode($normalizedId))
+            fn () => $this->client->delete('payments/'.rawurlencode($normalizedId))
         );
     }
 }

@@ -39,7 +39,7 @@ final class GetPaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->get('payments/' . rawurlencode($normalizedId))
+            fn () => $this->client->get('payments/'.rawurlencode($normalizedId))
         );
     }
 }

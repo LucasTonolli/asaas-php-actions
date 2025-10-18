@@ -39,7 +39,7 @@ final class GetPaymentStatusAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->get('payments/' . rawurlencode($normalizedId) . '/status')
+            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/status')
         );
     }
 }
