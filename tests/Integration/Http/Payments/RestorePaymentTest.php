@@ -3,13 +3,13 @@
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 
-describe('Restore Payment', function () {
-	beforeEach(function () {
+describe('Restore Payment', function (): void {
+	beforeEach(function (): void {
 		$config = sandboxConfig();
 		$this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
 	});
 
-	it('restores a payment successfully', function () {
+	it('restores a payment successfully', function (): void {
 		$customerId = getDefaultCustomer();
 
 		$createPaymentResponse = $this->asaasClient->payment()->create([
@@ -34,11 +34,11 @@ describe('Restore Payment', function () {
 			]);
 	});
 
-	it('throws an exception when the payment is not found (404)', function () {
+	it('throws an exception when the payment is not found (404)', function (): void {
 		$this->asaasClient->payment()->restore('pay_notfound');
 	})->throws(NotFoundException::class, 'Resource not found');
 
-	it('throws an exception when the payment ID is empty', function () {
+	it('throws an exception when the payment ID is empty', function (): void {
 		$this->asaasClient->payment()->restore('');
 	})->throws(\InvalidArgumentException::class, 'Payment ID cannot be empty');
 });
