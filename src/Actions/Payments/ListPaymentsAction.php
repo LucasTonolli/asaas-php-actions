@@ -21,7 +21,7 @@ final class ListPaymentsAction extends AbstractAction
 	 *
 	 * @see https://docs.asaas.com/reference/listar-cobrancas Official Asaas API Documentation
 	 *
-	 * @param  ListPayementsDTO  $data  A DTO containing filter and pagination parameters (e.g., installment, billingType, limit, offset).
+	 * @param  ListPaymentsDTO  $data  A DTO containing filter and pagination parameters (e.g., installment, billingType, limit, offset).
 	 * @return array A paginated list of payments. The structure includes pagination info and a 'data' key with the payments array.
 	 *
 	 * @throws ApiException
