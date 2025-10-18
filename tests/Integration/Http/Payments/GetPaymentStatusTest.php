@@ -1,6 +1,7 @@
 <?php
 
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 
 describe('Get Payment Status', function (): void {
 	beforeEach(function (): void {
@@ -25,7 +26,7 @@ describe('Get Payment Status', function (): void {
 	});
 
 	it('throws an exception when the payment is not found (404)', function (): void {
-		expect(fn() => $this->asaasClient->payment()->getStatus('invalid-id'))->toThrow(\Exception::class, 'Resource not found');
+		expect(fn() => $this->asaasClient->payment()->getStatus('invalid-id'))->toThrow(NotFoundException::class, 'Resource not found');
 	});
 
 	it('throws an exception when the payment ID is empty', function (): void {
