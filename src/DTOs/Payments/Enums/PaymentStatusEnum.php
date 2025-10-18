@@ -70,8 +70,8 @@ enum PaymentStatusEnum: string
 			in_array($normalized, ['chargeback solicitado', 'chargeback requested']) => self::ChargebackRequested,
 			in_array($normalized, ['chargeback em disputa', 'chargeback dispute']) => self::ChargebackDispute,
 			in_array($normalized, ['aguardando reversão de chargeback', 'awaiting chargeback reversal']) => self::AwaitingChargebackReversal,
-			in_array($normalized, ['cobranca solicitada', 'dunning requested']) => self::DunningRequested,
-			in_array($normalized, ['cobranca recebida', 'dunning received']) => self::DunningReceived,
+			in_array($normalized, ['cobrança solicitada', 'dunning requested']) => self::DunningRequested,
+			in_array($normalized, ['cobrança recebida', 'dunning received']) => self::DunningReceived,
 			in_array($normalized, ['aguardando análise de risco', 'awaiting risk analysis']) => self::AwaitingRiskAnalysis,
 			default => throw new \ValueError("Invalid payment status '{$value}'"),
 		};
