@@ -77,8 +77,6 @@ final class ListPaymentsDTO extends AbstractDTO
     /**
      * Create a new ListPaymentsDTO instance from a raw array of filters.
      *
-     * This factory method takes a raw array and sanitizes it. It does not
-     * perform strict validation and will not throw exceptions for invalid filters.
      * This factory method sanitizes and validates the input array. Most invalid
      * filter values are silently ignored, but it will throw InvalidDateRangeException
      * if date range constraints are violated.
