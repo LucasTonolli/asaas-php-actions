@@ -7,6 +7,10 @@ describe('Delete Payment Action', function (): void {
     beforeEach(function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
+    });
+
+    it('deletes a payment successfully', function (): void {
+
         $getCustomersResponse = $this->asaasClient->customer()->list([
             'limit' => 1,
             'cpfCnpj' => '00264272000107',
@@ -17,22 +21,20 @@ describe('Delete Payment Action', function (): void {
                 'name' => 'Maria Oliveira',
                 'cpfCnpj' => '00264272000107',
             ]);
-            $this->customerId = $createCustomerResponse['id'];
+            $customerId = $createCustomerResponse['id'];
         } else {
-            $this->customerId = $getCustomersResponse['data'][0]['id'];
+            $customerId = $getCustomersResponse['data'][0]['id'];
         }
 
-        $this->createPaymentResponse = $this->asaasClient->payment()->create([
-            'customer' => $this->customerId,
+        $createPaymentResponse = $this->asaasClient->payment()->create([
+            'customer' => $customerId,
             'value' => random_int(100, 1000),
             'dueDate' => date('Y-m-d'),
             'billingType' => BillingTypeEnum::Pix->value,
         ]);
-    });
 
-    it('deletes a payment successfully', function (): void {
-        $response = $this->asaasClient->payment()->delete($this->createPaymentResponse['id']);
-        expect($response['id'])->toBe($this->createPaymentResponse['id'])
+        $response = $this->asaasClient->payment()->delete($createPaymentResponse['id']);
+        expect($response['id'])->toBe($createPaymentResponse['id'])
             ->and($response['deleted'])->toBe(true);
     });
 
