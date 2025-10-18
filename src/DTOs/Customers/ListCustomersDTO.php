@@ -7,6 +7,7 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 use AsaasPhpSdk\ValueObjects\Simple\Email;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 
 /**
  * A "Lenient" Data Transfer Object for filtering and paginating customers.
@@ -89,7 +90,7 @@ class ListCustomersDTO extends AbstractDTO
         if (isset($data['email'])) {
             try {
                 $data['email'] = Email::from($data['email']);
-            } catch (\Exception) {
+            } catch (InvalidValueObjectException) {
                 $data['email'] = null;
             }
         }
