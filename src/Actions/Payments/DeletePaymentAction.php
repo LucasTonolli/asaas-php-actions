@@ -11,18 +11,18 @@ use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
-final class GetPaymentAction extends AbstractAction
+final class DeletePaymentAction extends AbstractAction
 {
     /**
-     * Retrieves a single payment by its ID.
+     * Deletes a payment by its ID.
      *
      * This action performs a pre-request validation to ensure the ID is not
-     * empty and then sends a GET request to the 'payments/{id}' endpoint.
+     * empty and then sends a DELETE request to the 'payments/{id}' endpoint.
      *
-     * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca Official Asaas API Documentation
+     * @see https://docs.asaas.com/reference/excluir-cobranca Official Asaas API Documentation
      *
-     * @param  string  $paymentId  The unique identifier of the payment to be retrieved.
-     * @return array An array containing the data of the specified payment.
+     * @param  string  $paymentId  The ID of the payment to delete.
+     * @return array An array confirming the deletion, typically containing a 'deleted' flag.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws AuthenticationException
@@ -39,7 +39,7 @@ final class GetPaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId))
+            fn () => $this->client->delete('payments/'.rawurlencode($normalizedId))
         );
     }
 }

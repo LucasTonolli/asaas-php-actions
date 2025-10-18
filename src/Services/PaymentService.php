@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
+use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
@@ -117,6 +118,28 @@ final class PaymentService
     public function get(string $id): array
     {
         $action = new GetPaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Deletes a payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/excluir-cobranca
+     *
+     * @param  string  $id  The ID of the payment to delete.
+     * @return array An array confirming the deletion, typically containing a 'deleted' flag.
+     *
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function delete(string $id): array
+    {
+        $action = new DeletePaymentAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
