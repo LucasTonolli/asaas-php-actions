@@ -8,6 +8,7 @@ use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
+use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
@@ -140,6 +141,27 @@ final class PaymentService
     public function delete(string $id): array
     {
         $action = new DeletePaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Restores a deleted payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/restaurar-cobranca-removida
+     *
+     * @param  string  $id  The ID of the payment to restore.
+     * @return array An array containing the restored payment's data.
+     *
+     * @throws \InvalidArgumentException
+     * @throws NotFoundException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function restore(string $id): array
+    {
+        $action = new RestorePaymentAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }

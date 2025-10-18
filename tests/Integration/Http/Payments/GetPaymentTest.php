@@ -44,20 +44,7 @@ describe('Get Payment', function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
 
-        $getCustomersResponse = $this->asaasClient->customer()->list([
-            'limit' => 1,
-            'cpfCnpj' => '00264272000107',
-        ]);
-
-        if (empty($getCustomersResponse['data'])) {
-            $createCustomerResponse = $this->asaasClient->customer()->create([
-                'name' => 'Maria Oliveira',
-                'cpfCnpj' => '00264272000107',
-            ]);
-            $this->customerId = $createCustomerResponse['id'];
-        } else {
-            $this->customerId = $getCustomersResponse['data'][0]['id'];
-        }
+        $this->customerId = getDefaultCustomer();
     });
 
     it('retrieves a payment successfully (200)', function (): void {
