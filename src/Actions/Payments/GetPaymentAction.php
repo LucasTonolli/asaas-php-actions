@@ -14,7 +14,7 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 final class GetPaymentAction extends AbstractAction
 {
     /**
-     * Retrieves a single payment by their ID.
+     * Retrieves a single payment by its ID.
      *
      * This action performs a pre-request validation to ensure the ID is not
      * empty and then sends a GET request to the 'payments/{id}' endpoint.
@@ -39,7 +39,7 @@ final class GetPaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId))
+            fn() => $this->client->get('payments/' . rawurlencode($normalizedId))
         );
     }
 }
