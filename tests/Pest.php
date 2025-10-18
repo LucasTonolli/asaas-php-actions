@@ -165,3 +165,24 @@ function sandboxConfig(): AsaasPhpSdk\Config\AsaasConfig
         isSandbox: true
     );
 }
+
+function getDefaultCustomer(): string
+{
+    $asaasClient = new AsaasPhpSdk\AsaasClient(sandboxConfig());
+    $getCustomersResponse = $asaasClient->customer()->list([
+        'limit' => 1,
+        'cpfCnpj' => '00264272000107',
+    ]);
+
+    if (empty($getCustomersResponse['data'])) {
+        $createCustomerResponse = $asaasClient->customer()->create([
+            'name' => 'Maria Oliveira',
+            'cpfCnpj' => '00264272000107',
+        ]);
+        $customerId = $createCustomerResponse['id'];
+    } else {
+        $customerId = $getCustomersResponse['data'][0]['id'];
+    }
+
+    return $customerId;
+}
