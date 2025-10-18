@@ -18,7 +18,6 @@ trait EnumEnhancements
 	public static function tryFromString(string $value): ?static
 	{
 		try {
-			// Assume que um método `fromString` privado e estrito existe na classe que usa o trait
 			return self::fromString($value);
 		} catch (\ValueError) {
 			return null;
