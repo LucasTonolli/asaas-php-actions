@@ -22,7 +22,7 @@ final class UpdateCustomerAction extends AbstractAction
      *
      * @see https://docs.asaas.com/reference/atualizar-cliente-existente Official Asaas API Documentation
      *
-     * @param  string  $id  The unique identifier of the customer to be updated.
+     * @param  string  $customerId  The unique identifier of the customer to be updated.
      * @param  UpdateCustomerDTO  $data  A DTO containing the customer data to be updated.
      * @return array An array containing the full, updated data of the customer.
      *
@@ -33,15 +33,15 @@ final class UpdateCustomerAction extends AbstractAction
      * @throws RateLimitException
      * @throws ApiException
      */
-    public function handle(string $id, UpdateCustomerDTO $data): array
+    public function handle(string $customerId, UpdateCustomerDTO $data): array
     {
-        $normalizedId = trim($id);
+        $normalizedId = trim($customerId);
         if ($normalizedId === '') {
             throw new \InvalidArgumentException('Customer ID cannot be empty');
         }
 
         return $this->executeRequest(
-            fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
+            fn() => $this->client->put('customers/' . rawurlencode($normalizedId), ['json' => $data->toArray()])
         );
     }
 }
