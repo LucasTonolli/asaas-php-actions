@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
+use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
@@ -122,6 +123,27 @@ final class PaymentService
     }
 
     /**
+     * Deletes a payment by its ID.
+     * 
+     * @see https://docs.asaas.com/reference/excluir-cobranca
+     * 
+     * @param  string  $id  The ID of the payment to delete.
+     * @return array An array confirming the deletion, typically containing a 'deleted' flag.
+     * 
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     */
+    public function delete(string $id): array
+    {
+        $action = new DeletePaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -138,7 +160,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
