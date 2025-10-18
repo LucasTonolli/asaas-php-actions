@@ -200,7 +200,11 @@ abstract class AbstractDTO implements DTOContract
             return null;
         }
 
-        return new \DateTimeImmutable($data[$key]);
+        try {
+            return new \DateTimeImmutable($data[$key]);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
