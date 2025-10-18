@@ -141,6 +141,34 @@ dataset('payments_filters_invalid_values', [
 		'key' => 'anticipable',
 		'value' => 'invalid',
 	],
+	[
+		'key' => 'paymentDate',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dateCreatedStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dateCreatedEnd',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'paymentDateStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'paymentDateEnd',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dueDateStart',
+		'value' => 'invalid',
+	],
+	[
+		'key' => 'dueDateEnd',
+		'value' => 'invalid',
+	]
 
 ]);
 
@@ -285,12 +313,6 @@ describe('List Payments DTO', function (): void {
 		expect($dto->toArray())->toHaveKey($key)
 			->and($dto->toArray()[$key])->toBe($expected);
 	})->with('payments_filters_values_to_be_fixed');
-
-	it('throws an exception for invalid values', function ($key, $value): void {
-		expect(fn() => ListPaymentsDTO::fromArray([
-			$key => $value,
-		]))->toThrow(DateMalformedStringException::class);
-	})->with('payments_filters_error_values');
 
 	it('throws an exception for invalid range values', function ($startKey, $startValue, $endKey, $endValue): void {
 		expect(fn() => ListPaymentsDTO::fromArray([
