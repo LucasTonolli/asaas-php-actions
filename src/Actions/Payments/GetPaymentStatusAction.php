@@ -22,7 +22,7 @@ final class GetPaymentStatusAction extends AbstractAction
      * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca Official Asaas API Documentation
      *
      * @param  string  $paymentId  The unique identifier of the payment whose status is to be retrieved.
-     * @return array <string, mixed> An array containing the status information of the specified payment.
+     * @return array<string, mixed> An array containing the status information of the specified payment.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws AuthenticationException

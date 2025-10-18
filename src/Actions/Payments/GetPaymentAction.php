@@ -22,7 +22,7 @@ final class GetPaymentAction extends AbstractAction
      * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca Official Asaas API Documentation
      *
      * @param  string  $paymentId  The unique identifier of the payment to be retrieved.
-     * @return array <string, mixed> An array containing the data of the specified payment.
+     * @return array<string, mixed> An array containing the data of the specified payment.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws AuthenticationException
@@ -39,7 +39,7 @@ final class GetPaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId))
+            fn() => $this->client->get('payments/' . rawurlencode($normalizedId))
         );
     }
 }

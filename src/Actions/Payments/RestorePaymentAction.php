@@ -22,7 +22,7 @@ final class RestorePaymentAction extends AbstractAction
      * @see https://docs.asaas.com/reference/restaurar-cobranca-removida Official Asaas API Documentation
      *
      * @param  string  $paymentId  The unique identifier of the payment to be restored.
-     * @return array <string, mixed> An array containing the data of the restored payment.
+     * @return array<string, mixed> An array containing the data of the restored payment.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws AuthenticationException
@@ -39,7 +39,7 @@ final class RestorePaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->post('payments/'.rawurlencode($normalizedId).'/restore')
+            fn() => $this->client->post('payments/' . rawurlencode($normalizedId) . '/restore')
         );
     }
 }

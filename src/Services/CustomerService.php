@@ -61,7 +61,7 @@ final class CustomerService
      * @see https://docs.asaas.com/reference/criar-novo-cliente
      *
      * @param  array<string, mixed>  $data  Customer data (e.g., ['name' => 'John Doe', 'cpfCnpj' => '123...']).
-     * @return array <string, mixed> An array representing the newly created customer.
+     * @return array<string, mixed> An array representing the newly created customer.
      *
      * @throws ValidationException
      * @throws AuthenticationException
@@ -82,7 +82,7 @@ final class CustomerService
      * @see https://docs.asaas.com/reference/listar-clientes
      *
      * @param  array<string, mixed>  $filters  Optional filters (e.g., ['name' => 'John', 'limit' => 10]).
-     * @return array <string, mixed> A paginated list of customers.
+     * @return array<string, mixed> A paginated list of customers.
      *
      * @throws AuthenticationException
      * @throws RateLimitException
@@ -102,7 +102,7 @@ final class CustomerService
      * @see https://docs.asaas.com/reference/recuperar-um-unico-cliente
      *
      * @param  string  $id  The unique identifier of the customer.
-     * @return array <string, mixed> An array containing the customer's data.
+     * @return array<string, mixed> An array containing the customer's data.
      *
      * @throws \InvalidArgumentException
      * @throws NotFoundException
@@ -124,7 +124,7 @@ final class CustomerService
      *
      * @param  string  $id  The unique identifier of the customer.
      * @param  array<string, mixed>  $data  The customer data to be updated.
-     * @return array <string, mixed> An array representing the updated customer.
+     * @return array<string, mixed> An array representing the updated customer.
      *
      * @throws \InvalidArgumentException
      * @throws ValidationException
@@ -147,7 +147,7 @@ final class CustomerService
      * @see https://docs.asaas.com/reference/remover-cliente
      *
      * @param  string  $id  The unique identifier of the customer.
-     * @return array <string, mixed> An array confirming the deletion.
+     * @return array<string, mixed> An array confirming the deletion.
      *
      * @throws \InvalidArgumentException
      * @throws NotFoundException
@@ -168,7 +168,7 @@ final class CustomerService
      * @see https://docs.asaas.com/reference/restaurar-cliente-removido
      *
      * @param  string  $id  The unique identifier of the customer.
-     * @return array <string, mixed> An array containing the restored customer's data.
+     * @return array<string, mixed> An array containing the restored customer's data.
      *
      * @throws \InvalidArgumentException
      * @throws NotFoundException

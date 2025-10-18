@@ -23,7 +23,7 @@ final class CreatePaymentAction extends AbstractAction
      * @see https://docs.asaas.com/reference/criar-nova-cobranca Official Asaas API Documentation
      *
      * @param  CreatePaymentDTO  $data  A Data Transfer Object containing the validated payment data.
-     * @return array <string, mixed> An array representing the newly created payment as returned by the API.
+     * @return array<string, mixed> An array representing the newly created payment as returned by the API.
      *
      * @throws AuthenticationException
      * @throws NotFoundException
@@ -34,7 +34,7 @@ final class CreatePaymentAction extends AbstractAction
     public function handle(CreatePaymentDTO $data): array
     {
         return $this->executeRequest(
-            fn () => $this->client->post('payments', ['json' => $data->toArray()])
+            fn() => $this->client->post('payments', ['json' => $data->toArray()])
         );
     }
 }
