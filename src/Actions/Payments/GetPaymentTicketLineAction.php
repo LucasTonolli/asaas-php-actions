@@ -28,12 +28,12 @@ final class GetPaymentTicketLineAction extends AbstractAction
     public function handle(string $paymentId): array
     {
         $normalizedId = trim($paymentId);
-        if (empty($normalizedId)) {
+        if ($normalizedId === '') {
             throw new \InvalidArgumentException('Payment ID cannot be empty');
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/identificationField')
+            fn() => $this->client->get('payments/' . rawurlencode($normalizedId) . '/identificationField')
         );
     }
 }
