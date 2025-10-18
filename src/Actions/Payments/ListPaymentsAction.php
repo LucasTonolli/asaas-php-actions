@@ -6,6 +6,10 @@ namespace AsaasPhpSdk\Actions\Payments;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 
 final class ListPaymentsAction extends AbstractAction
 {
