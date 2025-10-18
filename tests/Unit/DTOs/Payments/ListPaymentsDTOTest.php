@@ -252,7 +252,7 @@ const PAYMENT_FILTER_KEYS = [
 	'invoiceStatus',
 	'anticipated',
 	'anticipable',
-	'dateCreat',
+	'dateCreated[ge]',
 	'dateCreated[le]',
 	'paymentDate[ge]',
 	'paymentDate[le]',
