@@ -114,7 +114,6 @@ final class DataSanitizer
     /**
      * Sanitizes a mixed value into a boolean.
      *
-     * It correctly interprets string values like 'true', '1', 'on', 'yes', 'sim'.
      *
      * @param  mixed  $value  The value to convert.
      * @return ?bool The sanitized boolean value, or null for empty inputs.
@@ -129,13 +128,7 @@ final class DataSanitizer
             return $value;
         }
 
-        if (is_string($value)) {
-            $lower = mb_strtolower(trim($value));
-
-            return in_array($lower, ['true', 'on', 'yes', 'y', '1', 'sim']);
-        }
-
-        return (bool) $value;
+        return null;
     }
 
     /**

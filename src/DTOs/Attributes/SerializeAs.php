@@ -18,18 +18,23 @@ use Attribute;
  * // When this DTO's toArray() is called, it will execute:
  * // $this->dueDate->format('Y-m-d')
  *
- * #[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+ * #[SerializeAs(method: 'format', args: ['Y-m-d'])]
  * public readonly \DateTimeImmutable $dueDate;
  * }
  */
 #[Attribute(\Attribute::TARGET_PROPERTY)]
-final class ToArrayMethodAttribute
+final class SerializeAs
 {
     /**
-     * ToArrayMethodAttribute constructor.
+     * SerializeAs constructor.
      *
-     * @param  string  $method  The name of the method to call on the property's object during array conversion.
+     * @param  ?string  $key  Optional custom key name for serialization. If null, uses the property name.
+     * @param  ?string  $method  The name of the method to call on the property's object during array conversion.
      * @param  array<int, mixed>  $args  An optional array of arguments to pass to the specified method.
      */
-    public function __construct(public readonly string $method, public readonly array $args = []) {}
+    public function __construct(
+        public readonly ?string $key = null,
+        public readonly ?string $method = null,
+        public readonly array $args = []
+    ) {}
 }

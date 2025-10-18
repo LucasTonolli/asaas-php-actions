@@ -3,6 +3,7 @@
 namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
@@ -51,8 +52,9 @@ class ListCustomersDTO extends AbstractDTO
     public static function fromArray(array $data): self
     {
         $sanitizedData = self::sanitize($data);
+        $validatedData = self::validate($sanitizedData);
 
-        return new self(...$sanitizedData);
+        return new self(...$validatedData);
     }
 
     /**
@@ -69,29 +71,36 @@ class ListCustomersDTO extends AbstractDTO
             'offset' => self::optionalInteger($data, 'offset'),
             'limit' => self::optionalInteger($data, 'limit'),
             'name' => self::optionalString($data, 'name'),
-            'email' => self::optionalEmail($data['email'] ?? null),
-            'cpfCnpj' => self::optionalCpfCnpj($data['cpfCnpj'] ?? null),
+            'email' => $data['email'] ?? null,
+            'cpfCnpj' => $data['cpfCnpj'] ?? null,
             'groupName' => self::optionalString($data, 'groupName'),
             'externalReference' => self::optionalString($data, 'externalReference'),
         ];
     }
 
-    /**
-     * Safely attempts to create an Email Value Object. Returns null on failure.
-     *
-     * @internal
-     */
-    private static function optionalEmail(?string $email): ?Email
+    private static function validate(array $data): array
     {
-        if ($email === null) {
-            return null;
+        if (isset($data['limit'])) {
+            $data['limit'] = max(1, min(100, $data['limit']));
         }
 
-        try {
-            return Email::from($email);
-        } catch (\Exception) {
-            return null;
+        if (isset($data['offset']) && $data['offset'] < 0) {
+            $data['offset'] = null;
         }
+
+        if (isset($data['email'])) {
+            try {
+                $data['email'] = Email::from($data['email']);
+            } catch (InvalidValueObjectException) {
+                $data['email'] = null;
+            }
+        }
+
+        if (isset($data['cpfCnpj'])) {
+            $data['cpfCnpj'] = self::optionalCpfCnpj($data['cpfCnpj']);
+        }
+
+        return $data;
     }
 
     /**

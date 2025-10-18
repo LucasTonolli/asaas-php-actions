@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Payments;
 
-use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
+use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
@@ -49,7 +50,7 @@ final class CreatePaymentDTO extends AbstractDTO
         public readonly string $customer,
         public readonly BillingTypeEnum $billingType,
         public readonly float $value,
-        #[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+        #[SerializeAs(method: 'format', args: ['Y-m-d'])]
         public readonly \DateTimeImmutable $dueDate,
         public readonly ?string $description = null,
         public readonly ?int $daysAfterDueDateToRegistrationCancellation = null,
@@ -57,16 +58,16 @@ final class CreatePaymentDTO extends AbstractDTO
         public readonly ?int $installmentCount = null,
         public readonly ?float $totalValue = null,
         public readonly ?float $installmentValue = null,
-        #[ToArrayMethodAttribute('toArray')]
+        #[SerializeAs(method: 'toArray')]
         public readonly ?Discount $discount = null,
-        #[ToArrayMethodAttribute('toArray')]
+        #[SerializeAs(method: 'toArray')]
         public readonly ?Interest $interest = null,
-        #[ToArrayMethodAttribute('toArray')]
+        #[SerializeAs(method: 'toArray')]
         public readonly ?Fine $fine = null,
         public readonly ?bool $postalService = null,
-        #[ToArrayMethodAttribute('toArray')]
+        #[SerializeAs(method: 'toArray')]
         public readonly ?Split $split = null,
-        #[ToArrayMethodAttribute('toArray')]
+        #[SerializeAs(method: 'toArray')]
         public readonly ?Callback $callback = null
     ) {}
 

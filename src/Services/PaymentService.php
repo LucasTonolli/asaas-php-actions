@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
+use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
+use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
+use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -77,6 +80,26 @@ final class PaymentService
     }
 
     /**
+     * List payments.
+     *
+     * @see https://docs.asaas.com/reference/listar-cobrancas
+     *
+     * @param  array<string, mixed>  $filters  Optional filters (e.g., ['installment' => 'xxxxx', 'limit' => 10]).
+     * @return array A paginated list of payments.
+     *
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function list(array $filters = []): array
+    {
+        $dto = $this->createDTO(ListPaymentsDTO::class, $filters);
+        $action = new ListPaymentsAction($this->client, $this->responseHandler);
+
+        return $action->handle($dto);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -93,7 +116,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }

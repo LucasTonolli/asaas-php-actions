@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Base;
 
-use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
+use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Contracts\DTOContract;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
@@ -25,7 +25,7 @@ abstract class AbstractDTO implements DTOContract
      *
      * This method uses Reflection to dynamically build an array. It intelligently
      * serializes objects:
-     * - Obeys a `#[ToArrayMethodAttribute]` if present.
+     * - Obeys a `#[SerializeAs]` if present.
      * - Converts Backed Enums to their scalar value (e.g., 'CREDIT_CARD').
      * - Converts Pure Enums to their case name (e.g., 'Boleto').
      * - Calls `->value()` on simple Value Objects.
@@ -47,12 +47,13 @@ abstract class AbstractDTO implements DTOContract
                 continue;
             }
 
-            $attributes = $property->getAttributes(ToArrayMethodAttribute::class);
+            $attributes = $property->getAttributes(SerializeAs::class);
             if (! empty($attributes)) {
                 $attr = $attributes[0]->newInstance();
+                $attrKey = $attr->key;
                 $method = $attr->method;
                 $args = $attr->args ?? [];
-                $result[$key] = $value->{$method}(...$args);
+                $result[$attrKey ?? $key] = $value->{$method}(...$args);
             } elseif ($value instanceof \BackedEnum) {
                 $result[$key] = $value->value;
             } elseif ($value instanceof \UnitEnum) {
@@ -191,6 +192,19 @@ abstract class AbstractDTO implements DTOContract
         }
 
         return DataSanitizer::sanitizeFloat($data[$key]);
+    }
+
+    protected static function optionalDateTime(array $data, string $key): ?\DateTimeImmutable
+    {
+        if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
+            return null;
+        }
+
+        try {
+            return new \DateTimeImmutable($data[$key]);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

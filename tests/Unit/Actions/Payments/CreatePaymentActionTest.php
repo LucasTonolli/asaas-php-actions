@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
-use AsaasPhpSdk\DTOs\Payments\BillingTypeEnum;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Helpers\ResponseHandler;

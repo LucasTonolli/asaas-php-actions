@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\AsaasClient;
-use AsaasPhpSdk\DTOs\Payments\BillingTypeEnum;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 describe('Create Payment', function (): void {
