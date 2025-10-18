@@ -5,9 +5,73 @@ use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 use AsaasPhpSdk\ValueObjects\Simple\Email;
 
-describe('ListCustomersDTO', function (): void {
+const CUSTOMER_FILTER_KEYS = ['limit', 'offset', 'name', 'email', 'cpfCnpj', 'groupName', 'externalReference'];
 
-    it('creates DTO from valid data', function (): void {
+dataset('customers_filters', [
+    [
+        'key' => 'limit',
+        'value' => 10,
+    ],
+    [
+        'key' => 'offset',
+        'value' => 0,
+    ],
+    [
+        'key' => 'name',
+        'value' => 'John Doe',
+    ],
+    [
+        'key' => 'email',
+        'value' => 'john.doe@test.com',
+    ],
+    [
+        'key' => 'cpfCnpj',
+        'value' => '89887966088',
+    ],
+    [
+        'key' => 'groupName',
+        'value' => 'VIP',
+    ],
+    [
+        'key' => 'externalReference',
+        'value' => 'REF123',
+    ],
+]);
+
+dataset('customers_filters_invalid_values', [
+    [
+        'key' => 'limit',
+        'value' => 'a',
+    ],
+    [
+        'key' => 'offset',
+        'value' => 'b',
+    ],
+    [
+        'key' => 'name',
+        'value' => '  ',
+    ],
+    [
+        'key' => 'email',
+        'value' => 'invalid',
+    ],
+    [
+        'key' => 'cpfCnpj',
+        'value' => '123456789',
+    ],
+    [
+        'key' => 'groupName',
+        'value' => '  ',
+    ],
+    [
+        'key' => 'externalReference',
+        'value' => '  ',
+    ]
+]);
+
+describe('List Customers DTO', function (): void {
+
+    it('has the correct structure', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'limit' => 10,
             'offset' => 0,
@@ -29,6 +93,16 @@ describe('ListCustomersDTO', function (): void {
         expect($dto->externalReference)->toBe('REF123');
     });
 
+    it('filters fields', function ($key, $value): void {
+
+        $dto = ListCustomersDTO::fromArray([
+            $key => $value,
+        ]);
+        expect($dto->toArray())->toHaveKey($key)
+            ->and($dto->toArray()[$key])->toBe($value);
+        expect($dto->toArray())->not()->toHaveKeys(array_filter(CUSTOMER_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
+    })->with('customers_filters');
+
     it('handles null and missing fields', function (): void {
         $dto = ListCustomersDTO::fromArray([]);
 
@@ -41,35 +115,16 @@ describe('ListCustomersDTO', function (): void {
         expect($dto->externalReference)->toBeNull();
     });
 
-    it('sets invalid integer fields to null', function (): void {
+    it('filter fields with invalid values become null', function ($key, $value): void {
+
         $dto = ListCustomersDTO::fromArray([
-            'limit' => 'a',
-            'offset' => 'b',
+            $key => $value,
         ]);
 
-        expect($dto->limit)->toBeNull();
-        expect($dto->offset)->toBeNull();
-    });
-
-    it('sets empty string fields to null', function (): void {
-        $dto = ListCustomersDTO::fromArray([
-            'name' => '',
-            'groupName' => '',
-            'externalReference' => '',
+        expect($dto->toArray())->not()->toHaveKeys([
+            $key,
         ]);
-
-        expect($dto->name)->toBeNull()
-            ->and($dto->groupName)->toBeNull()
-            ->and($dto->externalReference)->toBeNull();
-    });
-
-    it('handles invalid email gracefully', function (): void {
-        $dto = ListCustomersDTO::fromArray([
-            'email' => 'invalid-email',
-        ]);
-
-        expect($dto->email)->toBeNull();
-    });
+    })->with('customers_filters_invalid_values');
 
     it('handles CPF and CNPJ correctly', function (): void {
 
