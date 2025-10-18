@@ -17,7 +17,7 @@ final class GetPaymentTicketLineAction extends AbstractAction
      * Retrieves the ticket line information for a specific payment.
      *
      * @param  string  $paymentId  The ID of the payment.
-     * @return array The ticket line information.
+     * @return array <string, mixed> The ticket line information.
      *
      * @throws AuthenticationException If authentication fails.
      * @throws NotFoundException If the payment is not found.
@@ -33,7 +33,7 @@ final class GetPaymentTicketLineAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedPaymentId).'/identificationField')
+            fn() => $this->client->get('payments/' . rawurlencode($normalizedPaymentId) . '/identificationField')
         );
     }
 }

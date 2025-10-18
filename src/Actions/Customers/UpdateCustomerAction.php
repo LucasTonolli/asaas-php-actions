@@ -24,7 +24,7 @@ final class UpdateCustomerAction extends AbstractAction
      *
      * @param  string  $customerId  The unique identifier of the customer to be updated.
      * @param  UpdateCustomerDTO  $data  A DTO containing the customer data to be updated.
-     * @return array An array containing the full, updated data of the customer.
+     * @return array <string, mixed> An array containing the full, updated data of the customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
      * @throws AuthenticationException
@@ -41,7 +41,7 @@ final class UpdateCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
+            fn() => $this->client->put('customers/' . rawurlencode($normalizedId), ['json' => $data->toArray()])
         );
     }
 }

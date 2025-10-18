@@ -22,7 +22,7 @@ final class ListPaymentsAction extends AbstractAction
      * @see https://docs.asaas.com/reference/listar-cobrancas Official Asaas API Documentation
      *
      * @param  ListPaymentsDTO  $data  A DTO containing filter and pagination parameters (e.g., installment, billingType, limit, offset).
-     * @return array A paginated list of payments. The structure includes pagination info and a 'data' key with the payments array.
+     * @return array <string, mixed> A paginated list of payments. The structure includes pagination info and a 'data' key with the payments array.
      *
      * @throws ApiException
      * @throws ValidationException Can be thrown if an invalid filter is sent.
@@ -32,7 +32,7 @@ final class ListPaymentsAction extends AbstractAction
     public function handle(ListPaymentsDTO $data): array
     {
         return $this->executeRequest(
-            fn () => $this->client->get('payments', ['query' => $data->toArray()])
+            fn() => $this->client->get('payments', ['query' => $data->toArray()])
         );
     }
 }
