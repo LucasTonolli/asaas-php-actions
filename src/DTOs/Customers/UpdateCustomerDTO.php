@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
-use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;

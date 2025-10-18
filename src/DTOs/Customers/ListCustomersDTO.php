@@ -3,11 +3,11 @@
 namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
+use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 use AsaasPhpSdk\ValueObjects\Simple\Email;
-use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 
 /**
  * A "Lenient" Data Transfer Object for filtering and paginating customers.
@@ -53,6 +53,7 @@ class ListCustomersDTO extends AbstractDTO
     {
         $sanitizedData = self::sanitize($data);
         $validatedData = self::validate($sanitizedData);
+
         return new self(...$validatedData);
     }
 
@@ -101,7 +102,6 @@ class ListCustomersDTO extends AbstractDTO
 
         return $data;
     }
-
 
     /**
      * Safely attempts to create a Cpf or Cnpj Value Object. Returns null on failure.

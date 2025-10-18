@@ -1,7 +1,7 @@
 <?php
 
-use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\ValueObjects\Structured\Discount;
 use AsaasPhpSdk\ValueObjects\Structured\Interest;

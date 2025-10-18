@@ -66,7 +66,7 @@ dataset('customers_filters_invalid_values', [
     [
         'key' => 'externalReference',
         'value' => '  ',
-    ]
+    ],
 ]);
 
 describe('List Customers DTO', function (): void {
