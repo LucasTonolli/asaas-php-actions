@@ -14,10 +14,10 @@ use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
 /**
  * A "Lenient" Data Transfer Object for filtering and paginating payments.
  * 
- * This DTO is designed for flexibility. It sanitizes input data but does not
- * throw exceptions for invalid filter values. Instead, invalid or malformed
- * filters are silently ignored (converted to null), allowing for a robust
- * search experience without generating errors.
+ * throw exceptions for most invalid filter values. Invalid or malformed
+ * filters are silently ignored (converted to null). However, it enforces
+ * strict validation for date ranges and will throw InvalidDateRangeException
+ * if a start date is after its corresponding end date.
  */
 final class ListPaymentsDTO extends AbstractDTO
 {
