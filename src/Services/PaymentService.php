@@ -124,12 +124,12 @@ final class PaymentService
 
     /**
      * Deletes a payment by its ID.
-     * 
+     *
      * @see https://docs.asaas.com/reference/excluir-cobranca
-     * 
+     *
      * @param  string  $id  The ID of the payment to delete.
      * @return array An array confirming the deletion, typically containing a 'deleted' flag.
-     * 
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
@@ -160,7 +160,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
