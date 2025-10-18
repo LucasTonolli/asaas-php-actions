@@ -18,7 +18,8 @@ describe('Get Payment Status', function (): void {
 
 		$response = $this->asaasClient->payment()->getStatus($createPaymentResponse['id']);
 		expect($response)->toBeArray()
-			->and($response['status'])->toBe('PENDING');
+			->and($response['status'])->toBe('PENDING')
+			->and($response)->not()->toHaveKey('id');
 
 		$this->asaasClient->payment()->delete($createPaymentResponse['id']);
 	});
