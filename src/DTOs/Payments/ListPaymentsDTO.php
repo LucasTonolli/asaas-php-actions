@@ -25,7 +25,7 @@ final class ListPaymentsDTO extends AbstractDTO
 	 * Private constructor to enforce object creation via the static `fromArray` factory method.
 	 * 
 	 * @param  ?string  $installment  The installment number.
-	 * @param  ?string  $offset  The number of payments to skip.
+	 * @param  ?int  $offset  The number of payments to skip.
 	 * @param  ?int  $limit  The maximum number of payments to return.
 	 * @param  ?string  $customer  The ID of the customer to whom the payment belongs.
 	 * @param  ?string  $customerGroupName  The name of the customer group to whom the payment belongs.
