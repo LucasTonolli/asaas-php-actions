@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
@@ -100,6 +101,28 @@ final class PaymentService
     }
 
     /**
+     * Retrieves a specific payment by its ID.
+     * 
+     * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca
+     * 
+     * @param  string  $id  The ID of the payment to retrieve.
+     * @return array An array containing the data of the specified payment.
+     * 
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * 
+     */
+    public function get(string $id): array
+    {
+        $action = new GetPaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -116,7 +139,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
