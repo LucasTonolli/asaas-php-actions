@@ -285,7 +285,7 @@ describe('List Payments DTO', function (): void {
 		]);
 		expect($dto->toArray())->toHaveKey($key)
 			->and($dto->toArray()[$key])->toBe($value);
-		expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
+		expect($dto->toArray())->not()->toHaveKeys(array_diff(PAYMENT_FILTER_KEYS, [$key]));
 	})->with('payments_filters');
 
 	it('filters fields with custom keys', function ($attr, $key, $value): void {

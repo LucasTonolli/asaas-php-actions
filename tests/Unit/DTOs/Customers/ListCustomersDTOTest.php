@@ -100,7 +100,7 @@ describe('List Customers DTO', function (): void {
         ]);
         expect($dto->toArray())->toHaveKey($key)
             ->and($dto->toArray()[$key])->toBe($value);
-        expect($dto->toArray())->not()->toHaveKeys(array_filter(CUSTOMER_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
+        expect($dto->toArray())->not()->toHaveKeys(array_diff(CUSTOMER_FILTER_KEYS, [$key]));
     })->with('customers_filters');
 
     it('handles null and missing fields', function (): void {
