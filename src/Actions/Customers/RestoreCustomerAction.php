@@ -21,7 +21,7 @@ final class RestoreCustomerAction extends AbstractAction
      *
      * @see https://docs.asaas.com/reference/restaurar-cliente-removido Official Asaas API Documentation
      *
-     * @param  string  $id  The unique identifier of the customer to be restored.
+     * @param  string  $customerId  The unique identifier of the customer to be restored.
      * @return array An array containing the data of the restored customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
@@ -31,15 +31,15 @@ final class RestoreCustomerAction extends AbstractAction
      * @throws RateLimitException
      * @throws ApiException
      */
-    public function handle(string $id): array
+    public function handle(string $customerId): array
     {
-        $normalizedId = trim($id);
+        $normalizedId = trim($customerId);
         if ($normalizedId === '') {
             throw new \InvalidArgumentException('Customer ID cannot be empty');
         }
 
         return $this->executeRequest(
-            fn () => $this->client->post('customers/'.rawurlencode($normalizedId).'/restore')
+            fn() => $this->client->post('customers/' . rawurlencode($normalizedId) . '/restore')
         );
     }
 }

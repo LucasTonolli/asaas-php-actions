@@ -7,6 +7,7 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
@@ -167,6 +168,28 @@ final class PaymentService
     }
 
     /**
+     * Retrieves the status of a specific payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca
+     * 
+     * @param  string  $id  The ID of the payment whose status is to be retrieved.
+     * @return array An array containing the status of the specified payment.
+     * 
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function getStatus(string $id): array
+    {
+        $action = new GetPaymentStatusAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -183,7 +206,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
