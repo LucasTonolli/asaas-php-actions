@@ -147,12 +147,12 @@ final class PaymentService
 
     /**
      * Restores a deleted payment by its ID.
-     * 
+     *
      * @see https://docs.asaas.com/reference/restaurar-cobranca-removida
-     * 
-     * @param string $id The ID of the payment to restore.
+     *
+     * @param  string  $id  The ID of the payment to restore.
      * @return array An array containing the restored payment's data.
-     * 
+     *
      * @throws \InvalidArgumentException
      * @throws NotFoundException
      * @throws AuthenticationException
@@ -183,7 +183,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
