@@ -26,7 +26,7 @@ use Attribute;
 final class SerializeAs
 {
     /**
-     * ToArrayMethodAttribute constructor.
+     * SerializeAs constructor.
      *
      * @param  ?string  $key  Optional custom key name for serialization. If null, uses the property name.
      * @param  ?string  $method  The name of the method to call on the property's object during array conversion.
