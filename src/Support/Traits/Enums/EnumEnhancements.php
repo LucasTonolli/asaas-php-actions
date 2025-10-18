@@ -47,7 +47,6 @@ trait EnumEnhancements
 	public static function options(): array
 	{
 		$options = [];
-		/** @var static&EnumEnhancements $enumCase */
 		foreach (self::all() as $enumCase) {
 			$options[$enumCase->name] = $enumCase->label();
 		}
