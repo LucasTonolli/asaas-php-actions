@@ -113,8 +113,13 @@ final class CreatePaymentDTO extends AbstractDTO
     }
 
     /**
+     * Validates the sanitized data for the create operation.
+     * 
      * @internal
-     *
+     * 
+     * @param  array<string, mixed>  $data  The sanitized data to validate.
+     * @return array<string, mixed> The validated data.
+     * 
      * @throws InvalidPaymentDataException|InvalidValueObjectException
      */
     private static function validate(array $data): array
