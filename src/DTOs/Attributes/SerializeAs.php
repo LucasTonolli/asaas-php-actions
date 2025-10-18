@@ -18,7 +18,7 @@ use Attribute;
  * // When this DTO's toArray() is called, it will execute:
  * // $this->dueDate->format('Y-m-d')
  *
- * #[ToArrayMethodAttribute(method: 'format', args: ['Y-m-d'])]
+ * #[SerializeAs(method: 'format', args: ['Y-m-d'])]
  * public readonly \DateTimeImmutable $dueDate;
  * }
  */
