@@ -39,7 +39,7 @@ final class RestorePaymentAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->post('payments/' . rawurlencode($normalizedId) . '/restore')
+            fn () => $this->client->post('payments/'.rawurlencode($normalizedId).'/restore')
         );
     }
 }

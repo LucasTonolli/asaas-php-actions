@@ -39,7 +39,7 @@ final class Interest extends AbstractStructuredValueObject
      */
     public static function create(float $value): self
     {
-        if (!is_finite($value)) {
+        if (! is_finite($value)) {
             throw new InvalidInterestException('Interest value must be a finite number');
         }
         if ($value < 0) {
