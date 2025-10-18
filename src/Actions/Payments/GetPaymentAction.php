@@ -13,33 +13,33 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class GetPaymentAction extends AbstractAction
 {
-	/**
-	 * Retrieves a single payment by their ID.
-	 * 
-	 * This action performs a pre-request validation to ensure the ID is not
-	 * empty and then sends a GET request to the 'payments/{id}' endpoint.
-	 *
-	 * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca Official Asaas API Documentation
-	 * 
-	 * @param  string  $paymentId  The unique identifier of the payment to be retrieved.
-	 * @return array An array containing the data of the specified payment.
-	 * 
-	 * @throws \InvalidArgumentException if the provided payment ID is empty.
-	 * @throws AuthenticationException
-	 * @throws NotFoundException
-	 * @throws ValidationException
-	 * @throws RateLimitException
-	 * @throws ApiException
-	 */
-	public function handle(string $paymentId): array
-	{
-		$normalizedId = trim($paymentId);
-		if ($normalizedId === '') {
-			throw new \InvalidArgumentException('Payment ID cannot be empty');
-		}
+    /**
+     * Retrieves a single payment by their ID.
+     *
+     * This action performs a pre-request validation to ensure the ID is not
+     * empty and then sends a GET request to the 'payments/{id}' endpoint.
+     *
+     * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca Official Asaas API Documentation
+     *
+     * @param  string  $paymentId  The unique identifier of the payment to be retrieved.
+     * @return array An array containing the data of the specified payment.
+     *
+     * @throws \InvalidArgumentException if the provided payment ID is empty.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function handle(string $paymentId): array
+    {
+        $normalizedId = trim($paymentId);
+        if ($normalizedId === '') {
+            throw new \InvalidArgumentException('Payment ID cannot be empty');
+        }
 
-		return $this->executeRequest(
-			fn() => $this->client->get('payments/' . rawurlencode($normalizedId))
-		);
-	}
+        return $this->executeRequest(
+            fn () => $this->client->get('payments/'.rawurlencode($normalizedId))
+        );
+    }
 }

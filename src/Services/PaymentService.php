@@ -102,18 +102,17 @@ final class PaymentService
 
     /**
      * Retrieves a specific payment by its ID.
-     * 
+     *
      * @see https://docs.asaas.com/reference/recuperar-uma-unica-cobranca
-     * 
+     *
      * @param  string  $id  The ID of the payment to retrieve.
      * @return array An array containing the data of the specified payment.
-     * 
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
      * @throws ApiException
      * @throws ValidationException
-     * 
      */
     public function get(string $id): array
     {
@@ -139,7 +138,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
