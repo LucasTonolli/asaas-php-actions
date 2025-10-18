@@ -9,8 +9,9 @@ trait EnumEnhancements
     /**
      * Internal factory method that must be implemented by the consuming Enum.
      *
-     * @param string $value The string representation to convert.
+     * @param  string  $value  The string representation to convert.
      * @return static The corresponding enum instance.
+     *
      * @throws \ValueError If the string does not match any known case.
      */
     abstract private static function fromString(string $value): self;

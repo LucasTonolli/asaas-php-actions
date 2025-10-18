@@ -264,7 +264,7 @@ describe('List Payments DTO', function (): void {
         ]);
         expect($dto->toArray())->toHaveKey($key)
             ->and($dto->toArray()[$key])->toBe($value);
-        expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn(string $filterKey): bool => $filterKey !== $key));
+        expect($dto->toArray())->not()->toHaveKeys(array_filter(PAYMENT_FILTER_KEYS, fn (string $filterKey): bool => $filterKey !== $key));
     })->with('payments_filters_custom_keys');
 
     it('filters fields with invalid values become null', function ($key, $value): void {
@@ -284,7 +284,7 @@ describe('List Payments DTO', function (): void {
     })->with('payments_filters_values_to_be_fixed');
 
     it('throws an exception for invalid range values', function ($startKey, $startValue, $endKey, $endValue): void {
-        expect(fn() => ListPaymentsDTO::fromArray([
+        expect(fn () => ListPaymentsDTO::fromArray([
             $startKey => $startValue,
             $endKey => $endValue,
         ]))->toThrow(InvalidDateRangeException::class, "The \"{$startKey}\" must be before \"{$endKey}\"");
