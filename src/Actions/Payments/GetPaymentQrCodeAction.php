@@ -14,7 +14,7 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 final class GetPaymentQrCodeAction extends AbstractAction
 {
     /**
-     * Retrieves the QR code for a specific payment to be paid by pix (boleto, pix, undefined).
+     *  Retrieves the QR code for a specific payment with PIX, boleto, or Undefined billing type.
      *
      * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix Official Asaas API Documentation
      *
