@@ -19,7 +19,7 @@ final class GetPaymentQrCodeAction extends AbstractAction
      * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix Official Asaas API Documentation
      *
      * @param  string  $paymentId  The ID of the payment to retrieve the QR code for.
-     * @return array The QR code details including encoded image, payload, expiration date, and description.
+     * @return array<string, mixed> The QR code details including encoded image, payload, expiration date, and description.
      *
      * @throws \InvalidArgumentException if the provided payment ID is empty.
      * @throws ApiException
