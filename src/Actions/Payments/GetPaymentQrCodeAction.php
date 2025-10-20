@@ -13,32 +13,31 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class GetPaymentQrCodeAction extends AbstractAction
 {
-	/**
-	 * Retrieves the QR code for a specific payment to be paid by pix (boleto, pix, undefined).
-	 * 
-	 * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix Official Asaas API Documentation
-	 *
-	 * @param  string  $paymentId  The ID of the payment to retrieve the QR code for.
-	 *
-	 * @return array The QR code details including encoded image, payload, expiration date, and description.
-	 *
-	 * @throws \InvalidArgumentException if the provided payment ID is empty.
-	 * @throws ApiException
-	 * @throws AuthenticationException
-	 * @throws NotFoundException
-	 * @throws RateLimitException
-	 * @throws ValidationException
-	 */
-	public function handle(string $paymentId): array
-	{
-		$normalizedId = trim($paymentId);
+    /**
+     * Retrieves the QR code for a specific payment to be paid by pix (boleto, pix, undefined).
+     *
+     * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix Official Asaas API Documentation
+     *
+     * @param  string  $paymentId  The ID of the payment to retrieve the QR code for.
+     * @return array The QR code details including encoded image, payload, expiration date, and description.
+     *
+     * @throws \InvalidArgumentException if the provided payment ID is empty.
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ValidationException
+     */
+    public function handle(string $paymentId): array
+    {
+        $normalizedId = trim($paymentId);
 
-		if ($normalizedId === '') {
-			throw new \InvalidArgumentException('Payment ID cannot be empty.');
-		}
+        if ($normalizedId === '') {
+            throw new \InvalidArgumentException('Payment ID cannot be empty.');
+        }
 
-		return $this->executeRequest(
-			fn() => $this->client->get("/payments/" . rawurldecode($normalizedId) . "/pixQrCode")
-		);
-	}
+        return $this->executeRequest(
+            fn () => $this->client->get('/payments/'.rawurldecode($normalizedId).'/pixQrCode')
+        );
+    }
 }
