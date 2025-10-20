@@ -45,7 +45,7 @@ describe('Get Payment QR Code', function (): void {
             'dueDate' => date('Y-m-d'),
         ]);
 
-        expect(fn () => $this->asaasClient->payment()->getQrCode($createPaymentResponse['id']))->toThrow(ValidationException::class, 'Somente é possível obter QR Code quando a forma de pagamento for PIX.');
+        expect(fn () => $this->asaasClient->payment()->getQrCode($createPaymentResponse['id']))->toThrow(ValidationException::class, 'Somente é possível obter QR Code quando a forma de pagamento for PIX, boleto ou Undefined.');
         $this->asaasClient->payment()->delete($createPaymentResponse['id']);
     })->skip('[Issue #49] Requires pix key available');
 });
