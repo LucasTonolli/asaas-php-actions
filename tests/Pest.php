@@ -158,11 +158,12 @@ function sandboxToken(): string
 {
     return $_ENV['ASAAS_SANDBOX_TOKEN'];
 }
-function sandboxConfig(): AsaasPhpSdk\Config\AsaasConfig
+function sandboxConfig(bool $logsEnabled = false): AsaasPhpSdk\Config\AsaasConfig
 {
     return new AsaasPhpSdk\Config\AsaasConfig(
         token: sandboxToken(),
-        isSandbox: true
+        isSandbox: true,
+        logsEnabled: $logsEnabled
     );
 }
 
