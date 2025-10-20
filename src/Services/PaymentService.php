@@ -7,6 +7,7 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentQrCodeAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
@@ -208,6 +209,28 @@ final class PaymentService
     public function getTicketLine(string $id): array
     {
         $action = new GetPaymentTicketLineAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Retrieves the QR code for a Pix payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix
+     *
+     * @param  string  $id  The ID of the payment whose QR code is to be retrieved.
+     * @return array<string, mixed> An array containing the QR code information, including 'encodedImage', 'payload', 'expirationDate', and 'description'.
+     *
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function getQrCode(string $id): array
+    {
+        $action = new GetPaymentQrCodeAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
