@@ -33,11 +33,11 @@ final class GetPaymentQrCodeAction extends AbstractAction
         $normalizedId = trim($paymentId);
 
         if ($normalizedId === '') {
-            throw new \InvalidArgumentException('Payment ID cannot be empty.');
+            throw new \InvalidArgumentException('Payment ID cannot be empty');
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('/payments/'.rawurldecode($normalizedId).'/pixQrCode')
+            fn () => $this->client->get('/payments/'.rawurlencode($normalizedId).'/pixQrCode')
         );
     }
 }
