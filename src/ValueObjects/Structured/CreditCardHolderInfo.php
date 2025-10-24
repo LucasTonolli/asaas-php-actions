@@ -62,8 +62,17 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
 	 * 
 	 * @throws InvalidCreditCardHolderInfoException If any of the provided data is invalid.
 	 */
-	public static function create(string $name, string $email, string $cpfCnpj, string $postalCode, string $addressNumber, string $phone, ?string $mobilePhone = null): self
+	private static function create(string $name, string $email, string $cpfCnpj, string $postalCode, string $addressNumber, string $phone, ?string $mobilePhone = null): self
 	{
+		// Validate name
+		if (empty($name)) {
+			throw new InvalidCreditCardHolderInfoException('Name cannot be empty');
+		}
+
+		if (empty($addressNumber)) {
+			throw new InvalidCreditCardHolderInfoException('Address number cannot be empty');
+		}
+
 		return new self(
 			name: $name,
 			email: Email::from($email),
