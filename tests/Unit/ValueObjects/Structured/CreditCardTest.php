@@ -106,19 +106,19 @@ describe('Credit Card Value Object', function (): void {
         $missingFields = array_diff($keys, array_keys($creditCard));
         $missingField = current($missingFields);
 
-        expect(fn () => CreditCard::fromArray($creditCard))
-            ->toThrow(InvalidCreditCardException::class, 'Missing required field:'." {$missingField}");
+        expect(fn() => CreditCard::fromArray($creditCard))
+            ->toThrow(InvalidCreditCardException::class, 'Missing required field:' . " {$missingField}");
     })->with('credit_card_missing_fields');
 
     it('throws exception when required fields are null', function ($creditCard): void {
         $missingField = array_keys(array_filter($creditCard, 'is_null'))[0];
 
-        expect(fn () => CreditCard::fromArray($creditCard))
-            ->toThrow(InvalidCreditCardException::class, 'Missing required field:'." {$missingField}");
+        expect(fn() => CreditCard::fromArray($creditCard))
+            ->toThrow(InvalidCreditCardException::class, 'Missing required field:' . " {$missingField}");
     })->with('credit_card_null_fields');
 
     it('cannot be created with invalid expiration month', function (): void {
-        expect(fn () => CreditCard::fromArray([
+        expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4111111111111111',
             'expirationMonth' => '13',
@@ -128,7 +128,7 @@ describe('Credit Card Value Object', function (): void {
     });
 
     it('cannot be created with past expiration year', function (): void {
-        expect(fn () => CreditCard::fromArray([
+        expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4111111111111111',
             'expirationMonth' => '12',
@@ -138,7 +138,7 @@ describe('Credit Card Value Object', function (): void {
     });
 
     it('cannot be create with invalid number', function (): void {
-        expect(fn () => CreditCard::fromArray([
+        expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '1234567890123456',
             'expirationMonth' => '12',
@@ -148,7 +148,7 @@ describe('Credit Card Value Object', function (): void {
     });
 
     it('cannot be create with invalid cvv', function (): void {
-        expect(fn () => CreditCard::fromArray([
+        expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expirationMonth' => '12',
@@ -156,13 +156,23 @@ describe('Credit Card Value Object', function (): void {
             'cvv' => '12345',
         ]))->toThrow(InvalidCreditCardException::class, 'CVV must be 3 or 4 digits');
 
-        expect(fn () => CreditCard::fromArray([
+        expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expirationMonth' => '12',
             'expirationYear' => '2025',
             'cvv' => '12',
         ]))->toThrow(InvalidCreditCardException::class, 'CVV must be 3 or 4 digits');
+    });
+
+    it('cannot be create with invalid expiration year format', function (): void {
+        expect(fn() => CreditCard::fromArray([
+            'holderName' => 'John Doe',
+            'number' => '4769 9981 1166 8248',
+            'expirationMonth' => '12',
+            'expirationYear' => '25',
+            'cvv' => '123',
+        ]))->toThrow(InvalidCreditCardException::class, 'Expiration year must be 4 digits (YYYY)');
     });
 
     it('compares the same credit card', function (): void {
