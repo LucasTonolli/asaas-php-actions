@@ -45,7 +45,7 @@ final readonly class Discount extends AbstractStructuredValueObject
      *
      * @throws InvalidDiscountException If the value is not positive, the type is invalid, or a percentage exceeds 100.
      */
-    public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
+    private static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
     {
         $sanitizedDueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
         $sanitizedValue = DataSanitizer::sanitizeFloat($value);
