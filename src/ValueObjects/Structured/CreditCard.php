@@ -50,16 +50,22 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      *
      * @throws InvalidCreditCardException If any of the provided data is invalid.
      */
-    public static function create(
+    private static function create(
         string $holderName,
         string $number,
         string $expirationMonth,
         string $expirationYear,
         string $cvv
     ): self {
-
+        if (empty(DataSanitizer::sanitizeString($holderName))) {
+            throw new InvalidCreditCardException('Holder name cannot be empty');
+        }
         if (! preg_match('/^(0[1-9]|1[0-2])$/', $expirationMonth)) {
             throw new InvalidCreditCardException('Expiration month must be between 01 and 12');
+        }
+
+        if (!preg_match('/^\d{4}$/', $expirationYear)) {
+            throw new InvalidCreditCardException('Expiration year must be 4 digits (YYYY)');
         }
 
         $currentYear = (int) date('Y');
