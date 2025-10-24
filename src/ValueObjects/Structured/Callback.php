@@ -39,7 +39,7 @@ final readonly class Callback extends AbstractStructuredValueObject
      *
      * @throws InvalidCallbackException If the success URL is not a valid HTTPS URL.
      */
-    public static function create(string $successUrl, bool $autoRedirect = true): self
+    private static function create(string $successUrl, bool $autoRedirect = true): self
     {
 
         if (! filter_var($successUrl, FILTER_VALIDATE_URL)) {
@@ -64,17 +64,12 @@ final readonly class Callback extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
-        if (! \array_key_exists('autoRedirect', $data)) {
-            throw new InvalidCallbackException('autoRedirect must be a boolean');
-        }
-
         if (! \array_key_exists('successUrl', $data)) {
             throw new InvalidCallbackException('successUrl is required');
         }
 
         return self::create(
-            successUrl: $data['successUrl'],
-            autoRedirect: $data['autoRedirect']
+            ...$data,
         );
     }
 }
