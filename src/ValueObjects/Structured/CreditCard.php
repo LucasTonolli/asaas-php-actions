@@ -24,15 +24,15 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      *
      * @param  string  $holderName  The name of the cardholder.
      * @param  string  $number  The credit card number.
-     * @param  string  $expirationMonth  The expiration month (MM).
-     * @param  string  $expirationYear  The expiration year (YYYY).
+     * @param  string  $expiryMonth  The expiration month (MM).
+     * @param  string  $expiryYear  The expiration year (YYYY).
      * @param  string  $cvv  The card verification value.
      */
     private function __construct(
         public string $holderName,
         public string $number,
-        public string $expirationMonth,
-        public string $expirationYear,
+        public string $expiryMonth,
+        public string $expiryYear,
         public string $cvv
     ) {}
 
@@ -43,8 +43,8 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      *
      * @param  string  $holderName  The name of the cardholder.
      * @param  string  $number  The credit card number.
-     * @param  string  $expirationMonth  The expiration month (MM).
-     * @param  string  $expirationYear  The expiration year (YYYY).
+     * @param  string  $expiryMonth  The expiration month (MM).
+     * @param  string  $expiryYear  The expiration year (YYYY).
      * @param  string  $cvv  The card verification value.
      * @return self A new, validated CreditCard instance.
      *
@@ -53,28 +53,28 @@ final readonly class CreditCard extends AbstractStructuredValueObject
     private static function create(
         string $holderName,
         string $number,
-        string $expirationMonth,
-        string $expirationYear,
+        string $expiryMonth,
+        string $expiryYear,
         string $cvv
     ): self {
         if (empty(DataSanitizer::sanitizeString($holderName))) {
             throw new InvalidCreditCardException('Holder name cannot be empty');
         }
-        if (! preg_match('/^(0[1-9]|1[0-2])$/', $expirationMonth)) {
+        if (! preg_match('/^(0[1-9]|1[0-2])$/', $expiryMonth)) {
             throw new InvalidCreditCardException('Expiration month must be between 01 and 12');
         }
 
-        if (! preg_match('/^\d{4}$/', $expirationYear)) {
+        if (! preg_match('/^\d{4}$/', $expiryYear)) {
             throw new InvalidCreditCardException('Expiration year must be 4 digits (YYYY)');
         }
 
         $currentYear = (int) date('Y');
-        if ((int) $expirationYear < $currentYear) {
+        if ((int) $expiryYear < $currentYear) {
             throw new InvalidCreditCardException('Expiration year cannot be in the past');
         }
 
         $currentMonth = (int) date('m');
-        if ((int) $expirationYear === $currentYear && (int) $expirationMonth < $currentMonth) {
+        if ((int) $expiryYear === $currentYear && (int) $expiryMonth < $currentMonth) {
             throw new InvalidCreditCardException('Expiration month cannot be in the past for the current year');
         }
 
@@ -86,20 +86,20 @@ final readonly class CreditCard extends AbstractStructuredValueObject
             throw new InvalidCreditCardException('CVV must be 3 or 4 digits');
         }
 
-        return new self($holderName, $number, $expirationMonth, $expirationYear, $cvv);
+        return new self($holderName, $number, $expiryMonth, $expiryYear, $cvv);
     }
 
     /**
      * Creates a CreditCard instance from a raw data array.
      *
-     * @param  array{holderName: string|null, number: string|null, expirationMonth: string|null, expirationYear: string|null, cvv: string|null}  $data  The raw data array.
+     * @param  array{holderName: string|null, number: string|null, expiryMonth: string|null, expiryYear: string|null, cvv: string|null}  $data  The raw data array.
      * @return self A new, validated CreditCard instance.
      *
      * @throws InvalidCreditCardException If required keys are missing.
      */
     public static function fromArray(array $data): self
     {
-        $requiredFields = ['holderName', 'number', 'expirationMonth', 'expirationYear', 'cvv'];
+        $requiredFields = ['holderName', 'number', 'expiryMonth', 'expiryYear', 'cvv'];
         foreach ($requiredFields as $field) {
             if (! isset($data[$field])) {
                 throw new InvalidCreditCardException("Missing required field: {$field}");
@@ -108,16 +108,16 @@ final readonly class CreditCard extends AbstractStructuredValueObject
 
         $holderName = DataSanitizer::sanitizeString($data['holderName']);
         $number = DataSanitizer::onlyDigits($data['number']);
-        $expirationMonth = DataSanitizer::onlyDigits($data['expirationMonth']);
-        $expirationMonth = str_pad($expirationMonth, 2, '0', STR_PAD_LEFT);
-        $expirationYear = DataSanitizer::onlyDigits($data['expirationYear']);
+        $expiryMonth = DataSanitizer::onlyDigits($data['expiryMonth']);
+        $expiryMonth = str_pad($expiryMonth, 2, '0', STR_PAD_LEFT);
+        $expiryYear = DataSanitizer::onlyDigits($data['expiryYear']);
         $cvv = DataSanitizer::onlyDigits($data['cvv']);
 
         return self::create(
             holderName: $holderName,
             number: $number,
-            expirationMonth: $expirationMonth,
-            expirationYear: $expirationYear,
+            expiryMonth: $expiryMonth,
+            expiryYear: $expiryYear,
             cvv: $cvv
         );
     }

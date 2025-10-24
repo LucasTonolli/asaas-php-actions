@@ -1,0 +1,52 @@
+<?php
+
+use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
+use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
+
+describe('Charge With Credit Card', function (): void {
+	beforeEach(function (): void {
+		$config = sandboxConfig();
+		$this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
+		$this->customerId = getDefaultCustomer();
+	});
+
+	it('charges a payment successfully (200)', function (): void {
+		$createPaymentResponse = $this->asaasClient->payment()->create([
+			'customer' => $this->customerId,
+			'value' => 100,
+			'billingType' => BillingTypeEnum::CreditCard->value,
+			'dueDate' => date('Y-m-d'),
+		]);
+
+		$dto = ChargeWithCreditCardDTO::fromArray([
+			'creditCard' => [
+				'holderName' => 'John Doe',
+				'number' => '4111111111111111',
+				'expiryMonth' => '12',
+				'expiryYear' => '2025',
+				'cvv' => '123',
+			],
+			'creditCardHolderInfo' => [
+				'name' => 'John Doe',
+				'email' => 'john.doe@test.com',
+				'cpfCnpj' => '824.121.180-51',
+				'postalCode' => '00000-000',
+				'phone' => '1234567890',
+				'addressNumber' => '123',
+			],
+		]);
+
+		$response = $this->asaasClient->payment()->chargeWithCreditCard(
+			$createPaymentResponse['id'],
+			$dto
+		);
+		var_dump($response);
+		expect($response)->toBeArray()
+			->and($response['object'])->toBe('payment')
+			->and($response['id'])->toBe($createPaymentResponse['id'])
+			->and($response['customer'])->toBe($createPaymentResponse['customer'])
+			->and($response['value'])->toBe($createPaymentResponse['value'])
+			->and($response['billingType'])->toBe($createPaymentResponse['billingType'])
+			->and($response['dueDate'])->toBe($createPaymentResponse['dueDate']);
+	});
+});
