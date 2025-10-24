@@ -41,7 +41,7 @@ final readonly class Fine extends AbstractStructuredValueObject
      *
      * @throws InvalidFineException If the value is negative, the type is invalid, or a percentage exceeds 100.
      */
-    public static function create(float $value, string $type): self
+    private static function create(float $value, string $type): self
     {
         if (! is_finite($value)) {
             throw new InvalidFineException('Fine value must be a finite number');
