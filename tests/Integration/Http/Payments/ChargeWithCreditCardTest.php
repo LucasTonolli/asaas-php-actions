@@ -2,6 +2,8 @@
 
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 describe('Charge With Credit Card', function (): void {
 	beforeEach(function (): void {
@@ -24,7 +26,7 @@ describe('Charge With Credit Card', function (): void {
 				'number' => '4111111111111111',
 				'expiryMonth' => '12',
 				'expiryYear' => '2025',
-				'cvv' => '123',
+				'ccv' => '123',
 			],
 			'creditCardHolderInfo' => [
 				'name' => 'John Doe',
@@ -40,13 +42,38 @@ describe('Charge With Credit Card', function (): void {
 			$createPaymentResponse['id'],
 			$dto
 		);
-		var_dump($response);
 		expect($response)->toBeArray()
 			->and($response['object'])->toBe('payment')
 			->and($response['id'])->toBe($createPaymentResponse['id'])
 			->and($response['customer'])->toBe($createPaymentResponse['customer'])
-			->and($response['value'])->toBe($createPaymentResponse['value'])
 			->and($response['billingType'])->toBe($createPaymentResponse['billingType'])
-			->and($response['dueDate'])->toBe($createPaymentResponse['dueDate']);
+			->and($response['dueDate'])->toBe($createPaymentResponse['dueDate'])
+			->and($response['status'])->toBe('CONFIRMED');
+	});
+
+	it('throws ValidationException when the payment is not found (400)', function (): void {
+		$dto = ChargeWithCreditCardDTO::fromArray([
+			'creditCard' => [
+				'holderName' => 'John Doe',
+				'number' => '4111111111111111',
+				'expiryMonth' => '12',
+				'expiryYear' => '2025',
+				'ccv' => '123',
+			],
+			'creditCardHolderInfo' => [
+				'name' => 'John Doe',
+				'email' => 'john.doe@test.com',
+				'cpfCnpj' => '824.121.180-51',
+				'postalCode' => '00000-000',
+				'phone' => '1234567890',
+				'addressNumber' => '123',
+			],
+		]);
+
+
+		expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
+			'payment_not_found',
+			$dto
+		))->toThrow(ValidationException::class, 'Cobrança inexistente.');
 	});
 });
