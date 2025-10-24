@@ -11,15 +11,15 @@ use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 final readonly class ChargeWithCreditCardDTO extends AbstractDTO
 {
     /**
      * Private constructor to enforce object creation via the static `fromArray` factory method.
      *
-     * @param  CreatePaymentDTO  $payment  The payment details.
-     * @param  CreditCard  $creditCard  The credit card details.
+     * @param  ?CreditCard  $creditCard  The credit card details (required if no token).
+     * @param  ?CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information (required if no token).
+     * @param  ?string  $creditCardToken  The tokenized credit card reference (alternative to providing card details).
      */
     private function __construct(
         #[SerializeAs(method: 'toArray')]
@@ -61,23 +61,36 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      */
     private static function validate(array $data): array
     {
-        if (is_null($data['creditCardToken'])) {
-            if (is_null($data['creditCard'])) {
-                throw new InvalidPaymentDataException('Credit card details are required when credit card token is not provided.');
-            }
+        $hasToken = !empty($data['creditCardToken']);
+        $hasCreditCard = isset($data['creditCard']) && is_array($data['creditCard']);
+        $hasHolderInfo = isset($data['creditCardHolderInfo']) && is_array($data['creditCardHolderInfo']);
 
-            if (is_null($data['creditCardHolderInfo'])) {
-                throw new InvalidPaymentDataException('Credit card holder info is required when credit card token is not provided.');
-            }
+        if (!$hasToken && !$hasCreditCard) {
+            throw new InvalidPaymentDataException(
+                'Either creditCardToken or creditCard details must be provided.'
+            );
+        }
+
+        if (!$hasToken && !$hasHolderInfo) {
+            throw new InvalidPaymentDataException(
+                'Credit card holder info is required when credit card token is not provided.'
+            );
         }
 
         try {
+            $data['creditCard'] = $hasCreditCard
+                ? CreditCard::fromArray($data['creditCard'])
+                : null;
 
-            $data['creditCard'] = CreditCard::fromArray($data['creditCard']);
-
-            $data['creditCardHolderInfo'] = CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']);
+            $data['creditCardHolderInfo'] = $hasHolderInfo
+                ? CreditCardHolderInfo::fromArray($data['creditCardHolderInfo'])
+                : null;
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+            throw new InvalidPaymentDataException(
+                'Invalid credit card data: ' . $e->getMessage(),
+                0,
+                $e
+            );
         }
 
         return $data;
