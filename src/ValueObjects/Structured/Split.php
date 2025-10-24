@@ -32,19 +32,6 @@ final readonly class Split extends AbstractStructuredValueObject
     }
 
     /**
-     * Creates a new Split instance from an array of pre-validated SplitEntry objects.
-     *
-     * @param  SplitEntry[]  $entries  An array of SplitEntry value objects.
-     * @return self A new Split instance.
-     *
-     * @throws InvalidSplitException If the entries array is empty.
-     */
-    private static function create(array $entries): self
-    {
-        return new self($entries);
-    }
-
-    /**
      * Creates a Split instance from a raw, multi-dimensional array of data.
      *
      * This factory maps each sub-array into a `SplitEntry` object before creating the collection.
@@ -58,7 +45,7 @@ final readonly class Split extends AbstractStructuredValueObject
     public static function fromArray(array $data): self
     {
         $entries = array_map(
-            fn (array $entry) => SplitEntry::fromArray($entry),
+            fn(array $entry) => SplitEntry::fromArray($entry),
             $data
         );
 
@@ -84,7 +71,7 @@ final readonly class Split extends AbstractStructuredValueObject
      */
     public function entriesToArray(): array
     {
-        return array_map(fn (SplitEntry $entry) => $entry->toArray(), $this->entries);
+        return array_map(fn(SplitEntry $entry) => $entry->toArray(), $this->entries);
     }
 
     /**
@@ -102,7 +89,7 @@ final readonly class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn (float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
+            fn(float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
             0
         );
     }
@@ -114,7 +101,7 @@ final readonly class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn (float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
+            fn(float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
             0
         );
     }
