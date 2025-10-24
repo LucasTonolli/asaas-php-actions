@@ -18,7 +18,7 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
  *
  * @internal This is an internal framework class and should not be used directly.
  */
-abstract class AbstractDTO implements DTOContract
+abstract readonly class AbstractDTO implements DTOContract
 {
     /**
      * Converts the DTO's public properties to an associative array.
@@ -87,7 +87,7 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
@@ -110,7 +110,7 @@ abstract class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': ".$e->getMessage(),
+                    "Invalid format for '{$key}': " . $e->getMessage(),
                     0,
                     $e
                 );

@@ -22,7 +22,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
  * static method. It ensures that an instance of this class can only exist in a
  * valid state, throwing an `InvalidCustomerDataException` if the data is invalid.
  */
-final class CreateCustomerDTO extends AbstractDTO
+final readonly class CreateCustomerDTO extends AbstractDTO
 {
     /**
      * Private constructor to enforce object creation via the static `fromArray` factory method.
@@ -48,26 +48,26 @@ final class CreateCustomerDTO extends AbstractDTO
      * @param  ?bool  $foreignCustomer  Indicates if the customer is foreign.
      */
     private function __construct(
-        public readonly string $name,
-        public readonly Cpf|Cnpj $cpfCnpj,
-        public readonly ?Email $email = null,
-        public readonly ?Phone $phone = null,
-        public readonly ?Phone $mobilePhone = null,
-        public readonly ?string $address = null,
-        public readonly ?string $addressNumber = null,
-        public readonly ?string $complement = null,
-        public readonly ?string $province = null,
+        public string $name,
+        public Cpf|Cnpj $cpfCnpj,
+        public ?Email $email = null,
+        public ?Phone $phone = null,
+        public ?Phone $mobilePhone = null,
+        public ?string $address = null,
+        public ?string $addressNumber = null,
+        public ?string $complement = null,
+        public ?string $province = null,
         #[SerializeAs(method: 'formatted')]
-        public readonly ?PostalCode $postalCode = null,
-        public readonly ?string $externalReference = null,
-        public readonly ?bool $notificationDisabled = null,
-        public readonly ?string $additionalEmails = null,
-        public readonly ?string $municipalInscription = null,
-        public readonly ?string $stateInscription = null,
-        public readonly ?string $observations = null,
-        public readonly ?string $groupName = null,
-        public readonly ?string $company = null,
-        public readonly ?bool $foreignCustomer = null
+        public ?PostalCode $postalCode = null,
+        public ?string $externalReference = null,
+        public ?bool $notificationDisabled = null,
+        public ?string $additionalEmails = null,
+        public ?string $municipalInscription = null,
+        public ?string $stateInscription = null,
+        public ?string $observations = null,
+        public ?string $groupName = null,
+        public ?string $company = null,
+        public ?bool $foreignCustomer = null
     ) {}
 
     /**

@@ -17,7 +17,7 @@ use AsaasPhpSdk\ValueObjects\Simple\Email;
  * filters are silently ignored (converted to null), allowing for a robust
  * search experience without generating errors.
  */
-class ListCustomersDTO extends AbstractDTO
+final readonly class ListCustomersDTO extends AbstractDTO
 {
     /**
      * ListCustomersDTO private constructor.
@@ -31,13 +31,13 @@ class ListCustomersDTO extends AbstractDTO
      * @param  ?string  $externalReference  Filter by the external unique identifier.
      */
     private function __construct(
-        public readonly ?int $offset = null,
-        public readonly ?int $limit = null,
-        public readonly ?string $name = null,
-        public readonly ?Email $email = null,
-        public readonly Cpf|Cnpj|null $cpfCnpj = null,
-        public readonly ?string $groupName = null,
-        public readonly ?string $externalReference = null
+        public ?int $offset = null,
+        public ?int $limit = null,
+        public ?string $name = null,
+        public ?Email $email = null,
+        public Cpf|Cnpj|null $cpfCnpj = null,
+        public ?string $groupName = null,
+        public ?string $externalReference = null
     ) {}
 
     /**
