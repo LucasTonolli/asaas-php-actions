@@ -53,7 +53,7 @@ abstract readonly class AbstractStructuredValueObject
             if ($value instanceof self) {
                 $result[$key] = $value->toArray();
             } elseif (is_array($value) && ! empty($value) && current($value) instanceof self) {
-                $result[$key] = array_map(fn(self $v) => $v->toArray(), $value);
+                $result[$key] = array_map(fn (self $v) => $v->toArray(), $value);
             } elseif (is_object($value) && method_exists($value, 'value')) {
                 $result[$key] = $value->value();
             } else {
