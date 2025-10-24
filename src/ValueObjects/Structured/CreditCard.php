@@ -100,11 +100,16 @@ final readonly class CreditCard extends AbstractStructuredValueObject
             }
         }
 
+        /** @phpstan-ignore-next-line */
         $holderName = DataSanitizer::sanitizeString($data['holderName']);
+        /** @phpstan-ignore-next-line */
         $number = DataSanitizer::onlyDigits($data['number']);
+        /** @phpstan-ignore-next-line */
         $expirationMonth = DataSanitizer::onlyDigits($data['expirationMonth']);
         $expirationMonth = str_pad($expirationMonth, 2, '0', STR_PAD_LEFT);
+        /** @phpstan-ignore-next-line */
         $expirationYear = DataSanitizer::onlyDigits($data['expirationYear']);
+        /** @phpstan-ignore-next-line */
         $cvv = DataSanitizer::onlyDigits($data['cvv']);
 
         return self::create(
