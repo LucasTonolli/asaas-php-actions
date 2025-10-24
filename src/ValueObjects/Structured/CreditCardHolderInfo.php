@@ -12,10 +12,30 @@ use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 use AsaasPhpSdk\ValueObjects\Simple\Email;
 use AsaasPhpSdk\ValueObjects\Simple\Phone;
 use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
-use Symfony\Component\VarDumper\Cloner\Data;
 
+/**
+ * Value Object representing the credit card holder's information.
+ * 
+ * This class encapsulates the details of a credit card holder, including
+ * their name, email, CPF/CNPJ, postal code, address number, phone, and
+ * mobile phone. It includes validation to ensure that the provided data
+ * adheres to expected formats and constraints.
+ */
 final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
 {
+	/**
+	 * CreditCardHolderInfo private constructor.
+	 * 
+	 * @internal
+	 * 
+	 * @param  string  $name  The name of the credit card holder.
+	 * @param  Email  $email  The email of the credit card holder.
+	 * @param  Cpf|Cnpj  $cpfCnpj  The CPF or CNPJ of the credit card holder.
+	 * @param  PostalCode  $postalCode  The postal code of the credit card holder.
+	 * @param  string  $addressNumber  The address number of the credit card holder.
+	 * @param  Phone  $phone  The phone number of the credit card holder.
+	 * @param  ?Phone  $mobilePhone  The mobile phone number of the credit card holder.
+	 */
 	private function __construct(
 		public string $name,
 		public Email $email,
@@ -26,6 +46,22 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
 		public ?Phone $mobilePhone,
 	) {}
 
+	/**
+	 * Creates a new CreditCardHolderInfo instance with explicit, validated parameters.
+	 * 
+	 * This factory validates the provided data to ensure they are within acceptable formats.
+	 * 
+	 * @param  string  $name  The name of the credit card holder.
+	 * @param  string  $email  The email of the credit card holder.
+	 * @param  string  $cpfCnpj  The CPF or CNPJ of the credit card holder.
+	 * @param  string  $postalCode  The postal code of the credit card holder.
+	 * @param  string  $addressNumber  The address number of the credit card holder.
+	 * @param  string  $phone  The phone number of the credit card holder.
+	 * @param  ?string  $mobilePhone  The mobile phone number of the credit card holder.
+	 * @return self A new, validated CreditCardHolderInfo instance.
+	 * 
+	 * @throws InvalidCreditCardHolderInfoException If any of the provided data is invalid.
+	 */
 	public static function create(string $name, string $email, string $cpfCnpj, string $postalCode, string $addressNumber, string $phone, ?string $mobilePhone = null): self
 	{
 		return new self(
@@ -43,6 +79,14 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
 		);
 	}
 
+	/**
+	 * Creates a CreditCardHolderInfo instance from a raw data array.
+	 * 
+	 * @param  array{ name: string, email: string, cpfCnpj: string, postalCode: string, addressNumber: string, phone: string, mobilePhone?: string }  $data  The raw data array.
+	 * @return self A new, validated CreditCardHolderInfo instance.
+	 * 
+	 * @throws InvalidCreditCardHolderInfoException If required keys are missing.
+	 */
 	public static function fromArray(array $data): self
 	{
 		$requiredFields = [
