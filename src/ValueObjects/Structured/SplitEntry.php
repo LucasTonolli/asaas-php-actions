@@ -53,7 +53,7 @@ final readonly class SplitEntry extends AbstractStructuredValueObject
      *
      * @throws InvalidSplitEntryException If validation fails (e.g., no value provided, or percentage is invalid).
      */
-    public static function create(
+    private static function create(
         string $walletId,
         ?float $fixedValue = null,
         ?float $percentageValue = null,
