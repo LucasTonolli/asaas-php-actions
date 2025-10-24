@@ -12,7 +12,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * A Value Object representing credit card information.
  *
  * This class encapsulates the details of a credit card, including the cardholder's name,
- * card number, expiration date, and CVV code. It includes validation to ensure that the
+ * card number, expiration date, and ccv code. It includes validation to ensure that the
  * provided data adheres to expected formats and constraints.
  */
 final readonly class CreditCard extends AbstractStructuredValueObject
@@ -26,14 +26,14 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      * @param  string  $number  The credit card number.
      * @param  string  $expiryMonth  The expiration month (MM).
      * @param  string  $expiryYear  The expiration year (YYYY).
-     * @param  string  $cvv  The card verification value.
+     * @param  string  $ccv  The card verification value.
      */
     private function __construct(
         public string $holderName,
         public string $number,
         public string $expiryMonth,
         public string $expiryYear,
-        public string $cvv
+        public string $ccv
     ) {}
 
     /**
@@ -45,7 +45,7 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      * @param  string  $number  The credit card number.
      * @param  string  $expiryMonth  The expiration month (MM).
      * @param  string  $expiryYear  The expiration year (YYYY).
-     * @param  string  $cvv  The card verification value.
+     * @param  string  $ccv  The card verification value.
      * @return self A new, validated CreditCard instance.
      *
      * @throws InvalidCreditCardException If any of the provided data is invalid.
@@ -55,7 +55,7 @@ final readonly class CreditCard extends AbstractStructuredValueObject
         string $number,
         string $expiryMonth,
         string $expiryYear,
-        string $cvv
+        string $ccv
     ): self {
         if (empty(DataSanitizer::sanitizeString($holderName))) {
             throw new InvalidCreditCardException('Holder name cannot be empty');
@@ -82,24 +82,24 @@ final readonly class CreditCard extends AbstractStructuredValueObject
             throw new InvalidCreditCardException('Invalid credit card number');
         }
 
-        if (! preg_match('/^\d{3,4}$/', $cvv)) {
-            throw new InvalidCreditCardException('CVV must be 3 or 4 digits');
+        if (! preg_match('/^\d{3,4}$/', $ccv)) {
+            throw new InvalidCreditCardException('ccv must be 3 or 4 digits');
         }
 
-        return new self($holderName, $number, $expiryMonth, $expiryYear, $cvv);
+        return new self($holderName, $number, $expiryMonth, $expiryYear, $ccv);
     }
 
     /**
      * Creates a CreditCard instance from a raw data array.
      *
-     * @param  array{holderName: string|null, number: string|null, expiryMonth: string|null, expiryYear: string|null, cvv: string|null}  $data  The raw data array.
+     * @param  array{holderName: string|null, number: string|null, expiryMonth: string|null, expiryYear: string|null, ccv: string|null}  $data  The raw data array.
      * @return self A new, validated CreditCard instance.
      *
      * @throws InvalidCreditCardException If required keys are missing.
      */
     public static function fromArray(array $data): self
     {
-        $requiredFields = ['holderName', 'number', 'expiryMonth', 'expiryYear', 'cvv'];
+        $requiredFields = ['holderName', 'number', 'expiryMonth', 'expiryYear', 'ccv'];
         foreach ($requiredFields as $field) {
             if (! isset($data[$field])) {
                 throw new InvalidCreditCardException("Missing required field: {$field}");
@@ -111,14 +111,14 @@ final readonly class CreditCard extends AbstractStructuredValueObject
         $expiryMonth = DataSanitizer::onlyDigits($data['expiryMonth']);
         $expiryMonth = str_pad($expiryMonth, 2, '0', STR_PAD_LEFT);
         $expiryYear = DataSanitizer::onlyDigits($data['expiryYear']);
-        $cvv = DataSanitizer::onlyDigits($data['cvv']);
+        $ccv = DataSanitizer::onlyDigits($data['ccv']);
 
         return self::create(
             holderName: $holderName,
             number: $number,
             expiryMonth: $expiryMonth,
             expiryYear: $expiryYear,
-            cvv: $cvv
+            ccv: $ccv
         );
     }
 

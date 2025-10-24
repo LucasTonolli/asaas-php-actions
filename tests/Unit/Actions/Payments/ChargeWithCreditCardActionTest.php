@@ -26,7 +26,7 @@ describe('Charge With Credit Card Action', function (): void {
 				'number' => '4111111111111111',
 				'expiryMonth' => '12',
 				'expiryYear' => '2025',
-				'cvv' => '123',
+				'ccv' => '123',
 			],
 			'creditCardHolderInfo' => [
 				'name' => 'John Doe',
@@ -61,7 +61,7 @@ describe('Charge With Credit Card Action', function (): void {
 				'number' => '4111111111111111',
 				'expiryMonth' => '12',
 				'expiryYear' => '2025',
-				'cvv' => '123',
+				'ccv' => '123',
 			],
 			'creditCardHolderInfo' => [
 				'name' => 'John Doe',
@@ -86,7 +86,7 @@ describe('Charge With Credit Card Action', function (): void {
 				'number' => '4111111111111111',
 				'expiryMonth' => '12',
 				'expiryYear' => '2025',
-				'cvv' => '123',
+				'ccv' => '123',
 			],
 			'creditCardHolderInfo' => [
 				'name' => 'John Doe',
