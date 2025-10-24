@@ -38,7 +38,7 @@ final readonly class Interest extends AbstractStructuredValueObject
      *
      * @throws InvalidInterestException If the value is negative or exceeds 100.
      */
-    public static function create(float $value): self
+    private static function create(float $value): self
     {
         if (! is_finite($value)) {
             throw new InvalidInterestException('Interest value must be a finite number');
