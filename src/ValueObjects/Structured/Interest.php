@@ -14,7 +14,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * This class encapsulates the interest rate and ensures it is always a valid
  * percentage (between 0 and 100) upon creation.
  */
-final class Interest extends AbstractStructuredValueObject
+final readonly class Interest extends AbstractStructuredValueObject
 {
     /**
      * Interest private constructor.
@@ -24,7 +24,7 @@ final class Interest extends AbstractStructuredValueObject
      * @param  float  $value  The interest percentage value.
      */
     private function __construct(
-        public readonly float $value,
+        public float $value,
     ) {}
 
     /**

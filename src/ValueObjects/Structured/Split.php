@@ -15,13 +15,8 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * `SplitEntry` objects. It also contains business logic to validate the entire
  * split configuration against a total payment value.
  */
-final class Split extends AbstractStructuredValueObject
+final readonly class Split extends AbstractStructuredValueObject
 {
-    /**
-     * @var SplitEntry[] The array of split recipient entries.
-     */
-    private array $entries = [];
-
     /**
      * Split private constructor.
      *
@@ -29,13 +24,11 @@ final class Split extends AbstractStructuredValueObject
      *
      * @param  SplitEntry[]  $entries  An array of SplitEntry objects.
      */
-    private function __construct(array $entries)
+    private function __construct(private array $entries)
     {
-        if (empty($entries)) {
+        if (empty($this->entries)) {
             throw new InvalidSplitException('Split entries must not be empty');
         }
-
-        $this->entries = $entries;
     }
 
     /**
@@ -65,7 +58,7 @@ final class Split extends AbstractStructuredValueObject
     public static function fromArray(array $data): self
     {
         $entries = array_map(
-            fn (array $entry) => SplitEntry::fromArray($entry),
+            fn(array $entry) => SplitEntry::fromArray($entry),
             $data
         );
 
@@ -91,7 +84,7 @@ final class Split extends AbstractStructuredValueObject
      */
     public function entriesToArray(): array
     {
-        return array_map(fn (SplitEntry $entry) => $entry->toArray(), $this->entries);
+        return array_map(fn(SplitEntry $entry) => $entry->toArray(), $this->entries);
     }
 
     /**
@@ -109,7 +102,7 @@ final class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn (float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
+            fn(float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
             0
         );
     }
@@ -121,7 +114,7 @@ final class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn (float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
+            fn(float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
             0
         );
     }

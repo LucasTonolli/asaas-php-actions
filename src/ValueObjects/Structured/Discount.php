@@ -16,7 +16,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Enums\DiscountType;
  * and its application rules (e.g., `dueDateLimitDays`). It contains validation
  * to ensure a discount is always in a valid state upon creation.
  */
-final class Discount extends AbstractStructuredValueObject
+final readonly class Discount extends AbstractStructuredValueObject
 {
     /**
      * Discount private constructor.
@@ -28,9 +28,9 @@ final class Discount extends AbstractStructuredValueObject
      * @param  DiscountType  $discountType  The type of discount (Fixed or Percentage).
      */
     private function __construct(
-        public readonly float $value,
-        public readonly ?int $dueDateLimitDays,
-        public readonly DiscountType $discountType
+        public float $value,
+        public ?int $dueDateLimitDays,
+        public DiscountType $discountType
     ) {}
 
     /**

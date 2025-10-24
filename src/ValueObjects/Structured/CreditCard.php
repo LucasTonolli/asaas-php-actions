@@ -15,7 +15,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * card number, expiration date, and CVV code. It includes validation to ensure that the
  * provided data adheres to expected formats and constraints.
  */
-final class CreditCard extends AbstractStructuredValueObject
+final readonly class CreditCard extends AbstractStructuredValueObject
 {
 	/**
 	 * CreditCard private constructor.

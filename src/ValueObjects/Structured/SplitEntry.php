@@ -15,7 +15,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * including the recipient's wallet ID and the value they will receive (either
  * fixed or as a percentage).
  */
-final class SplitEntry extends AbstractStructuredValueObject
+final readonly class SplitEntry extends AbstractStructuredValueObject
 {
     /**
      * SplitEntry private constructor.
@@ -30,12 +30,12 @@ final class SplitEntry extends AbstractStructuredValueObject
      * @param  ?string  $description  A custom description for this split entry.
      */
     private function __construct(
-        public readonly string $walletId,
-        public readonly ?float $fixedValue = null,
-        public readonly ?float $percentageValue = null,
-        public readonly ?float $totalFixedValue = null,
-        public readonly ?string $externalReference = null,
-        public readonly ?string $description = null,
+        public string $walletId,
+        public ?float $fixedValue = null,
+        public ?float $percentageValue = null,
+        public ?float $totalFixedValue = null,
+        public ?string $externalReference = null,
+        public ?string $description = null,
     ) {}
 
     /**

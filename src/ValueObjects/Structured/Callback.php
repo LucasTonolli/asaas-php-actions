@@ -13,7 +13,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * This class encapsulates the URL to which a user should be redirected after a
  * successful payment. It ensures the URL is valid and secure (HTTPS).
  */
-final class Callback extends AbstractStructuredValueObject
+final readonly class Callback extends AbstractStructuredValueObject
 {
     /**
      * Callback private constructor.
@@ -24,8 +24,8 @@ final class Callback extends AbstractStructuredValueObject
      * @param  bool  $autoRedirect  Whether to automatically redirect the user.
      */
     private function __construct(
-        public readonly string $successUrl,
-        public readonly bool $autoRedirect = true
+        public string $successUrl,
+        public bool $autoRedirect = true
     ) {}
 
     /**

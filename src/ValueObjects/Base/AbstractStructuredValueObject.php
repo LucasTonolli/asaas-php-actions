@@ -15,7 +15,7 @@ use ReflectionClass;
  *
  * @internal This is an internal framework class and should not be used directly.
  */
-abstract class AbstractStructuredValueObject
+abstract readonly class AbstractStructuredValueObject
 {
     /**
      * Recursively converts the structured value object into an associative array.
@@ -53,7 +53,7 @@ abstract class AbstractStructuredValueObject
             if ($value instanceof self) {
                 $result[$key] = $value->toArray();
             } elseif (is_array($value) && ! empty($value) && current($value) instanceof self) {
-                $result[$key] = array_map(fn (self $v) => $v->toArray(), $value);
+                $result[$key] = array_map(fn(self $v) => $v->toArray(), $value);
             } elseif (is_object($value) && method_exists($value, 'value')) {
                 $result[$key] = $value->value();
             } else {
