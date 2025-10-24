@@ -15,7 +15,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
  * format (lowercase, trimmed). It validates the format upon creation using
  * PHP's native email filter.
  */
-class Email extends AbstractSimpleValueObject
+readonly class Email extends AbstractSimpleValueObject
 {
     /**
      * Creates an Email instance from a string.
