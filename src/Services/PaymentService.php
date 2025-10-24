@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Services;
 
+use AsaasPhpSdk\Actions\Payments\ChargeWithCreditCardAction;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
@@ -12,6 +13,7 @@ use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
+use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
@@ -236,6 +238,29 @@ final class PaymentService
     }
 
     /**
+     * Charges a payment with a credit card.
+     * 
+     * @see https://docs.asaas.com/reference/cobrar-com-cartao-de-credito
+     * 
+     * @param  string  $id  The ID of the payment to be charged.
+     * @param  ChargeWithCreditCardDTO  $dto  The data transfer object containing the payment details.
+     * @return array<string, mixed> An array containing the data of the charged payment.
+     * 
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function chargeWithCreditCard(string $id, ChargeWithCreditCardDTO $dto): array
+    {
+        $action = new ChargeWithCreditCardAction($this->client, $this->responseHandler);
+
+        return $action->handle($id, $dto);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -252,7 +277,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
