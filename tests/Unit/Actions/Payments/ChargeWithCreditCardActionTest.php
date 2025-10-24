@@ -15,7 +15,7 @@ describe('Charge With Credit Card Action', function (): void {
 				'value' => 150.75,
 				'billingType' => 'CREDIT_CARD',
 				'dueDate' => '2025-12-31',
-				'status' => 'COMPLETE',
+				'status' => 'CONFIRMED',
 			])
 		]);
 
@@ -46,7 +46,7 @@ describe('Charge With Credit Card Action', function (): void {
 			->and($result['value'])->toBe(150.75)
 			->and($result['billingType'])->toBe('CREDIT_CARD')
 			->and($result['dueDate'])->toBe('2025-12-31')
-			->and($result['status'])->toBe('COMPLETE');
+			->and($result['status'])->toBe('CONFIRMED');
 	});
 
 	it('throws NotFoundException on 404 error', function (): void {
