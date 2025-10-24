@@ -29,11 +29,11 @@ final readonly class CreditCard extends AbstractStructuredValueObject
      * @param  string  $cvv  The card verification value.
      */
     private function __construct(
-        public readonly string $holderName,
-        public readonly string $number,
-        public readonly string $expirationMonth,
-        public readonly string $expirationYear,
-        public readonly string $cvv
+        public string $holderName,
+        public string $number,
+        public string $expirationMonth,
+        public string $expirationYear,
+        public string $cvv
     ) {}
 
     /**
