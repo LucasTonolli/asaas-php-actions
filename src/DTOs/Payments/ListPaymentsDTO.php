@@ -20,7 +20,7 @@ use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
  * strict validation for date ranges and will throw InvalidDateRangeException
  * if a start date is after its corresponding end date.
  */
-final class ListPaymentsDTO extends AbstractDTO
+final readonly class ListPaymentsDTO extends AbstractDTO
 {
     /**
      * Private constructor to enforce object creation via the static `fromArray` factory method.
@@ -46,32 +46,32 @@ final class ListPaymentsDTO extends AbstractDTO
      * @param  ?\DateTimeImmutable  $dueDateEnd  The end date of the payment due date range.
      */
     private function __construct(
-        public readonly ?string $installment = null,
-        public readonly ?int $offset = null,
-        public readonly ?int $limit = null,
-        public readonly ?string $customer = null,
-        public readonly ?string $customerGroupName = null,
-        public readonly ?BillingTypeEnum $billingType = null,
-        public readonly ?PaymentStatusEnum $status = null,
-        public readonly ?string $subscription = null,
-        public readonly ?string $externalReference = null,
+        public ?string $installment = null,
+        public ?int $offset = null,
+        public ?int $limit = null,
+        public ?string $customer = null,
+        public ?string $customerGroupName = null,
+        public ?BillingTypeEnum $billingType = null,
+        public ?PaymentStatusEnum $status = null,
+        public ?string $subscription = null,
+        public ?string $externalReference = null,
         #[SerializeAs(method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $paymentDate = null,
-        public readonly ?InvoiceStatusEnum $invoiceStatus = null,
-        public readonly ?bool $anticipated = null,
-        public readonly ?bool $anticipable = null,
+        public ?\DateTimeImmutable $paymentDate = null,
+        public ?InvoiceStatusEnum $invoiceStatus = null,
+        public ?bool $anticipated = null,
+        public ?bool $anticipable = null,
         #[SerializeAs(key: 'dateCreated[ge]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $dateCreatedStart = null,
+        public ?\DateTimeImmutable $dateCreatedStart = null,
         #[SerializeAs(key: 'dateCreated[le]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $dateCreatedEnd = null,
+        public ?\DateTimeImmutable $dateCreatedEnd = null,
         #[SerializeAs(key: 'paymentDate[ge]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $paymentDateStart = null,
+        public ?\DateTimeImmutable $paymentDateStart = null,
         #[SerializeAs(key: 'paymentDate[le]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $paymentDateEnd = null,
+        public ?\DateTimeImmutable $paymentDateEnd = null,
         #[SerializeAs(key: 'dueDate[ge]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $dueDateStart = null,
+        public ?\DateTimeImmutable $dueDateStart = null,
         #[SerializeAs(key: 'dueDate[le]', method: 'format', args: ['Y-m-d'])]
-        public readonly ?\DateTimeImmutable $dueDateEnd = null
+        public ?\DateTimeImmutable $dueDateEnd = null
     ) {}
 
     /**
