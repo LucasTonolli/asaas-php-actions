@@ -28,11 +28,11 @@ describe('Split Entry Value Object', function (): void {
     });
 
     it('cannot be created with an invalid split entry', function (): void {
-        expect(fn() => SplitEntry::fromArray([
+        expect(fn () => SplitEntry::fromArray([
             'walletId' => 'wallet_id',
         ]))->toThrow(InvalidSplitEntryException::class, 'At least one value must be provided');
 
-        expect(fn() => SplitEntry::fromArray([
+        expect(fn () => SplitEntry::fromArray([
             'walletId' => 'wallet_id',
             'percentageValue' => 101,
             'description' => 'Test description',
@@ -40,7 +40,7 @@ describe('Split Entry Value Object', function (): void {
     });
 
     it('walletId is required', function (): void {
-        expect(fn() => SplitEntry::fromArray([]))->toThrow(InvalidSplitEntryException::class, 'walletId is required');
+        expect(fn () => SplitEntry::fromArray([]))->toThrow(InvalidSplitEntryException::class, 'walletId is required');
     });
 
     it('compares the same split entry', function (): void {

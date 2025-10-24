@@ -18,12 +18,12 @@ describe('Interest', function (): void {
     });
 
     it('cannot be created with an invalid interest', function (): void {
-        expect(fn() => Interest::fromArray(['value' => -5]))->toThrow(InvalidInterestException::class, 'Interest value cannot be negative');
-        expect(fn() => Interest::fromArray(['value' => 150]))->toThrow(InvalidInterestException::class, 'Interest value cannot exceed 100%');
+        expect(fn () => Interest::fromArray(['value' => -5]))->toThrow(InvalidInterestException::class, 'Interest value cannot be negative');
+        expect(fn () => Interest::fromArray(['value' => 150]))->toThrow(InvalidInterestException::class, 'Interest value cannot exceed 100%');
     });
 
     it('value is required', function (): void {
-        expect(fn() => Interest::fromArray([]))->toThrow(InvalidInterestException::class, 'Interest value is required');
+        expect(fn () => Interest::fromArray([]))->toThrow(InvalidInterestException::class, 'Interest value is required');
     });
 
     it('compares the same interest', function (): void {

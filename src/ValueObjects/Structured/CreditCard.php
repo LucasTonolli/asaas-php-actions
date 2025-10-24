@@ -64,7 +64,7 @@ final readonly class CreditCard extends AbstractStructuredValueObject
             throw new InvalidCreditCardException('Expiration month must be between 01 and 12');
         }
 
-        if (!preg_match('/^\d{4}$/', $expirationYear)) {
+        if (! preg_match('/^\d{4}$/', $expirationYear)) {
             throw new InvalidCreditCardException('Expiration year must be 4 digits (YYYY)');
         }
 

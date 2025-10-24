@@ -2,7 +2,6 @@
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitException;
 use AsaasPhpSdk\ValueObjects\Structured\Split;
-use AsaasPhpSdk\ValueObjects\Structured\SplitEntry;
 
 describe('Split Value Object', function (): void {
     it('can be created with an array of entries', function (): void {
@@ -43,7 +42,7 @@ describe('Split Value Object', function (): void {
     });
 
     it('cannot be created with an invalid array of entries', function (): void {
-        expect(fn() => Split::fromArray([]))->toThrow(InvalidSplitException::class, 'Split entries must not be empty');
+        expect(fn () => Split::fromArray([]))->toThrow(InvalidSplitException::class, 'Split entries must not be empty');
     });
 
     it('sums fixed and percentage values', function (): void {
@@ -68,7 +67,7 @@ describe('Split Value Object', function (): void {
         expect($split->totalPercentage())->toBe(28.0);
         expect($split->totalFixedValue())->toBe(20.0);
 
-        expect(fn() => $split->validateFor(150))->not()->toThrow(InvalidSplitException::class);
+        expect(fn () => $split->validateFor(150))->not()->toThrow(InvalidSplitException::class);
     });
 
     it('throws error if amount to split is invalid', function (): void {
@@ -82,7 +81,7 @@ describe('Split Value Object', function (): void {
                 'percentageValue' => 14.0,
             ],
         ]);
-        expect(fn() => $split->validateFor(10))->toThrow(InvalidSplitException::class, 'Split percentages sum to 114%, which exceeds 100%');
+        expect(fn () => $split->validateFor(10))->toThrow(InvalidSplitException::class, 'Split percentages sum to 114%, which exceeds 100%');
 
         $split = Split::fromArray([
             [
@@ -94,6 +93,6 @@ describe('Split Value Object', function (): void {
                 'fixedValue' => 14.5,
             ],
         ]);
-        expect(fn() => $split->validateFor(10))->toThrow(InvalidSplitException::class, 'Split fixed values sum to R$ 24.5, which exceeds payment value of R$ 10');
+        expect(fn () => $split->validateFor(10))->toThrow(InvalidSplitException::class, 'Split fixed values sum to R$ 24.5, which exceeds payment value of R$ 10');
     });
 });

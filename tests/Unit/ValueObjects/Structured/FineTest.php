@@ -22,22 +22,22 @@ describe('Fine Value Object', function (): void {
     });
 
     it('cannot be created with an invalid fine', function (): void {
-        expect(fn() => Fine::fromArray([
+        expect(fn () => Fine::fromArray([
             'value' => -5.0,
             'type' => 'percentage',
         ]))->toThrow(InvalidFineException::class, 'Fine value cannot be negative');
-        expect(fn() => Fine::fromArray([
+        expect(fn () => Fine::fromArray([
             'value' => 150.0,
             'type' => 'percentage',
         ]))->toThrow(InvalidFineException::class, 'Fine percentage cannot exceed 100%');
-        expect(fn() => Fine::fromArray([
+        expect(fn () => Fine::fromArray([
             'value' => 10.0,
             'type' => 'invaldtype',
         ]))->toThrow(InvalidFineException::class, 'Invalid fine type');
     });
 
     it('value is required', function (): void {
-        expect(fn() => Fine::fromArray([]))->toThrow(InvalidFineException::class, 'Fine value is required');
+        expect(fn () => Fine::fromArray([]))->toThrow(InvalidFineException::class, 'Fine value is required');
     });
 
     it('compares the same fine', function (): void {

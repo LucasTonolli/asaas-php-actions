@@ -27,17 +27,17 @@ describe('Discount Value Object', function (): void {
     });
 
     it('cannot be created with an invalid discount', function (): void {
-        expect(fn() => Discount::fromArray([
+        expect(fn () => Discount::fromArray([
             'value' => -5.0,
             'dueDateLimitDays' => 30,
             'type' => 'percentage',
         ]))->toThrow(InvalidDiscountException::class, 'Value must be greater than 0.');
-        expect(fn() => Discount::fromArray([
+        expect(fn () => Discount::fromArray([
             'value' => 150.0,
             'dueDateLimitDays' => 30,
             'type' => 'percentage',
         ]))->toThrow(InvalidDiscountException::class, 'Discount percentage cannot exceed 100%');
-        expect(fn() => Discount::fromArray([
+        expect(fn () => Discount::fromArray([
             'value' => 10.0,
             'dueDateLimitDays' => -1,
             'type' => 'invaldtype',
@@ -45,9 +45,9 @@ describe('Discount Value Object', function (): void {
     });
 
     it('value is required', function (): void {
-        expect(fn() => Discount::fromArray([]))->toThrow(InvalidDiscountException::class, 'Discount value is required');
+        expect(fn () => Discount::fromArray([]))->toThrow(InvalidDiscountException::class, 'Discount value is required');
 
-        expect(fn() => Discount::fromArray([
+        expect(fn () => Discount::fromArray([
             'value' => 10.0,
         ]))->toThrow(InvalidDiscountException::class, 'Discount dueDateLimitDays is required');
     });
