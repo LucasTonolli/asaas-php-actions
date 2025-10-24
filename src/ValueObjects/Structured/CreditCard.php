@@ -92,7 +92,7 @@ final readonly class CreditCard extends AbstractStructuredValueObject
     /**
      * Creates a CreditCard instance from a raw data array.
      *
-     * @param  array{holderName?: string, number?: string, expirationMonth?: string, expirationYear?: string, cvv?: string}  $data  The raw data array.
+     * @param  array{holderName: string|null, number: string|null, expirationMonth: string|null, expirationYear: string|null, cvv: string|null}  $data  The raw data array.
      * @return self A new, validated CreditCard instance.
      *
      * @throws InvalidCreditCardException If required keys are missing.
@@ -106,16 +106,11 @@ final readonly class CreditCard extends AbstractStructuredValueObject
             }
         }
 
-        /** @phpstan-ignore-next-line */
         $holderName = DataSanitizer::sanitizeString($data['holderName']);
-        /** @phpstan-ignore-next-line */
         $number = DataSanitizer::onlyDigits($data['number']);
-        /** @phpstan-ignore-next-line */
         $expirationMonth = DataSanitizer::onlyDigits($data['expirationMonth']);
         $expirationMonth = str_pad($expirationMonth, 2, '0', STR_PAD_LEFT);
-        /** @phpstan-ignore-next-line */
         $expirationYear = DataSanitizer::onlyDigits($data['expirationYear']);
-        /** @phpstan-ignore-next-line */
         $cvv = DataSanitizer::onlyDigits($data['cvv']);
 
         return self::create(

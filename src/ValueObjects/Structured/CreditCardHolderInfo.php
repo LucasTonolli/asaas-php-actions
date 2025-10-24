@@ -91,7 +91,7 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
     /**
      * Creates a CreditCardHolderInfo instance from a raw data array.
      *
-     * @param  array{ name: string, email: string, cpfCnpj: string, postalCode: string, addressNumber: string, phone: string, mobilePhone?: string }  $data  The raw data array.
+     * @param  array{ name: string|null, email: string|null, cpfCnpj: string|null, postalCode: string|null, addressNumber: string|null, phone: string|null, mobilePhone?: string }  $data  The raw data array.
      * @return self A new, validated CreditCardHolderInfo instance.
      *
      * @throws InvalidCreditCardHolderInfoException If required keys are missing.
