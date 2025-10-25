@@ -137,7 +137,7 @@ describe('Credit Card Value Object', function (): void {
         ]))->toThrow(InvalidCreditCardException::class, 'Expiration year cannot be in the past');
     });
 
-    it('cannot be create with invalid number', function (): void {
+    it('cannot be created with invalid number', function (): void {
         expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '1234567890123456',
@@ -147,7 +147,7 @@ describe('Credit Card Value Object', function (): void {
         ]))->toThrow(InvalidCreditCardException::class, 'Invalid credit card number');
     });
 
-    it('cannot be create with invalid ccv', function (): void {
+    it('cannot be created with invalid ccv', function (): void {
         expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
@@ -165,7 +165,7 @@ describe('Credit Card Value Object', function (): void {
         ]))->toThrow(InvalidCreditCardException::class, 'ccv must be 3 or 4 digits');
     });
 
-    it('cannot be create with invalid expiration year format', function (): void {
+    it('cannot be created with invalid expiration year format', function (): void {
         expect(fn() => CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
