@@ -16,7 +16,7 @@ use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
  * digits after sanitization. It stores the value internally as a digits-only
  * string and provides methods for formatting and type checking.
  */
-final class Phone extends AbstractSimpleValueObject implements FormattableContract
+final readonly class Phone extends AbstractSimpleValueObject implements FormattableContract
 {
     /**
      * Creates a Phone instance from a string.

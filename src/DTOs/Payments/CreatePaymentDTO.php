@@ -24,7 +24,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Split;
  * exist in a valid state, throwing an `InvalidPaymentDataException` if any
  * rule is violated.
  */
-final class CreatePaymentDTO extends AbstractDTO
+final readonly class CreatePaymentDTO extends AbstractDTO
 {
     /**
      * Private constructor to enforce object creation via the static `fromArray` factory method.
@@ -47,28 +47,28 @@ final class CreatePaymentDTO extends AbstractDTO
      * @param  ?Callback  $callback  Callback and redirection settings.
      */
     private function __construct(
-        public readonly string $customer,
-        public readonly BillingTypeEnum $billingType,
-        public readonly float $value,
+        public string $customer,
+        public BillingTypeEnum $billingType,
+        public float $value,
         #[SerializeAs(method: 'format', args: ['Y-m-d'])]
-        public readonly \DateTimeImmutable $dueDate,
-        public readonly ?string $description = null,
-        public readonly ?int $daysAfterDueDateToRegistrationCancellation = null,
-        public readonly ?string $externalReference = null,
-        public readonly ?int $installmentCount = null,
-        public readonly ?float $totalValue = null,
-        public readonly ?float $installmentValue = null,
+        public \DateTimeImmutable $dueDate,
+        public ?string $description = null,
+        public ?int $daysAfterDueDateToRegistrationCancellation = null,
+        public ?string $externalReference = null,
+        public ?int $installmentCount = null,
+        public ?float $totalValue = null,
+        public ?float $installmentValue = null,
         #[SerializeAs(method: 'toArray')]
-        public readonly ?Discount $discount = null,
+        public ?Discount $discount = null,
         #[SerializeAs(method: 'toArray')]
-        public readonly ?Interest $interest = null,
+        public ?Interest $interest = null,
         #[SerializeAs(method: 'toArray')]
-        public readonly ?Fine $fine = null,
-        public readonly ?bool $postalService = null,
+        public ?Fine $fine = null,
+        public ?bool $postalService = null,
         #[SerializeAs(method: 'toArray')]
-        public readonly ?Split $split = null,
+        public ?Split $split = null,
         #[SerializeAs(method: 'toArray')]
-        public readonly ?Callback $callback = null
+        public ?Callback $callback = null
     ) {}
 
     /**
@@ -192,10 +192,6 @@ final class CreatePaymentDTO extends AbstractDTO
 
         if ($data['totalValue'] !== null && $data['totalValue'] <= 0) {
             throw new InvalidPaymentDataException('Total value must be greater than 0');
-        }
-
-        if ($data['installmentValue'] === null && $data['installmentCount'] !== null && $data['totalValue'] !== null) {
-            $data['installmentValue'] = round($data['totalValue'] / $data['installmentCount'], 2);
         }
 
         return $data;

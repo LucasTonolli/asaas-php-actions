@@ -23,7 +23,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
  * An `InvalidCustomerDataException` is thrown if any of the provided fields
  * are malformed.
  */
-final class UpdateCustomerDTO extends AbstractDTO
+final readonly class UpdateCustomerDTO extends AbstractDTO
 {
     /**
      * UpdateCustomerDTO private constructor.
@@ -49,26 +49,26 @@ final class UpdateCustomerDTO extends AbstractDTO
      * @param  ?bool  $foreignCustomer  The new setting for foreign customer status.
      */
     private function __construct(
-        public readonly ?string $name,
-        public readonly null|Cpf|Cnpj $cpfCnpj,
-        public readonly ?Email $email = null,
-        public readonly ?Phone $phone = null,
-        public readonly ?Phone $mobilePhone = null,
-        public readonly ?string $address = null,
-        public readonly ?string $addressNumber = null,
-        public readonly ?string $complement = null,
-        public readonly ?string $province = null,
+        public ?string $name,
+        public null|Cpf|Cnpj $cpfCnpj,
+        public ?Email $email = null,
+        public ?Phone $phone = null,
+        public ?Phone $mobilePhone = null,
+        public ?string $address = null,
+        public ?string $addressNumber = null,
+        public ?string $complement = null,
+        public ?string $province = null,
         #[SerializeAs(method: 'formatted')]
-        public readonly ?PostalCode $postalCode = null,
-        public readonly ?string $externalReference = null,
-        public readonly ?bool $notificationDisabled = null,
-        public readonly ?string $additionalEmails = null,
-        public readonly ?string $municipalInscription = null,
-        public readonly ?string $stateInscription = null,
-        public readonly ?string $observations = null,
-        public readonly ?string $groupName = null,
-        public readonly ?string $company = null,
-        public readonly ?bool $foreignCustomer = null
+        public ?PostalCode $postalCode = null,
+        public ?string $externalReference = null,
+        public ?bool $notificationDisabled = null,
+        public ?string $additionalEmails = null,
+        public ?string $municipalInscription = null,
+        public ?string $stateInscription = null,
+        public ?string $observations = null,
+        public ?string $groupName = null,
+        public ?string $company = null,
+        public ?bool $foreignCustomer = null
     ) {}
 
     /**

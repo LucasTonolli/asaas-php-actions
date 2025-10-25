@@ -16,7 +16,7 @@ use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
  * the input and validating its length and checksum digits according to the
  * official algorithm. It internally stores the CNPJ as a digits-only string.
  */
-class Cnpj extends AbstractSimpleValueObject implements FormattableContract
+readonly class Cnpj extends AbstractSimpleValueObject implements FormattableContract
 {
     /**
      * Creates a Cnpj instance from a string.

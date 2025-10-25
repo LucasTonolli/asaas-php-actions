@@ -15,7 +15,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Enums\FineType;
  * This class encapsulates the fine's value and its type (fixed or percentage).
  * It contains validation to ensure a fine is always in a valid state upon creation.
  */
-final class Fine extends AbstractStructuredValueObject
+final readonly class Fine extends AbstractStructuredValueObject
 {
     /**
      * Fine private constructor.
@@ -26,8 +26,8 @@ final class Fine extends AbstractStructuredValueObject
      * @param  FineType  $type  The type of fine (Fixed or Percentage).
      */
     private function __construct(
-        public readonly float $value,
-        public readonly FineType $type,
+        public float $value,
+        public FineType $type,
     ) {}
 
     /**
@@ -41,7 +41,7 @@ final class Fine extends AbstractStructuredValueObject
      *
      * @throws InvalidFineException If the value is negative, the type is invalid, or a percentage exceeds 100.
      */
-    public static function create(float $value, string $type): self
+    private static function create(float $value, string $type): self
     {
         if (! is_finite($value)) {
             throw new InvalidFineException('Fine value must be a finite number');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 /**
@@ -13,7 +14,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * This class encapsulates the URL to which a user should be redirected after a
  * successful payment. It ensures the URL is valid and secure (HTTPS).
  */
-final class Callback extends AbstractStructuredValueObject
+final readonly class Callback extends AbstractStructuredValueObject
 {
     /**
      * Callback private constructor.
@@ -24,8 +25,8 @@ final class Callback extends AbstractStructuredValueObject
      * @param  bool  $autoRedirect  Whether to automatically redirect the user.
      */
     private function __construct(
-        public readonly string $successUrl,
-        public readonly bool $autoRedirect = true
+        public string $successUrl,
+        public bool $autoRedirect = true
     ) {}
 
     /**
@@ -39,7 +40,7 @@ final class Callback extends AbstractStructuredValueObject
      *
      * @throws InvalidCallbackException If the success URL is not a valid HTTPS URL.
      */
-    public static function create(string $successUrl, bool $autoRedirect = true): self
+    private static function create(string $successUrl, bool $autoRedirect = true): self
     {
 
         if (! filter_var($successUrl, FILTER_VALIDATE_URL)) {
@@ -64,17 +65,22 @@ final class Callback extends AbstractStructuredValueObject
      */
     public static function fromArray(array $data): self
     {
-        if (! \array_key_exists('autoRedirect', $data)) {
-            throw new InvalidCallbackException('autoRedirect must be a boolean');
-        }
-
         if (! \array_key_exists('successUrl', $data)) {
             throw new InvalidCallbackException('successUrl is required');
         }
 
+        $successUrl = DataSanitizer::sanitizeString($data['successUrl']);
+        if ($successUrl === null) {
+            throw new InvalidCallbackException('successUrl must be a valid string');
+        }
+
+        $autoRedirect = \array_key_exists('autoRedirect', $data)
+            ? (bool) filter_var($data['autoRedirect'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+            : true;
+
         return self::create(
-            successUrl: $data['successUrl'],
-            autoRedirect: $data['autoRedirect']
+            successUrl: $successUrl,
+            autoRedirect: $autoRedirect
         );
     }
 }

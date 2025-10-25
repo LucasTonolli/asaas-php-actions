@@ -15,7 +15,7 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * including the recipient's wallet ID and the value they will receive (either
  * fixed or as a percentage).
  */
-final class SplitEntry extends AbstractStructuredValueObject
+final readonly class SplitEntry extends AbstractStructuredValueObject
 {
     /**
      * SplitEntry private constructor.
@@ -30,12 +30,12 @@ final class SplitEntry extends AbstractStructuredValueObject
      * @param  ?string  $description  A custom description for this split entry.
      */
     private function __construct(
-        public readonly string $walletId,
-        public readonly ?float $fixedValue = null,
-        public readonly ?float $percentageValue = null,
-        public readonly ?float $totalFixedValue = null,
-        public readonly ?string $externalReference = null,
-        public readonly ?string $description = null,
+        public string $walletId,
+        public ?float $fixedValue = null,
+        public ?float $percentageValue = null,
+        public ?float $totalFixedValue = null,
+        public ?string $externalReference = null,
+        public ?string $description = null,
     ) {}
 
     /**
@@ -53,7 +53,7 @@ final class SplitEntry extends AbstractStructuredValueObject
      *
      * @throws InvalidSplitEntryException If validation fails (e.g., no value provided, or percentage is invalid).
      */
-    public static function create(
+    private static function create(
         string $walletId,
         ?float $fixedValue = null,
         ?float $percentageValue = null,
@@ -71,6 +71,14 @@ final class SplitEntry extends AbstractStructuredValueObject
 
         if ($percentageValue !== null && ($percentageValue < 0 || $percentageValue > 100)) {
             throw new InvalidSplitEntryException('Percentage value must be between 0 and 100');
+        }
+
+        if ($fixedValue !== null && $fixedValue < 0) {
+            throw new InvalidSplitEntryException('fixedValue cannot be negative');
+        }
+
+        if ($totalFixedValue !== null && $totalFixedValue < 0) {
+            throw new InvalidSplitEntryException('totalFixedValue cannot be negative');
         }
 
         $externalReference = DataSanitizer::sanitizeString($externalReference);

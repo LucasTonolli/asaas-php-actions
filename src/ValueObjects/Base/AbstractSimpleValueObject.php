@@ -16,10 +16,10 @@ namespace AsaasPhpSdk\ValueObjects\Base;
  *
  * @property-read string $value The raw, underlying string value.
  */
-abstract class AbstractSimpleValueObject
+abstract readonly class AbstractSimpleValueObject
 {
     /** @var string The raw, immutable string value. */
-    protected readonly string $value;
+    protected string $value;
 
     /**
      * Protected constructor to enforce immutability and the factory pattern.

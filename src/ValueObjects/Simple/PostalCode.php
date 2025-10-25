@@ -16,7 +16,7 @@ use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
  * sanitizing the input and validating that it contains exactly 8 digits.
  * It stores the value internally as a digits-only string.
  */
-class PostalCode extends AbstractSimpleValueObject implements FormattableContract
+readonly class PostalCode extends AbstractSimpleValueObject implements FormattableContract
 {
     /**
      * Creates a PostalCode instance from a string.

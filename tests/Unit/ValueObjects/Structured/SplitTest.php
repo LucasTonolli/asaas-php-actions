@@ -2,7 +2,6 @@
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidSplitException;
 use AsaasPhpSdk\ValueObjects\Structured\Split;
-use AsaasPhpSdk\ValueObjects\Structured\SplitEntry;
 
 describe('Split Value Object', function (): void {
     it('can be created with an array of entries', function (): void {
@@ -27,11 +26,11 @@ describe('Split Value Object', function (): void {
             ],
         ]);
 
-        $split = Split::create([
-            SplitEntry::fromArray([
+        $split = Split::fromArray([
+            [
                 'walletId' => 'wallet_id',
                 'fixedValue' => 10.0,
-            ]),
+            ],
         ]);
 
         expect($split->entriesToArray())->toBe([

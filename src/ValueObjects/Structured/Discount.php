@@ -16,7 +16,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Enums\DiscountType;
  * and its application rules (e.g., `dueDateLimitDays`). It contains validation
  * to ensure a discount is always in a valid state upon creation.
  */
-final class Discount extends AbstractStructuredValueObject
+final readonly class Discount extends AbstractStructuredValueObject
 {
     /**
      * Discount private constructor.
@@ -28,9 +28,9 @@ final class Discount extends AbstractStructuredValueObject
      * @param  DiscountType  $discountType  The type of discount (Fixed or Percentage).
      */
     private function __construct(
-        public readonly float $value,
-        public readonly ?int $dueDateLimitDays,
-        public readonly DiscountType $discountType
+        public float $value,
+        public ?int $dueDateLimitDays,
+        public DiscountType $discountType
     ) {}
 
     /**
@@ -45,20 +45,25 @@ final class Discount extends AbstractStructuredValueObject
      *
      * @throws InvalidDiscountException If the value is not positive, the type is invalid, or a percentage exceeds 100.
      */
-    public static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
+    private static function create(float $value, ?int $dueDateLimitDays, string $discountType): self
     {
         $sanitizedDueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
         $sanitizedValue = DataSanitizer::sanitizeFloat($value);
-        $discountType = DataSanitizer::sanitizeLowercase($discountType);
-        $type = DiscountType::tryFromString($discountType);
+        $sanitizedDiscountType = DataSanitizer::sanitizeLowercase($discountType);
+
+        if ($sanitizedValue === null || $sanitizedValue <= 0) {
+            throw new InvalidDiscountException('Value must be greater than 0.');
+        }
 
         if (! is_finite($sanitizedValue)) {
             throw new InvalidDiscountException('Discount value must be a finite number');
         }
 
-        if ($sanitizedValue === null || $sanitizedValue <= 0) {
-            throw new InvalidDiscountException('Value must be greater than 0.');
+        if ($sanitizedDiscountType === null) {
+            throw new InvalidDiscountException('Invalid discount type');
         }
+
+        $type = DiscountType::tryFromString($sanitizedDiscountType);
 
         if ($type === null) {
             throw new InvalidDiscountException('Invalid discount type');

@@ -15,13 +15,8 @@ use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
  * `SplitEntry` objects. It also contains business logic to validate the entire
  * split configuration against a total payment value.
  */
-final class Split extends AbstractStructuredValueObject
+final readonly class Split extends AbstractStructuredValueObject
 {
-    /**
-     * @var SplitEntry[] The array of split recipient entries.
-     */
-    private array $entries = [];
-
     /**
      * Split private constructor.
      *
@@ -29,26 +24,11 @@ final class Split extends AbstractStructuredValueObject
      *
      * @param  SplitEntry[]  $entries  An array of SplitEntry objects.
      */
-    private function __construct(array $entries)
+    private function __construct(private array $entries)
     {
-        if (empty($entries)) {
+        if (empty($this->entries)) {
             throw new InvalidSplitException('Split entries must not be empty');
         }
-
-        $this->entries = $entries;
-    }
-
-    /**
-     * Creates a new Split instance from an array of pre-validated SplitEntry objects.
-     *
-     * @param  SplitEntry[]  $entries  An array of SplitEntry value objects.
-     * @return self A new Split instance.
-     *
-     * @throws InvalidSplitException If the entries array is empty.
-     */
-    public static function create(array $entries): self
-    {
-        return new self($entries);
     }
 
     /**
