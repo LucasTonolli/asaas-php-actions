@@ -73,7 +73,7 @@ final readonly class Callback extends AbstractStructuredValueObject
 
         return self::create(
             successUrl: $data['successUrl'],
-            autoRedirect: $autoRedirect ?? true
+            autoRedirect: $autoRedirect
         );
     }
 }
