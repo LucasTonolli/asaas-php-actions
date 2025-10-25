@@ -34,7 +34,7 @@ final readonly class ListPaymentsDTO extends AbstractDTO
      * @param  ?PaymentStatusEnum  $status  The status of the payment.
      * @param  ?string  $subscription  The ID of the subscription to which the payment belongs.
      * @param  ?string  $externalReference  A unique external identifier.
-     * @param  ?\DateTimeImmutable  $paymentDate  The date when the payment was made..
+     * @param  ?\DateTimeImmutable  $paymentDate  The date when the payment was made.
      * @param  ?InvoiceStatusEnum  $invoiceStatus  The status of the invoice.
      * @param  ?bool  $anticipated  Indicates if the payment is anticipated.
      * @param  ?bool  $anticipable  Indicates if the payment is anticipable.
