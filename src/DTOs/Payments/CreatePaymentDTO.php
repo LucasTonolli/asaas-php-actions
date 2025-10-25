@@ -194,10 +194,6 @@ final readonly class CreatePaymentDTO extends AbstractDTO
             throw new InvalidPaymentDataException('Total value must be greater than 0');
         }
 
-        if ($data['installmentValue'] === null && $data['installmentCount'] !== null && $data['totalValue'] !== null) {
-            $data['installmentValue'] = round($data['totalValue'] / $data['installmentCount'], 2);
-        }
-
         return $data;
     }
 }
