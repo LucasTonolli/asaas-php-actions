@@ -73,6 +73,7 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
             throw new InvalidCreditCardHolderInfoException('Address number cannot be empty');
         }
         $digits = DataSanitizer::onlyDigits($cpfCnpj) ?? '';
+
         return new self(
             name: $name,
             email: Email::from($email),

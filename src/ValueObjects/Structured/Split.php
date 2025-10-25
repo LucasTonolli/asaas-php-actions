@@ -45,7 +45,7 @@ final readonly class Split extends AbstractStructuredValueObject
     public static function fromArray(array $data): self
     {
         $entries = array_map(
-            fn(array $entry) => SplitEntry::fromArray($entry),
+            fn (array $entry) => SplitEntry::fromArray($entry),
             $data
         );
 
@@ -71,7 +71,7 @@ final readonly class Split extends AbstractStructuredValueObject
      */
     public function entriesToArray(): array
     {
-        return array_map(fn(SplitEntry $entry) => $entry->toArray(), $this->entries);
+        return array_map(fn (SplitEntry $entry) => $entry->toArray(), $this->entries);
     }
 
     /**
@@ -89,7 +89,7 @@ final readonly class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn(float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
+            fn (float $sum, SplitEntry $entry) => $sum + ($entry->percentageValue ?? 0),
             0
         );
     }
@@ -101,7 +101,7 @@ final readonly class Split extends AbstractStructuredValueObject
     {
         return array_reduce(
             $this->entries,
-            fn(float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
+            fn (float $sum, SplitEntry $entry) => $sum + ($entry->totalFixedValue ?? $entry->fixedValue ?? 0),
             0
         );
     }

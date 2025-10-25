@@ -47,7 +47,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         return [
             'creditCard' => $data['creditCard'] ?? null,
             'creditCardHolderInfo' => $data['creditCardHolderInfo'] ?? null,
-            'creditCardToken' =>  DataSanitizer::sanitizeString($data['creditCardToken'] ?? null),
+            'creditCardToken' => DataSanitizer::sanitizeString($data['creditCardToken'] ?? null),
         ];
     }
 
@@ -63,17 +63,17 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      */
     private static function validate(array $data): array
     {
-        $hasToken = !empty($data['creditCardToken']);
+        $hasToken = ! empty($data['creditCardToken']);
         $hasCreditCard = isset($data['creditCard']) && (is_array($data['creditCard']) || $data['creditCard'] instanceof CreditCard);
         $hasHolderInfo = isset($data['creditCardHolderInfo']) && (is_array($data['creditCardHolderInfo']) || $data['creditCardHolderInfo'] instanceof CreditCardHolderInfo);
 
-        if (!$hasToken && !$hasCreditCard) {
+        if (! $hasToken && ! $hasCreditCard) {
             throw new InvalidPaymentDataException(
                 'Either creditCardToken or creditCard details must be provided.'
             );
         }
 
-        if (!$hasToken && !$hasHolderInfo) {
+        if (! $hasToken && ! $hasHolderInfo) {
             throw new InvalidPaymentDataException(
                 'Credit card holder info is required when credit card token is not provided.'
             );
@@ -93,7 +93,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
                 : null;
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: ' . $e->getMessage(),
+                'Invalid credit card data: '.$e->getMessage(),
                 0,
                 $e
             );

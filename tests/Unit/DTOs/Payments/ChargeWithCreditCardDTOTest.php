@@ -9,13 +9,13 @@ dataset('dto_credit_card_missing_fields', [
     [[
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' =>  (string) ((int) date('Y') + 1),
+        'expiryYear' => (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'expiryMonth' => '12',
-        'expiryYear' =>  (string) ((int) date('Y') + 1),
+        'expiryYear' => (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
@@ -27,14 +27,14 @@ dataset('dto_credit_card_missing_fields', [
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
-        'expiryYear' =>  (string) ((int) date('Y') + 1),
+        'expiryYear' => (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' =>  (string) ((int) date('Y') + 1),
+        'expiryYear' => (string) ((int) date('Y') + 1),
     ]],
 ]);
 
@@ -120,7 +120,7 @@ describe('Charge With Credit Card DTO', function (): void {
     });
 
     it('throws an exception if required credit card fields are missing', function ($creditCardData): void {
-        expect(fn() => ChargeWithCreditCardDTO::fromArray([
+        expect(fn () => ChargeWithCreditCardDTO::fromArray([
             'creditCard' => $creditCardData,
             'creditCardHolderInfo' => [
                 'name' => 'John Doe',
@@ -132,12 +132,12 @@ describe('Charge With Credit Card DTO', function (): void {
     })->with('dto_credit_card_missing_fields');
 
     it('throws an exception if required credit card holder info fields are missing', function ($creditCardHolderInfoData): void {
-        expect(fn() => ChargeWithCreditCardDTO::fromArray([
+        expect(fn () => ChargeWithCreditCardDTO::fromArray([
             'creditCard' => [
                 'holderName' => 'John Doe',
                 'number' => '4111111111111111',
                 'expiryMonth' => '12',
-                'expiryYear' =>  (string) ((int) date('Y') + 1),
+                'expiryYear' => (string) ((int) date('Y') + 1),
                 'ccv' => '123',
             ],
             'creditCardHolderInfo' => $creditCardHolderInfoData,
