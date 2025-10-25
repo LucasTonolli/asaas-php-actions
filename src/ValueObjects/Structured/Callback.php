@@ -67,9 +67,13 @@ final readonly class Callback extends AbstractStructuredValueObject
         if (! \array_key_exists('successUrl', $data)) {
             throw new InvalidCallbackException('successUrl is required');
         }
+        $autoRedirect = \array_key_exists('autoRedirect', $data)
+            ? (bool) filter_var($data['autoRedirect'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+            : true;
 
         return self::create(
-            ...$data,
+            successUrl: $data['successUrl'],
+            autoRedirect: $autoRedirect ?? true
         );
     }
 }
