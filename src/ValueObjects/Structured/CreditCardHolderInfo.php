@@ -72,11 +72,11 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
         if (empty($addressNumber)) {
             throw new InvalidCreditCardHolderInfoException('Address number cannot be empty');
         }
-
+        $digits = DataSanitizer::onlyDigits($cpfCnpj) ?? '';
         return new self(
             name: $name,
             email: Email::from($email),
-            cpfCnpj: match (strlen(DataSanitizer::onlyDigits($cpfCnpj))) {
+            cpfCnpj: match (strlen($digits)) {
                 11 => Cpf::from($cpfCnpj),
                 14 => Cnpj::from($cpfCnpj),
                 default => throw new InvalidCreditCardHolderInfoException('CPF or CNPJ must contain 11 or 14 digits'),
