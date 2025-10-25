@@ -9,13 +9,13 @@ dataset('credit_card_missing_fields', [
     [[
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
@@ -27,14 +27,14 @@ dataset('credit_card_missing_fields', [
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
     ]],
 ]);
 
@@ -137,7 +137,7 @@ describe('Charge With Credit Card DTO', function (): void {
                 'holderName' => 'John Doe',
                 'number' => '4111111111111111',
                 'expiryMonth' => '12',
-                'expiryYear' => '2025',
+                'expiryYear' =>  (string) ((int) date('Y') + 1),
                 'ccv' => '123',
             ],
             'creditCardHolderInfo' => $creditCardHolderInfoData,

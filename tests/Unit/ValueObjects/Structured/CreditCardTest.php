@@ -7,13 +7,13 @@ dataset('credit_card_missing_fields', [
     [[
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
@@ -25,14 +25,14 @@ dataset('credit_card_missing_fields', [
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
     ]],
 ]);
 
@@ -41,21 +41,21 @@ dataset('credit_card_null_fields', [
         'holderName' => null,
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'number' => null,
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
         'expiryMonth' => null,
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => '123',
     ]],
     [[
@@ -69,7 +69,7 @@ dataset('credit_card_null_fields', [
         'holderName' => 'John Doe',
         'number' => '4111111111111111',
         'expiryMonth' => '12',
-        'expiryYear' => '2025',
+        'expiryYear' =>  (string) ((int) date('Y') + 1),
         'ccv' => null,
     ]],
 ]);
@@ -80,7 +80,7 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '123',
         ]);
         expect($creditCard->holderName)->toBe('John Doe');
@@ -122,7 +122,7 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '4111111111111111',
             'expiryMonth' => '13',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '123',
         ]))->toThrow(InvalidCreditCardException::class, 'Expiration month must be between 01 and 12');
     });
@@ -142,7 +142,7 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '1234567890123456',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '123',
         ]))->toThrow(InvalidCreditCardException::class, 'Invalid credit card number');
     });
@@ -152,7 +152,7 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '12345',
         ]))->toThrow(InvalidCreditCardException::class, 'ccv must be 3 or 4 digits');
 
@@ -160,7 +160,7 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '12',
         ]))->toThrow(InvalidCreditCardException::class, 'ccv must be 3 or 4 digits');
     });
@@ -180,14 +180,14 @@ describe('Credit Card Value Object', function (): void {
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '123',
         ]);
         $creditCard2 = CreditCard::fromArray([
             'holderName' => 'John Doe',
             'number' => '4769 9981 1166 8248',
             'expiryMonth' => '12',
-            'expiryYear' => '2025',
+            'expiryYear' =>  (string) ((int) date('Y') + 1),
             'ccv' => '123',
         ]);
         $creditCard3 = CreditCard::fromArray([
