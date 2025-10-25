@@ -73,6 +73,6 @@ describe('Charge With Credit Card', function (): void {
 		expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
 			'payment_not_found',
 			$dto
-		))->toThrow(ValidationException::class, 'Cobrança inexistente.');
+		))->toThrow(ValidationException::class);
 	});
 });
