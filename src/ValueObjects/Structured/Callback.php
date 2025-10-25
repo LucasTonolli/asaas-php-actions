@@ -77,12 +77,9 @@ final readonly class Callback extends AbstractStructuredValueObject
         $autoRedirect = \array_key_exists('autoRedirect', $data)
             ? (bool) filter_var($data['autoRedirect'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
             : true;
-        if ($autoRedirect === null) {
-            throw new InvalidCallbackException('autoRedirect must be a valid boolean value');
-        }
 
         return self::create(
-            successUrl: $$successUrl,
+            successUrl: $successUrl,
             autoRedirect: $autoRedirect
         );
     }
