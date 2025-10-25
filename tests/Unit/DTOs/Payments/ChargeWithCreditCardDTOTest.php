@@ -5,7 +5,7 @@ use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 
-dataset('credit_card_missing_fields', [
+dataset('dto_credit_card_missing_fields', [
     [[
         'number' => '4111111111111111',
         'expiryMonth' => '12',
@@ -129,7 +129,7 @@ describe('Charge With Credit Card DTO', function (): void {
                 'phone' => '1234567890',
             ],
         ]))->toThrow(InvalidPaymentDataException::class);
-    })->with('credit_card_missing_fields');
+    })->with('dto_credit_card_missing_fields');
 
     it('throws an exception if required credit card holder info fields are missing', function ($creditCardHolderInfoData): void {
         expect(fn() => ChargeWithCreditCardDTO::fromArray([
