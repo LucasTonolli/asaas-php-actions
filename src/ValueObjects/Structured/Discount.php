@@ -49,16 +49,21 @@ final readonly class Discount extends AbstractStructuredValueObject
     {
         $sanitizedDueDateLimitDays = DataSanitizer::sanitizeInteger($dueDateLimitDays);
         $sanitizedValue = DataSanitizer::sanitizeFloat($value);
-        $discountType = DataSanitizer::sanitizeLowercase($discountType);
-        $type = DiscountType::tryFromString($discountType);
+        $sanitizedDiscountType = DataSanitizer::sanitizeLowercase($discountType);
+
+        if ($sanitizedValue === null || $sanitizedValue <= 0) {
+            throw new InvalidDiscountException('Value must be greater than 0.');
+        }
 
         if (! is_finite($sanitizedValue)) {
             throw new InvalidDiscountException('Discount value must be a finite number');
         }
 
-        if ($sanitizedValue === null || $sanitizedValue <= 0) {
-            throw new InvalidDiscountException('Value must be greater than 0.');
+        if ($sanitizedDiscountType === null) {
+            throw new InvalidDiscountException('Invalid discount type');
         }
+
+        $type = DiscountType::tryFromString($discountType);
 
         if ($type === null) {
             throw new InvalidDiscountException('Invalid discount type');
