@@ -6,6 +6,12 @@ namespace AsaasPhpSdk\Actions\Payments;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
+use AsaasPhpSdk\Exceptions\Api\ApiException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\RateLimitException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+
 
 final class ChargeWithCreditCardAction extends AbstractAction
 {
