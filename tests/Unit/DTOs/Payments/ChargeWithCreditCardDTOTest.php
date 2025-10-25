@@ -39,7 +39,7 @@ dataset('dto_credit_card_missing_fields', [
 ]);
 
 dataset(
-    'credit_card_holder_info_missing_fields',
+    'dto_credit_card_holder_info_missing_fields',
     [
         [[
             'email' => 'john.doe@test.com',
@@ -142,7 +142,7 @@ describe('Charge With Credit Card DTO', function (): void {
             ],
             'creditCardHolderInfo' => $creditCardHolderInfoData,
         ]))->toThrow(InvalidPaymentDataException::class);
-    })->with('credit_card_holder_info_missing_fields');
+    })->with('dto_credit_card_holder_info_missing_fields');
 
     it('if creditCardToken is provided, creditCard details are not required', function (): void {})->skip('Need to implement this test case [Credit card Tokenization]');
 });
