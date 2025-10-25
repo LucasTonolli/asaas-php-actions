@@ -3,7 +3,7 @@
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCreditCardException;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 
-dataset('credit_card_missing_fields', [
+dataset('vo_credit_card_missing_fields', [
     [[
         'number' => '4111111111111111',
         'expiryMonth' => '12',
@@ -36,7 +36,7 @@ dataset('credit_card_missing_fields', [
     ]],
 ]);
 
-dataset('credit_card_null_fields', [
+dataset('vo_credit_card_null_fields', [
     [[
         'holderName' => null,
         'number' => '4111111111111111',
@@ -108,14 +108,14 @@ describe('Credit Card Value Object', function (): void {
 
         expect(fn() => CreditCard::fromArray($creditCard))
             ->toThrow(InvalidCreditCardException::class, 'Missing required field:' . " {$missingField}");
-    })->with('credit_card_missing_fields');
+    })->with('vo_credit_card_missing_fields');
 
     it('throws exception when required fields are null', function ($creditCard): void {
         $missingField = array_keys(array_filter($creditCard, 'is_null'))[0];
 
         expect(fn() => CreditCard::fromArray($creditCard))
             ->toThrow(InvalidCreditCardException::class, 'Missing required field:' . " {$missingField}");
-    })->with('credit_card_null_fields');
+    })->with('vo_credit_card_null_fields');
 
     it('cannot be created with invalid expiration month', function (): void {
         expect(fn() => CreditCard::fromArray([
