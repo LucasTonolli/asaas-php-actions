@@ -81,11 +81,15 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
 
         try {
             $data['creditCard'] = $hasCreditCard
-                ? CreditCard::fromArray($data['creditCard'])
+                ? ($data['creditCard'] instanceof CreditCard
+                    ? $data['creditCard']
+                    : CreditCard::fromArray($data['creditCard']))
                 : null;
 
             $data['creditCardHolderInfo'] = $hasHolderInfo
-                ? CreditCardHolderInfo::fromArray($data['creditCardHolderInfo'])
+                ? ($data['creditCardHolderInfo'] instanceof CreditCardHolderInfo
+                    ? $data['creditCardHolderInfo']
+                    : CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']))
                 : null;
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
