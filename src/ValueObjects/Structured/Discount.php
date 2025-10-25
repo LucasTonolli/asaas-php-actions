@@ -63,7 +63,7 @@ final readonly class Discount extends AbstractStructuredValueObject
             throw new InvalidDiscountException('Invalid discount type');
         }
 
-        $type = DiscountType::tryFromString($discountType);
+        $type = DiscountType::tryFromString($sanitizedDiscountType);
 
         if ($type === null) {
             throw new InvalidDiscountException('Invalid discount type');
