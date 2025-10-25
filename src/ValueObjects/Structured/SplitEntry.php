@@ -73,6 +73,14 @@ final readonly class SplitEntry extends AbstractStructuredValueObject
             throw new InvalidSplitEntryException('Percentage value must be between 0 and 100');
         }
 
+        if ($fixedValue !== null && $fixedValue < 0) {
+            throw new InvalidSplitEntryException('fixedValue cannot be negative');
+        }
+
+        if ($totalFixedValue !== null && $totalFixedValue < 0) {
+            throw new InvalidSplitEntryException('totalFixedValue cannot be negative');
+        }
+
         $externalReference = DataSanitizer::sanitizeString($externalReference);
         $description = DataSanitizer::sanitizeString($description);
 
