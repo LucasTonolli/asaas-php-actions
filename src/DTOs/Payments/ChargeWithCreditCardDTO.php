@@ -64,8 +64,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
     private static function validate(array $data): array
     {
         $hasToken = !empty($data['creditCardToken']);
-        $hasCreditCard = isset($data['creditCard']) && is_array($data['creditCard']) || $data['creditCard'] instanceof CreditCard;
-        $hasHolderInfo = isset($data['creditCardHolderInfo']) && is_array($data['creditCardHolderInfo']) || $data['creditCardHolderInfo'] instanceof CreditCardHolderInfo;
+        $hasCreditCard = isset($data['creditCard']) && (is_array($data['creditCard']) || $data['creditCard'] instanceof CreditCard);
+        $hasHolderInfo = isset($data['creditCardHolderInfo']) && (is_array($data['creditCardHolderInfo']) || $data['creditCardHolderInfo'] instanceof CreditCardHolderInfo);
 
         if (!$hasToken && !$hasCreditCard) {
             throw new InvalidPaymentDataException(
