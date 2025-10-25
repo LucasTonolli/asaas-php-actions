@@ -243,7 +243,7 @@ final class PaymentService
      * @see https://docs.asaas.com/reference/cobrar-com-cartao-de-credito
      * 
      * @param  string  $id  The ID of the payment to be charged.
-     * @param  ChargeWithCreditCardDTO  $dto  The data transfer object containing the payment details.
+     * @param  array<string, mixed>  $data  raw data.
      * @return array<string, mixed> An array containing the data of the charged payment.
      * 
      * @throws AuthenticationException
@@ -253,8 +253,9 @@ final class PaymentService
      * @throws ValidationException
      * @throws \InvalidArgumentException if the provided ID is empty.
      */
-    public function chargeWithCreditCard(string $id, ChargeWithCreditCardDTO $dto): array
+    public function chargeWithCreditCard(string $id, array $data): array
     {
+        $dto = $this->createDTO(ChargeWithCreditCardDTO::class, $data);
         $action = new ChargeWithCreditCardAction($this->client, $this->responseHandler);
 
         return $action->handle($id, $dto);
