@@ -97,7 +97,7 @@ describe('Charge With Credit Card DTO', function (): void {
                 'holderName' => 'John Doe',
                 'number' => '4111111111111111',
                 'expiryMonth' => '12',
-                'expiryYear' => '2025',
+                'expiryYear' => (string) ((int) date('Y') + 1),
                 'ccv' => '123',
             ],
             'creditCardHolderInfo' => [
