@@ -86,7 +86,7 @@ describe('Credit Card Value Object', function (): void {
         expect($creditCard->holderName)->toBe('John Doe');
         expect($creditCard->number)->toBe('4769998111668248');
         expect($creditCard->expiryMonth)->toBe('12');
-        expect($creditCard->expiryYear)->toBe('2025');
+        expect($creditCard->expiryYear)->toBe((string) ((int) date('Y') + 1));
         expect($creditCard->ccv)->toBe('123');
     });
 
