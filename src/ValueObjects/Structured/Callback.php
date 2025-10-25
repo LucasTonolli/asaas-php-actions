@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\ValueObjects\Structured;
 
 use AsaasPhpSdk\Exceptions\ValueObjects\Structured\InvalidCallbackException;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Base\AbstractStructuredValueObject;
 
 /**
@@ -67,12 +68,21 @@ final readonly class Callback extends AbstractStructuredValueObject
         if (! \array_key_exists('successUrl', $data)) {
             throw new InvalidCallbackException('successUrl is required');
         }
+
+        $successUrl = DataSanitizer::sanitizeString($data['successUrl']);
+        if ($successUrl === null) {
+            throw new InvalidCallbackException('successUrl must be a valid string');
+        }
+
         $autoRedirect = \array_key_exists('autoRedirect', $data)
             ? (bool) filter_var($data['autoRedirect'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
             : true;
+        if ($autoRedirect === null) {
+            throw new InvalidCallbackException('autoRedirect must be a valid boolean value');
+        }
 
         return self::create(
-            successUrl: $data['successUrl'],
+            successUrl: $$successUrl,
             autoRedirect: $autoRedirect
         );
     }
