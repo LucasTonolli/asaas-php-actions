@@ -113,12 +113,12 @@ final readonly class CreditCardHolderInfo extends AbstractStructuredValueObject
             }
         }
 
-        $data['name'] = DataSanitizer::sanitizeString($data['name']);
-        $data['email'] = DataSanitizer::sanitizeString($data['email']);
-        $data['cpfCnpj'] = DataSanitizer::onlyDigits($data['cpfCnpj']);
-        $data['postalCode'] = DataSanitizer::onlyDigits($data['postalCode']);
-        $data['addressNumber'] = DataSanitizer::sanitizeString($data['addressNumber']);
-        $data['phone'] = DataSanitizer::onlyDigits($data['phone']);
+        $data['name'] = DataSanitizer::sanitizeString($data['name']) ?? '';
+        $data['email'] = DataSanitizer::sanitizeString($data['email']) ?? '';
+        $data['cpfCnpj'] = DataSanitizer::onlyDigits($data['cpfCnpj']) ?? '';
+        $data['postalCode'] = DataSanitizer::onlyDigits($data['postalCode']) ?? '';
+        $data['addressNumber'] = DataSanitizer::sanitizeString($data['addressNumber']) ?? '';
+        $data['phone'] = DataSanitizer::onlyDigits($data['phone']) ?? '';
         $data['mobilePhone'] = DataSanitizer::onlyDigits($data['mobilePhone'] ?? null);
 
         return self::create(
