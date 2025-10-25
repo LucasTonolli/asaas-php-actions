@@ -44,9 +44,11 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      */
     protected static function sanitize(array $data): array
     {
-        $data['creditCardToken'] = DataSanitizer::sanitizeString($data['creditCardToken'] ?? null);
-
-        return $data;
+        return [
+            'creditCard' => $data['creditCard'] ?? null,
+            'creditCardHolderInfo' => $data['creditCardHolderInfo'] ?? null,
+            'creditCardToken' =>  DataSanitizer::sanitizeString($data['creditCardToken'] ?? null),
+        ];
     }
 
     /**
