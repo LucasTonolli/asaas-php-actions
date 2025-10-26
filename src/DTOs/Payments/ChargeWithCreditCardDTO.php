@@ -12,6 +12,14 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 
+/**
+ * A "Strict" Data Transfer Object for creating a new payment with a credit card.
+ * 
+ * This DTO validates the structure, format, and internal consistency of the
+ * payment data upon creation. It ensures that an instance of this class can only
+ * exist in a valid state, throwing an `InvalidPaymentDataException` if any
+ * rule is violated.
+ */
 final readonly class ChargeWithCreditCardDTO extends AbstractDTO
 {
     /**
@@ -29,6 +37,12 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         public ?string $creditCardToken,
     ) {}
 
+    /**
+     * Creates a ChargeWithCreditCardDTO from an array of data.
+     *
+     * @param  array<string, mixed>  $data  The data to create the ChargeWithCreditCardDTO from.
+     * @return ChargeWithCreditCardDTO The created ChargeWithCreditCardDTO.
+     */
     public static function fromArray(array $data): self
     {
         $sanitizedData = self::sanitize($data);
@@ -93,7 +107,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
                 : null;
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: '.$e->getMessage(),
+                'Invalid credit card data: ' . $e->getMessage(),
                 0,
                 $e
             );
