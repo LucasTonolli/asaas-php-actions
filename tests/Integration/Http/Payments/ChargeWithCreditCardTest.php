@@ -19,27 +19,25 @@ describe('Charge With Credit Card', function (): void {
             'dueDate' => date('Y-m-d'),
         ]);
 
-        $dto = ChargeWithCreditCardDTO::fromArray([
-            'creditCard' => [
-                'holderName' => 'John Doe',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => (string) ((int) date('Y') + 1),
-                'ccv' => '123',
-            ],
-            'creditCardHolderInfo' => [
-                'name' => 'John Doe',
-                'email' => 'john.doe@test.com',
-                'cpfCnpj' => '824.121.180-51',
-                'postalCode' => '00000-000',
-                'phone' => '1234567890',
-                'addressNumber' => '123',
-            ],
-        ]);
-
         $response = $this->asaasClient->payment()->chargeWithCreditCard(
             $createPaymentResponse['id'],
-            $dto
+            [
+                'creditCard' => [
+                    'holderName' => 'John Doe',
+                    'number' => '4111111111111111',
+                    'expiryMonth' => '12',
+                    'expiryYear' => (string) ((int) date('Y') + 1),
+                    'ccv' => '123',
+                ],
+                'creditCardHolderInfo' => [
+                    'name' => 'John Doe',
+                    'email' => 'john.doe@test.com',
+                    'cpfCnpj' => '824.121.180-51',
+                    'postalCode' => '00000-000',
+                    'phone' => '1234567890',
+                    'addressNumber' => '123',
+                ],
+            ]
         );
         expect($response)->toBeArray()
             ->and($response['object'])->toBe('payment')
@@ -51,27 +49,25 @@ describe('Charge With Credit Card', function (): void {
     });
 
     it('throws ValidationException when the payment is not found (400)', function (): void {
-        $dto = ChargeWithCreditCardDTO::fromArray([
-            'creditCard' => [
-                'holderName' => 'John Doe',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => (string) ((int) date('Y') + 1),
-                'ccv' => '123',
-            ],
-            'creditCardHolderInfo' => [
-                'name' => 'John Doe',
-                'email' => 'john.doe@test.com',
-                'cpfCnpj' => '824.121.180-51',
-                'postalCode' => '00000-000',
-                'phone' => '1234567890',
-                'addressNumber' => '123',
-            ],
-        ]);
-
-        expect(fn () => $this->asaasClient->payment()->chargeWithCreditCard(
+        expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
             'payment_not_found',
-            $dto
+            [
+                'creditCard' => [
+                    'holderName' => 'John Doe',
+                    'number' => '4111111111111111',
+                    'expiryMonth' => '12',
+                    'expiryYear' => (string) ((int) date('Y') + 1),
+                    'ccv' => '123',
+                ],
+                'creditCardHolderInfo' => [
+                    'name' => 'John Doe',
+                    'email' => 'john.doe@test.com',
+                    'cpfCnpj' => '824.121.180-51',
+                    'postalCode' => '00000-000',
+                    'phone' => '1234567890',
+                    'addressNumber' => '123',
+                ],
+            ]
         ))->toThrow(ValidationException::class);
     });
 });
