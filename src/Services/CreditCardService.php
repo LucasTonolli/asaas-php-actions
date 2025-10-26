@@ -55,6 +55,19 @@ final class CreditCardService
 		return $action->handle($dto);
 	}
 
+	/**
+	 * Helper method to create DTOs with consistent error handling.
+	 *
+	 * @internal
+	 *
+	 * @template T of \AsaasPhpSdk\DTOs\Base\AbstractDTO
+	 *
+	 * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
+	 * @param  array<string, mixed>  $data  The raw data for the DTO.
+	 * @return T The created DTO instance.
+	 *
+	 * @throws ValidationException Wraps internal validation exceptions.
+	 */
 	private function createDTO(string $dtoClass, array $data): \AsaasPhpSdk\DTOs\Base\AbstractDTO
 	{
 		try {
