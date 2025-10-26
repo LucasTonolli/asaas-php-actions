@@ -6,6 +6,7 @@ namespace AsaasPhpSdk;
 
 use AsaasPhpSdk\Config\AsaasConfig;
 use AsaasPhpSdk\Helpers\HttpClientFactory;
+use AsaasPhpSdk\Services\CreditCardService;
 use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
 use GuzzleHttp\Client;
@@ -33,6 +34,8 @@ final class AsaasClient
     private ?CustomerService $customerService = null;
 
     private ?PaymentService $paymentService = null;
+
+    private ?CreditCardService $creditCardService = null;
 
     /**
      * AsaasClient constructor.
@@ -72,6 +75,24 @@ final class AsaasClient
         $this->paymentService = new PaymentService($this->httpClient);
 
         return $this->paymentService;
+    }
+
+    /**
+     * Gets the CreditCard service handler.
+     * 
+     * The service is lazy-loaded: it is instantiated on the first call and the 
+     * same instance is reused for all subsequent calls.
+     * 
+     * @return CreditCardService An instance of the CreditCardService
+     */
+    public function creditCard(): CreditCardService
+    {
+        if ($this->creditCardService !== null) {
+            return $this->creditCardService;
+        }
+        $this->creditCardService = new CreditCardService($this->httpClient);
+
+        return $this->creditCardService;
     }
 
     /**
