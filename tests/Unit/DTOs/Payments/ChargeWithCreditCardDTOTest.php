@@ -120,7 +120,7 @@ describe('Charge With Credit Card DTO', function (): void {
     });
 
     it('throws an exception if required credit card fields are missing', function ($creditCardData): void {
-        expect(fn () => ChargeWithCreditCardDTO::fromArray([
+        expect(fn() => ChargeWithCreditCardDTO::fromArray([
             'creditCard' => $creditCardData,
             'creditCardHolderInfo' => [
                 'name' => 'John Doe',
@@ -132,7 +132,7 @@ describe('Charge With Credit Card DTO', function (): void {
     })->with('dto_credit_card_missing_fields');
 
     it('throws an exception if required credit card holder info fields are missing', function ($creditCardHolderInfoData): void {
-        expect(fn () => ChargeWithCreditCardDTO::fromArray([
+        expect(fn() => ChargeWithCreditCardDTO::fromArray([
             'creditCard' => [
                 'holderName' => 'John Doe',
                 'number' => '4111111111111111',
@@ -144,5 +144,15 @@ describe('Charge With Credit Card DTO', function (): void {
         ]))->toThrow(InvalidPaymentDataException::class);
     })->with('dto_credit_card_holder_info_missing_fields');
 
-    it('if creditCardToken is provided, creditCard details are not required', function (): void {})->skip('Need to implement this test case [Credit card Tokenization]');
+    it('creates a payment with credit card token', function (): void {
+        $data = [
+            'creditCardToken' => 'tok_12345',
+        ];
+
+        $dto = ChargeWithCreditCardDTO::fromArray($data);
+
+        expect($dto)
+            ->toBeInstanceOf(ChargeWithCreditCardDTO::class)
+            ->creditCardToken->toBe('tok_12345');
+    });
 });
