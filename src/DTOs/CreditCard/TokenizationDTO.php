@@ -98,6 +98,10 @@ final readonly class TokenizationDTO extends AbstractDTO
             throw new InvalidCreditCardDataException('Remote IP cannot be empty');
         }
 
+        if (! filter_var($data['remoteIp'], FILTER_VALIDATE_IP)) {
+            throw new InvalidCreditCardDataException('Remote IP must be a valid IPv4 or IPv6 address');
+        }
+
         try {
             $data['creditCard'] = CreditCard::fromArray($data['creditCard']);
             $data['creditCardHolderInfo'] = CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']);
