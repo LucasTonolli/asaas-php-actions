@@ -44,7 +44,7 @@ describe('Tokenization Action', function (): void {
             ->and($result['creditCardToken'])->toBe('a75a1d98-c52d-4a6b-a413-71e00b193c99');
     });
 
-    it('throws an ValidationException on 400 error', function (): void {
+    it('throws a ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Invalid credit card number', 400, [
                 ['description' => 'Credit card number is invalid'],
@@ -73,6 +73,6 @@ describe('Tokenization Action', function (): void {
             'remoteIp' => '127.0.0.1',
         ]);
 
-        expect(fn () => $action->handle($dto))->toThrow(ValidationException::class);
+        expect(fn() => $action->handle($dto))->toThrow(ValidationException::class);
     });
 });
