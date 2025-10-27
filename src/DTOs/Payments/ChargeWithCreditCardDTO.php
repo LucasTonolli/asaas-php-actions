@@ -97,6 +97,10 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             );
         }
 
+        if ($hasToken) {
+            return $data;
+        }
+
         try {
             self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
