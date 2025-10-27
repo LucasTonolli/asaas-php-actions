@@ -70,7 +70,11 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      *
      * @internal
      *
-     * @param  array<string, mixed>  $data  The data to validate.
+     * @param  array{
+     *   creditCard?: array<string,mixed>,
+     *   creditCardHolderInfo?: array<string,mixed>,
+     *   creditCardToken?: string
+     * } $data The data to create the DTO from.  $data  The data to validate.
      * @return array<string, mixed> The validated data.
      *
      * @throws InvalidPaymentDataException If validation fails.
@@ -98,7 +102,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: '.$e->getMessage(),
+                'Invalid credit card data: ' . $e->getMessage(),
                 0,
                 $e
             );
