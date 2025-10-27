@@ -12,6 +12,14 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 
+/**
+ * A "Strict" Data Transfer Object for creating a new payment with a credit card.
+ *
+ * This DTO validates the structure, format, and internal consistency of the
+ * payment data upon creation. It ensures that an instance of this class can only
+ * exist in a valid state, throwing an `InvalidPaymentDataException` if any
+ * rule is violated.
+ */
 final readonly class ChargeWithCreditCardDTO extends AbstractDTO
 {
     /**
@@ -29,6 +37,12 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         public ?string $creditCardToken,
     ) {}
 
+    /**
+     * Creates a ChargeWithCreditCardDTO from an array of data.
+     *
+     * @param  array<string, mixed>  $data  The data to create the ChargeWithCreditCardDTO from.
+     * @return ChargeWithCreditCardDTO The created ChargeWithCreditCardDTO.
+     */
     public static function fromArray(array $data): self
     {
         $sanitizedData = self::sanitize($data);
@@ -64,8 +78,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
     private static function validate(array $data): array
     {
         $hasToken = ! empty($data['creditCardToken']);
-        $hasCreditCard = isset($data['creditCard']) && (is_array($data['creditCard']) || $data['creditCard'] instanceof CreditCard);
-        $hasHolderInfo = isset($data['creditCardHolderInfo']) && (is_array($data['creditCardHolderInfo']) || $data['creditCardHolderInfo'] instanceof CreditCardHolderInfo);
+        $hasCreditCard = isset($data['creditCard']) && is_array($data['creditCard']);
+        $hasHolderInfo = isset($data['creditCardHolderInfo']) && is_array($data['creditCardHolderInfo']);
 
         if (! $hasToken && ! $hasCreditCard) {
             throw new InvalidPaymentDataException(
@@ -80,17 +94,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         }
 
         try {
-            $data['creditCard'] = $hasCreditCard
-                ? ($data['creditCard'] instanceof CreditCard
-                    ? $data['creditCard']
-                    : CreditCard::fromArray($data['creditCard']))
-                : null;
-
-            $data['creditCardHolderInfo'] = $hasHolderInfo
-                ? ($data['creditCardHolderInfo'] instanceof CreditCardHolderInfo
-                    ? $data['creditCardHolderInfo']
-                    : CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']))
-                : null;
+            self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
+            self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
                 'Invalid credit card data: '.$e->getMessage(),
