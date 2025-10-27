@@ -1,6 +1,5 @@
 <?php
 
-use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
