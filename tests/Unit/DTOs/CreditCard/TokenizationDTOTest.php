@@ -128,8 +128,8 @@ describe('Tokenization DTO', function (): void {
         expect($tokenization->creditCardHolderInfo->addressNumber)->toEqual('123');
     });
 
-    it('throws an expection if required credit card fields are missing', function (): void {
-        expect(fn () => TokenizationDTO::fromArray([
+    it('throws an exception if required credit card fields are missing', function (): void {
+        expect(fn() => TokenizationDTO::fromArray([
             'customer' => 'cus_12345',
             'creditCardHolderInfo' => [
                 'name' => 'John Doe',
@@ -145,7 +145,7 @@ describe('Tokenization DTO', function (): void {
     })->with('tokenization_credit_card_missing_fields');
 
     it('throws an exception if required credit card holder info fields are missing', function (): void {
-        expect(fn () => TokenizationDTO::fromArray([
+        expect(fn() => TokenizationDTO::fromArray([
             'customer' => 'cus_12345',
             'creditCard' => [
                 'holderName' => 'John Doe',
@@ -159,7 +159,7 @@ describe('Tokenization DTO', function (): void {
     })->with('tokenization_credit_card_holder_info_missing_fields');
 
     it('throws an exception if customer is missing', function (): void {
-        expect(fn () => TokenizationDTO::fromArray([
+        expect(fn() => TokenizationDTO::fromArray([
             'creditCard' => [
                 'holderName' => 'John Doe',
                 'number' => '4111111111111111',
@@ -172,7 +172,7 @@ describe('Tokenization DTO', function (): void {
     });
 
     it('throws an exception if remoteIp is missing', function (): void {
-        expect(fn () => TokenizationDTO::fromArray([
+        expect(fn() => TokenizationDTO::fromArray([
             'customer' => 'cus_12345',
             'creditCard' => [
                 'holderName' => 'John Doe',
