@@ -78,8 +78,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
     private static function validate(array $data): array
     {
         $hasToken = ! empty($data['creditCardToken']);
-        $hasCreditCard = isset($data['creditCard']) && (is_array($data['creditCard']) || $data['creditCard'] instanceof CreditCard);
-        $hasHolderInfo = isset($data['creditCardHolderInfo']) && (is_array($data['creditCardHolderInfo']) || $data['creditCardHolderInfo'] instanceof CreditCardHolderInfo);
+        $hasCreditCard = isset($data['creditCard']) && is_array($data['creditCard']);
+        $hasHolderInfo = isset($data['creditCardHolderInfo']) && is_array($data['creditCardHolderInfo']);
 
         if (! $hasToken && ! $hasCreditCard) {
             throw new InvalidPaymentDataException(
@@ -94,20 +94,11 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         }
 
         try {
-            $data['creditCard'] = $hasCreditCard
-                ? ($data['creditCard'] instanceof CreditCard
-                    ? $data['creditCard']
-                    : CreditCard::fromArray($data['creditCard']))
-                : null;
-
-            $data['creditCardHolderInfo'] = $hasHolderInfo
-                ? ($data['creditCardHolderInfo'] instanceof CreditCardHolderInfo
-                    ? $data['creditCardHolderInfo']
-                    : CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']))
-                : null;
+            self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
+            self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: '.$e->getMessage(),
+                'Invalid credit card data: ' . $e->getMessage(),
                 0,
                 $e
             );

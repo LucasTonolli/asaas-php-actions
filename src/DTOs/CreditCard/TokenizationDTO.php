@@ -103,10 +103,10 @@ final readonly class TokenizationDTO extends AbstractDTO
         }
 
         try {
-            $data['creditCard'] = CreditCard::fromArray($data['creditCard']);
-            $data['creditCardHolderInfo'] = CreditCardHolderInfo::fromArray($data['creditCardHolderInfo']);
+            self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
+            self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidCreditCardDataException($e->getMessage());
+            throw new InvalidCreditCardDataException('Invalid credit card data: ' . $e->getMessage(), 0, $e);
         }
 
         return $data;
