@@ -48,7 +48,7 @@ describe('Charge With Credit Card', function (): void {
     });
 
     it('throws ValidationException when the payment is not found (400)', function (): void {
-        expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
+        expect(fn () => $this->asaasClient->payment()->chargeWithCreditCard(
             'payment_not_found',
             [
                 'creditCard' => [

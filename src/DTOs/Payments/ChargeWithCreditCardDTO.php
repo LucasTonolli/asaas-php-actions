@@ -14,7 +14,7 @@ use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 
 /**
  * A "Strict" Data Transfer Object for creating a new payment with a credit card.
- * 
+ *
  * This DTO validates the structure, format, and internal consistency of the
  * payment data upon creation. It ensures that an instance of this class can only
  * exist in a valid state, throwing an `InvalidPaymentDataException` if any
@@ -107,7 +107,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
                 : null;
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: ' . $e->getMessage(),
+                'Invalid credit card data: '.$e->getMessage(),
                 0,
                 $e
             );

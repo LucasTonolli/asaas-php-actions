@@ -79,10 +79,10 @@ final class AsaasClient
 
     /**
      * Gets the CreditCard service handler.
-     * 
-     * The service is lazy-loaded: it is instantiated on the first call and the 
+     *
+     * The service is lazy-loaded: it is instantiated on the first call and the
      * same instance is reused for all subsequent calls.
-     * 
+     *
      * @return CreditCardService An instance of the CreditCardService
      */
     public function creditCard(): CreditCardService
