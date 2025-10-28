@@ -99,4 +99,32 @@ describe('Charge With Credit Card Action', function (): void {
 
         $action->handle('', $dto);
     })->throws(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+
+    it('charges a payment with credit card token successfully', function (): void {
+        $client = mockClient([
+            mockResponse([
+                'id' => 'pay_123',
+                'customer' => 'cus_123',
+                'value' => 150.75,
+                'billingType' => 'CREDIT_CARD',
+                'dueDate' => '2025-12-31',
+                'status' => 'CONFIRMED',
+            ]),
+        ]);
+
+        $action = new ChargeWithCreditCardAction($client, new ResponseHandler);
+        $dto = ChargeWithCreditCardDTO::fromArray([
+            'creditCardToken' => 'tok_12345',
+        ]);
+
+        $result = $action->handle('pay_123', $dto);
+
+        expect($result)->toBeArray()
+            ->and($result['id'])->toBe('pay_123')
+            ->and($result['customer'])->toBe('cus_123')
+            ->and($result['value'])->toBe(150.75)
+            ->and($result['billingType'])->toBe('CREDIT_CARD')
+            ->and($result['dueDate'])->toBe('2025-12-31')
+            ->and($result['status'])->toBe('CONFIRMED');
+    });
 });
