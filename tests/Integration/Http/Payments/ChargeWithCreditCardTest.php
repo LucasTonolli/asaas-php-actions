@@ -48,7 +48,7 @@ describe('Charge With Credit Card', function (): void {
     });
 
     it('throws ValidationException when the payment is not found (400)', function (): void {
-        expect(fn () => $this->asaasClient->payment()->chargeWithCreditCard(
+        expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
             'payment_not_found',
             [
                 'creditCard' => [
@@ -68,5 +68,49 @@ describe('Charge With Credit Card', function (): void {
                 ],
             ]
         ))->toThrow(ValidationException::class);
+    });
+
+    it('charges a payment successfully with credit card token (200)', function (): void {
+        $createPaymentResponse = $this->asaasClient->payment()->create([
+            'customer' => $this->customerId,
+            'value' => 100,
+            'billingType' => BillingTypeEnum::CreditCard->value,
+            'dueDate' => date('Y-m-d'),
+        ]);
+
+        $tokenizedCreditCardResponse = $this->asaasClient->creditCard()->tokenize([
+            'creditCard' => [
+                'holderName' => 'John Doe',
+                'number' => '4242 4242 4242 4242',
+                'expiryMonth' => '12',
+                'expiryYear' => (string) ((int) date('Y') + 1),
+                'ccv' => '123',
+            ],
+            'customer' => $this->customerId,
+            'remoteIp' => '127.0.0.1',
+            'creditCardHolderInfo' => [
+                'name' => 'John Doe',
+                'email' => 'john.doe@test.com',
+                'cpfCnpj' => '824.121.180-51',
+                'postalCode' => '01310000',
+                'addressNumber' => '12345',
+                'phone' => '1234567890',
+            ],
+        ]);
+
+        $response = $this->asaasClient->payment()->chargeWithCreditCard(
+            $createPaymentResponse['id'],
+            [
+
+                'creditCardToken' => $tokenizedCreditCardResponse['creditCardToken'],
+            ]
+        );
+        expect($response)->toBeArray()
+            ->and($response['object'])->toBe('payment')
+            ->and($response['id'])->toBe($createPaymentResponse['id'])
+            ->and($response['customer'])->toBe($createPaymentResponse['customer'])
+            ->and($response['billingType'])->toBe($createPaymentResponse['billingType'])
+            ->and($response['dueDate'])->toBe($createPaymentResponse['dueDate'])
+            ->and($response['status'])->toBe('CONFIRMED');
     });
 });
