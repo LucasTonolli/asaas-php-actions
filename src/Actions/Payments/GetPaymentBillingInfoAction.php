@@ -16,7 +16,7 @@ final class GetPaymentBillingInfoAction extends AbstractAction
     /**
      * Retrieves the billing information for a specific payment.
      *
-     * This action performs a pe-request validation to ensure the ID is not empty and then sends a GET request to the 'payments/{id}/billingInfo' endpoint.
+     * This action performs a pre-request validation to ensure the ID is not empty and then sends a GET request to the 'payments/{id}/billingInfo' endpoint.
      *
      * @see https://docs.asaas.com/reference/recuperar-informacoes-de-pagamento-de-uma-cobranca Official Asaas API Documentation
      *
@@ -38,7 +38,7 @@ final class GetPaymentBillingInfoAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($paymentId).'/billingInfo')
+            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/billingInfo')
         );
     }
 }
