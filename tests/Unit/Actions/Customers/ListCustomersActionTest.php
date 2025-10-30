@@ -4,7 +4,7 @@ use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 

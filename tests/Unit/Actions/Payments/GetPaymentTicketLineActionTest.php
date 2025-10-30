@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Get Payment Ticket Line Action', function (): void {
     it('retrieves payment ticket line successfully', function (): void {
@@ -37,13 +37,13 @@ describe('Get Payment Ticket Line Action', function (): void {
 
         $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
 
-        expect(fn () => $action->handle($paymentId))->toThrow(NotFoundException::class);
+        expect(fn() => $action->handle($paymentId))->toThrow(NotFoundException::class);
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
         $client = mockClient([]);
         $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
 
-        expect(fn () => $action->handle(''))->toThrow(\InvalidArgumentException::class);
+        expect(fn() => $action->handle(''))->toThrow(\InvalidArgumentException::class);
     });
 });

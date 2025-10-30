@@ -4,7 +4,7 @@ use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Exception\ConnectException;
 
 describe('Create Customer Action', function (): void {

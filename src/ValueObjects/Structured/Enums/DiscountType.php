@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\ValueObjects\Structured\Enums;
 
-use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 use AsaasPhpSdk\Support\Traits\Enums\EnumEnhancements;
 
 /**

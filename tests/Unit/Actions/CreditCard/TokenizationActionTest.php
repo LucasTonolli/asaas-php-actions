@@ -3,7 +3,7 @@
 use AsaasPhpSdk\Actions\CreditCard\TokenizationAction;
 use AsaasPhpSdk\DTOs\CreditCard\TokenizationDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Tokenization Action', function (): void {
     it('tokenizes a credit card successfully', function (): void {
@@ -73,6 +73,6 @@ describe('Tokenization Action', function (): void {
             'remoteIp' => '127.0.0.1',
         ]);
 
-        expect(fn () => $action->handle($dto))->toThrow(ValidationException::class);
+        expect(fn() => $action->handle($dto))->toThrow(ValidationException::class);
     });
 });

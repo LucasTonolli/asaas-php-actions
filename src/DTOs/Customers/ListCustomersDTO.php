@@ -4,7 +4,7 @@ namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
-use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Simple\Cnpj;
 use AsaasPhpSdk\ValueObjects\Simple\Cpf;
 use AsaasPhpSdk\ValueObjects\Simple\Email;

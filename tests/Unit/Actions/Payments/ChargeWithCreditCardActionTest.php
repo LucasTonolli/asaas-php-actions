@@ -3,7 +3,7 @@
 use AsaasPhpSdk\Actions\Payments\ChargeWithCreditCardAction;
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Charge With Credit Card Action', function (): void {
     it('charges a payment with credit card successfully', function (): void {

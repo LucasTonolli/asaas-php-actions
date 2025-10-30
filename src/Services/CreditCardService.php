@@ -8,7 +8,7 @@ use AsaasPhpSdk\Actions\CreditCard\TokenizationAction;
 use AsaasPhpSdk\DTOs\CreditCard\TokenizationDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\CreditCard\InvalidCreditCardDataException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
 /**

@@ -41,7 +41,7 @@ use AsaasPhpSdk\Actions\Customers\{CreateCustomerAction, GetCustomerAction, List
 use AsaasPhpSdk\DTOs\Customers\{CreateCustomerDTO, ListCustomersDTO};
 use AsaasPhpSdk\Exceptions\ValidationException;
 use GuzzleHttp\Client;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 final class CustomerService
 {
