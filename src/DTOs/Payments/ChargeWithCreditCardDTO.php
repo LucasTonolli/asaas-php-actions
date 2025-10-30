@@ -74,7 +74,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      *   creditCard?: array<string,mixed>,
      *   creditCardHolderInfo?: array<string,mixed>,
      *   creditCardToken?: string
-     * } $data The data to create the DTO from.  $data  The data to validate.
+     * } $data  The data to validate.
      * @return array<string, mixed> The validated data.
      *
      * @throws InvalidPaymentDataException If validation fails.
