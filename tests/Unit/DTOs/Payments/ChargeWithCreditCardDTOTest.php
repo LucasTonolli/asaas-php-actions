@@ -155,4 +155,17 @@ describe('Charge With Credit Card DTO', function (): void {
             ->toBeInstanceOf(ChargeWithCreditCardDTO::class)
             ->creditCardToken->toBe('tok_12345');
     });
+
+    it('throws an InvalidPaymentDataException if credit card data is filled and credit card token is provided', function (): void {
+        expect(fn() => ChargeWithCreditCardDTO::fromArray([
+            'creditCard' => [
+                'holderName' => 'John Doe',
+                'number' => '4111111111111111',
+                'expiryMonth' => '12',
+                'expiryYear' => (string) ((int) date('Y') + 1),
+                'ccv' => '123',
+            ],
+            'creditCardToken' => 'tok_12345',
+        ]))->toThrow(InvalidPaymentDataException::class);
+    });
 });
