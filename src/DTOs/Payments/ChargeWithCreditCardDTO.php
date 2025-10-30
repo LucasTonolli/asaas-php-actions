@@ -98,6 +98,11 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         }
 
         if ($hasToken) {
+            if ($hasCreditCard || $hasHolderInfo) {
+                throw new InvalidPaymentDataException(
+                    'Credit card details and credit card holder info are not allowed when credit card token is provided.'
+                );
+            }
             return $data;
         }
 
