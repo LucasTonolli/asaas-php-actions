@@ -70,7 +70,11 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      *
      * @internal
      *
-     * @param  array<string, mixed>  $data  The data to validate.
+     * @param  array{
+     *   creditCard?: array<string,mixed>,
+     *   creditCardHolderInfo?: array<string,mixed>,
+     *   creditCardToken?: string
+     * } $data  The data to validate.
      * @return array<string, mixed> The validated data.
      *
      * @throws InvalidPaymentDataException If validation fails.
@@ -78,8 +82,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
     private static function validate(array $data): array
     {
         $hasToken = ! empty($data['creditCardToken']);
-        $hasCreditCard = isset($data['creditCard']) && is_array($data['creditCard']);
-        $hasHolderInfo = isset($data['creditCardHolderInfo']) && is_array($data['creditCardHolderInfo']);
+        $hasCreditCard = isset($data['creditCard']);
+        $hasHolderInfo = isset($data['creditCardHolderInfo']);
 
         if (! $hasToken && ! $hasCreditCard) {
             throw new InvalidPaymentDataException(
@@ -91,6 +95,16 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             throw new InvalidPaymentDataException(
                 'Credit card holder info is required when credit card token is not provided.'
             );
+        }
+
+        if ($hasToken) {
+            if ($hasCreditCard || $hasHolderInfo) {
+                throw new InvalidPaymentDataException(
+                    'Credit card details and credit card holder info are not allowed when credit card token is provided.'
+                );
+            }
+
+            return $data;
         }
 
         try {

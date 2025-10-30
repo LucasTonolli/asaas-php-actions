@@ -75,7 +75,13 @@ final readonly class TokenizationDTO extends AbstractDTO
      *
      * @internal
      *
-     * @param  array<string, mixed>  $data  The data to validate.
+     * @param  array{
+     *   customer?: string,
+     *   creditCard?: array<string,mixed>,
+     *   creditCardHolderInfo?: array<string,mixed>,
+     *   creditCardToken?: string,
+     *   remoteIp?: string
+     * } $data The data to create the DTO from.  $data  The data to validate.
      * @return array<string, mixed> The validated data.
      *
      * @throws InvalidCreditCardDataException If validation fails.
