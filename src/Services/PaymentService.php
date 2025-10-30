@@ -8,6 +8,7 @@ use AsaasPhpSdk\Actions\Payments\ChargeWithCreditCardAction;
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
+use AsaasPhpSdk\Actions\Payments\GetPaymentBillingInfoAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentQrCodeAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
@@ -262,6 +263,28 @@ final class PaymentService
     }
 
     /**
+     * Retrieves the billing information for a specific payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/recuperar-informacoes-de-pagamento-de-uma-cobranca
+     *
+     * @param  string  $id  The ID of the payment whose billing information is to be retrieved.
+     * @return array<string, mixed> An array containing the billing information for the specified payment.
+     *
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function getBillingInfo(string $id): array
+    {
+        $action = new GetPaymentBillingInfoAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
@@ -278,7 +301,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
