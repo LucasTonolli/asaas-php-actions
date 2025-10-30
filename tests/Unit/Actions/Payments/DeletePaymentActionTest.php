@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Delete Payment Action', function (): void {
     it('deletes a payment successfully', function (): void {

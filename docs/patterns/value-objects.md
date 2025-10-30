@@ -44,7 +44,7 @@ namespace AsaasPhpSdk\ValueObjects;
 useAsaasPhpSdk\ValueObjects\ValueObjectContract;
 use AsaasPhpSdk\ValueObjects\FormattableContract;
 use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
-use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 use AsaasPhpSdk\Exceptions\InvalidCpfException;
 
 // final: Garante que não pode ser estendido

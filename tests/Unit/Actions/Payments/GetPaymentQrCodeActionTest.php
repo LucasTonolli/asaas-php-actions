@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Actions\Payments\GetPaymentQrCodeAction;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Get Payment Qr Code Action', function (): void {
     it('retrieves payment QR code successfully', function (): void {

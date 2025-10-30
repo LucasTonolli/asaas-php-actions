@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Helpers;
+namespace AsaasPhpSdk\Support\Helpers;
 
 /**
  * A utility class for common data sanitization tasks.

@@ -23,7 +23,7 @@ use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
 use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
 /**
@@ -278,7 +278,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }

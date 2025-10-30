@@ -19,7 +19,7 @@ use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
 /**

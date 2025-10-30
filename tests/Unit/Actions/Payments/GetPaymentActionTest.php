@@ -2,7 +2,7 @@
 
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Get Payment Action', function (): void {
 

@@ -8,7 +8,7 @@ use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Exceptions\DTOs\CreditCard\InvalidCreditCardDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
-use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCard;
 use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 
@@ -112,7 +112,7 @@ final readonly class TokenizationDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidCreditCardDataException('Invalid credit card data: '.$e->getMessage(), 0, $e);
+            throw new InvalidCreditCardDataException('Invalid credit card data: ' . $e->getMessage(), 0, $e);
         }
 
         return $data;

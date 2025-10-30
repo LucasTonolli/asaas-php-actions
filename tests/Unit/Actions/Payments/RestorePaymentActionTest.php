@@ -1,7 +1,7 @@
 <?php
 
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('Restore Payment Action', function (): void {
 

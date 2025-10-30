@@ -4,7 +4,7 @@ use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
 describe('GetCustomerAction', function (): void {
 

@@ -4,7 +4,7 @@ use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\DTOs\Payments\Enums\PaymentStatusEnum;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
 const RESPONSE_KEYS = [
@@ -89,7 +89,7 @@ describe('List Payments Action', function (): void {
 
         $action = new ListPaymentsAction($client, new ResponseHandler);
 
-        expect(fn () => $action->handle($dto))
+        expect(fn() => $action->handle($dto))
             ->toThrow(ValidationException::class);
     });
 });
