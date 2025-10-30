@@ -168,4 +168,10 @@ describe('Charge With Credit Card DTO', function (): void {
             'creditCardToken' => 'tok_12345',
         ]))->toThrow(InvalidPaymentDataException::class);
     });
+
+    it('throws an exception for empty credit card token', function (): void {
+        expect(fn() => ChargeWithCreditCardDTO::fromArray([
+            'creditCardToken' => '',
+        ]))->toThrow(InvalidPaymentDataException::class);
+    });
 });
