@@ -13,32 +13,32 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class GetPaymentBillingInfoAction extends AbstractAction
 {
-	/**
-	 * Retrieves the billing information for a specific payment.
-	 * 
-	 * This action performs a pe-request validation to ensure the ID is not empty and then sends a GET request to the 'payments/{id}/billingInfo' endpoint.
-	 * 
-	 * @see https://docs.asaas.com/reference/recuperar-informacoes-de-pagamento-de-uma-cobranca Official Asaas API Documentation
-	 * 
-	 * @param  string  $paymentId  The unique identifier of the payment whose billing information is to be retrieved.
-	 * @return array<string, mixed> An array containing the billing information for the specified payment.
-	 * 
-	 * @throws \InvalidArgumentException if the provided payment ID is empty.
-	 * @throws AuthenticationException
-	 * @throws NotFoundException
-	 * @throws ValidationException
-	 * @throws RateLimitException
-	 * @throws ApiException
-	 */
-	public function handle(string $paymentId): array
-	{
-		$normalizedId = trim($paymentId);
-		if ($normalizedId === '') {
-			throw new \InvalidArgumentException('Payment ID cannot be empty');
-		}
+    /**
+     * Retrieves the billing information for a specific payment.
+     *
+     * This action performs a pe-request validation to ensure the ID is not empty and then sends a GET request to the 'payments/{id}/billingInfo' endpoint.
+     *
+     * @see https://docs.asaas.com/reference/recuperar-informacoes-de-pagamento-de-uma-cobranca Official Asaas API Documentation
+     *
+     * @param  string  $paymentId  The unique identifier of the payment whose billing information is to be retrieved.
+     * @return array<string, mixed> An array containing the billing information for the specified payment.
+     *
+     * @throws \InvalidArgumentException if the provided payment ID is empty.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function handle(string $paymentId): array
+    {
+        $normalizedId = trim($paymentId);
+        if ($normalizedId === '') {
+            throw new \InvalidArgumentException('Payment ID cannot be empty');
+        }
 
-		return $this->executeRequest(
-			fn() => $this->client->get('payments/' . rawurlencode($paymentId) . '/billingInfo')
-		);
-	}
+        return $this->executeRequest(
+            fn () => $this->client->get('payments/'.rawurlencode($paymentId).'/billingInfo')
+        );
+    }
 }

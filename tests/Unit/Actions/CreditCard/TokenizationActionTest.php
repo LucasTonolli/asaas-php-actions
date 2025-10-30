@@ -73,6 +73,6 @@ describe('Tokenization Action', function (): void {
             'remoteIp' => '127.0.0.1',
         ]);
 
-        expect(fn() => $action->handle($dto))->toThrow(ValidationException::class);
+        expect(fn () => $action->handle($dto))->toThrow(ValidationException::class);
     });
 });

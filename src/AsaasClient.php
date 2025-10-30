@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace AsaasPhpSdk;
 
 use AsaasPhpSdk\Config\AsaasConfig;
-use AsaasPhpSdk\Support\Helpers\HttpClientFactory;
 use AsaasPhpSdk\Services\CreditCardService;
 use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
+use AsaasPhpSdk\Support\Helpers\HttpClientFactory;
 use GuzzleHttp\Client;
 
 /**

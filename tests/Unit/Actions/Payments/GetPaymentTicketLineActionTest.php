@@ -37,13 +37,13 @@ describe('Get Payment Ticket Line Action', function (): void {
 
         $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
 
-        expect(fn() => $action->handle($paymentId))->toThrow(NotFoundException::class);
+        expect(fn () => $action->handle($paymentId))->toThrow(NotFoundException::class);
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
         $client = mockClient([]);
         $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
 
-        expect(fn() => $action->handle(''))->toThrow(\InvalidArgumentException::class);
+        expect(fn () => $action->handle(''))->toThrow(\InvalidArgumentException::class);
     });
 });

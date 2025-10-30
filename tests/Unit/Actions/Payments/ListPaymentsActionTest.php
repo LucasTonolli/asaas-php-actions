@@ -89,7 +89,7 @@ describe('List Payments Action', function (): void {
 
         $action = new ListPaymentsAction($client, new ResponseHandler);
 
-        expect(fn() => $action->handle($dto))
+        expect(fn () => $action->handle($dto))
             ->toThrow(ValidationException::class);
     });
 });
