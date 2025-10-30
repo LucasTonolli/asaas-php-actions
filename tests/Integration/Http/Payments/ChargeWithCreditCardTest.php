@@ -1,7 +1,8 @@
 <?php
 
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+
 
 describe('Charge With Credit Card', function (): void {
     beforeEach(function (): void {
@@ -47,8 +48,8 @@ describe('Charge With Credit Card', function (): void {
             ->and($response['status'])->toBe('CONFIRMED');
     });
 
-    it('throws ValidationException when the payment is not found (400)', function (): void {
-        expect(fn () => $this->asaasClient->payment()->chargeWithCreditCard(
+    it('throws NotFoundException when the payment is not found (400)', function (): void {
+        expect(fn() => $this->asaasClient->payment()->chargeWithCreditCard(
             'payment_not_found',
             [
                 'creditCard' => [
@@ -67,7 +68,7 @@ describe('Charge With Credit Card', function (): void {
                     'addressNumber' => '123',
                 ],
             ]
-        ))->toThrow(ValidationException::class);
+        ))->toThrow(NotFoundException::class);
     });
 
     it('charges a payment successfully with credit card token (200)', function (): void {
