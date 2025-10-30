@@ -103,6 +103,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
                     'Credit card details and credit card holder info are not allowed when credit card token is provided.'
                 );
             }
+
             return $data;
         }
 
@@ -111,7 +112,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: ' . $e->getMessage(),
+                'Invalid credit card data: '.$e->getMessage(),
                 0,
                 $e
             );
