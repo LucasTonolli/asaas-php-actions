@@ -124,19 +124,19 @@ final readonly class CreatePaymentDTO extends AbstractDTO
      */
     private static function validate(array $data): array
     {
-        if ($data['customer'] === null) {
+        if (empty($data['customer'])) {
             throw InvalidPaymentDataException::missingField('customer');
         }
 
-        if ($data['billingType'] === null) {
+        if (empty($data['billingType'])) {
             throw InvalidPaymentDataException::missingField('billingType');
         }
 
-        if ($data['value'] === null || $data['value'] <= 0) {
+        if (!isset($data['value']) || $data['value'] <= 0) {
             throw new InvalidPaymentDataException('Value must be greater than 0');
         }
 
-        if ($data['dueDate'] === null) {
+        if (empty($data['dueDate'])) {
             throw InvalidPaymentDataException::missingField('dueDate');
         }
 
