@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\Base\RestoreById;
+use AsaasPhpSdk\Actions\Base\RestoreByIdAction;
 
 /**
  * Restores a previously deleted customer.
@@ -12,7 +12,7 @@ use AsaasPhpSdk\Actions\Base\RestoreById;
  * @see https://docs.asaas.com/reference/restaurar-cliente-removido Official Asaas API Documentation
  *  
  */
-final class RestoreCustomerAction extends RestoreById
+final class RestoreCustomerAction extends RestoreByIdAction
 {
     /**
      * {@inheritDoc}

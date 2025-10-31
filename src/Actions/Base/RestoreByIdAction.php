@@ -14,7 +14,7 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 /**
  * Abstract base class for RESTORE actions that restore a resource by ID.
  */
-abstract class RestoreById extends AbstractAction
+abstract class RestoreByIdAction extends AbstractAction
 {
 	use ValidateResourceIdTrait;
 
