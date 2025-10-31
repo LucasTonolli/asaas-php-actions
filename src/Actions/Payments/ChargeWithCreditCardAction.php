@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Actions\Payments;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
+use AsaasPhpSdk\Actions\Traits\ValidateResourceIdTrait;
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
@@ -14,6 +15,8 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class ChargeWithCreditCardAction extends AbstractAction
 {
+    use ValidateResourceIdTrait;
+
     /**
      * Charges a payment with a credit card by its ID.
      *
@@ -35,10 +38,7 @@ final class ChargeWithCreditCardAction extends AbstractAction
      */
     public function handle(string $paymentId, ChargeWithCreditCardDTO $dto): array
     {
-        $normalizedId = trim($paymentId);
-        if ($normalizedId === '') {
-            throw new \InvalidArgumentException('Payment ID cannot be empty');
-        }
+        $normalizedId = $this->validateAndNormalizeId($paymentId, 'Payment');
 
         return $this->executeRequest(
             fn () => $this->client->post(
