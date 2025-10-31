@@ -106,15 +106,15 @@ final readonly class UpdatePaymentDTO extends AbstractDTO
     private static function validate(array $data): array
     {
         if (empty($data['billingType'])) {
-            throw new InvalidPaymentDataException('Billing type is required.');
+            throw InvalidPaymentDataException::missingField('billingType');
         }
 
         if (empty($data['value'])) {
-            throw new InvalidPaymentDataException('Value is required.');
+            throw InvalidPaymentDataException::missingField('value');
         }
 
         if (empty($data['dueDate'])) {
-            throw new InvalidPaymentDataException('Due date is required.');
+            throw InvalidPaymentDataException::missingField('dueDate');
         }
 
         $data['billingType'] = BillingTypeEnum::tryFromString($data['billingType']);
