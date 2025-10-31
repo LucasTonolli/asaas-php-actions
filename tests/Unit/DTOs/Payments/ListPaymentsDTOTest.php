@@ -4,7 +4,7 @@ use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\DTOs\Payments\Enums\InvoiceStatusEnum;
 use AsaasPhpSdk\DTOs\Payments\Enums\PaymentStatusEnum;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
-use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
+use AsaasPhpSdk\Exceptions\DTOs\InvalidDateRangeException;
 
 dataset('payments_filters', [
 

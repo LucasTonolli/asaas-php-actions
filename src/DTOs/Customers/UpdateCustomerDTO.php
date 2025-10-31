@@ -153,7 +153,7 @@ final readonly class UpdateCustomerDTO extends AbstractDTO
             self::validateSimpleValueObject($data, 'phone', Phone::class);
             self::validateSimpleValueObject($data, 'mobilePhone', Phone::class);
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
+            throw new InvalidCustomerDataException($e->getMessage(), 400, $e);
         }
 
         return $data;

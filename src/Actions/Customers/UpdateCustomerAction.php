@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Actions\Customers;
 
 use AsaasPhpSdk\Actions\Base\AbstractAction;
+use AsaasPhpSdk\Actions\Traits\ValidateResourceIdTrait;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
@@ -14,6 +15,8 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
 
 final class UpdateCustomerAction extends AbstractAction
 {
+    use ValidateResourceIdTrait;
+
     /**
      * Updates an existing customer by their ID.
      *
@@ -35,10 +38,7 @@ final class UpdateCustomerAction extends AbstractAction
      */
     public function handle(string $customerId, UpdateCustomerDTO $data): array
     {
-        $normalizedId = trim($customerId);
-        if ($normalizedId === '') {
-            throw new \InvalidArgumentException('Customer ID cannot be empty');
-        }
+        $normalizedId = $this->validateAndNormalizeId($customerId, 'Customer');
 
         return $this->executeRequest(
             fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])

@@ -9,7 +9,7 @@ use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
 use AsaasPhpSdk\DTOs\Payments\Enums\InvoiceStatusEnum;
 use AsaasPhpSdk\DTOs\Payments\Enums\PaymentStatusEnum;
-use AsaasPhpSdk\Exceptions\InvalidDateRangeException;
+use AsaasPhpSdk\Exceptions\DTOs\InvalidDateRangeException;
 
 /**
  * A "Lenient" Data Transfer Object for filtering and paginating payments.

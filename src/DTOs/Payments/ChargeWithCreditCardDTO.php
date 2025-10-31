@@ -113,7 +113,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
                 'Invalid credit card data: '.$e->getMessage(),
-                0,
+                400,
                 $e
             );
         }

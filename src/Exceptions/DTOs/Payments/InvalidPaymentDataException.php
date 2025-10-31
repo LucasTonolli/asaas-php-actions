@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Exceptions\DTOs\Payments;
 
-use AsaasPhpSdk\Exceptions\AsaasException;
+use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 
 /**
  * Represents an error for invalid data provided for a payment.
@@ -14,7 +14,7 @@ use AsaasPhpSdk\Exceptions\AsaasException;
  * such as a missing required field or a malformed value. It uses static
  * factory methods for creating consistent error messages.
  */
-final class InvalidPaymentDataException extends AsaasException
+final class InvalidPaymentDataException extends InvalidDataException
 {
     /**
      * Creates an exception for a missing required field.

@@ -14,18 +14,18 @@ dataset('update_payment_missing_fields', [
     [[
         'value' => 150.75,
         'dueDate' => '2025-12-31',
-        'message' => 'Billing type is required.',
+        'message' => 'Required field \'billingType\' is missing.',
     ]],
     [[
         'billingType' => 'credit_card',
         'dueDate' => '2025-12-31',
-        'message' => 'Value is required.',
+        'message' => 'Required field \'value\' is missing.',
 
     ]],
     [[
         'billingType' => 'credit_card',
         'value' => 150.75,
-        'message' => 'Due date is required.',
+        'message' => 'Required field \'dueDate\' is missing',
     ]],
 
 ]);
@@ -36,20 +36,20 @@ dataset('update_payment_null_fields', [
             'billingType' => null,
             'value' => 150.75,
             'dueDate' => '2025-12-31',
-            'message' => 'Billing type is required.',
+            'message' => 'Required field \'billingType\' is missing.',
         ],
     ],
     [[
         'billingType' => 'credit_card',
         'value' => null,
         'dueDate' => '2025-12-31',
-        'message' => 'Value is required.',
+        'message' => 'Required field \'value\' is missing.',
     ]],
     [[
         'billingType' => 'credit_card',
         'value' => 150.75,
         'dueDate' => null,
-        'message' => 'Due date is required.',
+        'message' => 'Required field \'dueDate\' is missing',
     ]],
 
 ]);
