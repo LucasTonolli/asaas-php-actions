@@ -24,10 +24,8 @@ use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Exceptions\DTOs\Payments\InvalidPaymentDataException;
-use AsaasPhpSdk\Exceptions\DTOs\InvalidDateRangeException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
-use GuzzleHttp\Client;
+use AsaasPhpSdk\Services\Base\AbstractService;
+
 
 /**
  * Provides a user-friendly interface for all payment-related operations.
@@ -46,28 +44,8 @@ use GuzzleHttp\Client;
  * ];
  * $newPayment = $asaas->payment()->create($paymentData);
  */
-final class PaymentService
+final class PaymentService extends AbstractService
 {
-    /**
-     * @var ResponseHandler The handler for processing API responses.
-     *
-     * @internal
-     */
-    private readonly ResponseHandler $responseHandler;
-
-    /**
-     * PaymentService constructor.
-     *
-     * @param  Client  $client  The configured Guzzle HTTP client.
-     * @param  ?ResponseHandler  $responseHandler  Optional custom response handler.
-     *
-     * @internal
-     */
-    public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
-    {
-        $this->responseHandler = $responseHandler ?? new ResponseHandler;
-    }
-
     /**
      * Creates a new payment.
      *
@@ -308,27 +286,5 @@ final class PaymentService
         $action = new UpdatePaymentAction($this->client, $this->responseHandler);
 
         return $action->handle($id, $dto);
-    }
-
-    /**
-     * Helper method to create DTOs with consistent error handling.
-     *
-     * @internal
-     *
-     * @template T of \AsaasPhpSdk\DTOs\Base\AbstractDTO
-     *
-     * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
-     * @param  array<string, mixed>  $data  The raw data for the DTO.
-     * @return T The created DTO instance.
-     *
-     * @throws ValidationException Wraps internal DTO validation exceptions.
-     */
-    private function createDTO(string $dtoClass, array $data): \AsaasPhpSdk\DTOs\Base\AbstractDTO
-    {
-        try {
-            return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
-            throw new ValidationException($e->getMessage(), $e->getCode(), $e);
-        }
     }
 }
