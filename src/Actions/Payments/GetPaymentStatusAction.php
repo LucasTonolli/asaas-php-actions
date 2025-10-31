@@ -10,7 +10,6 @@ use AsaasPhpSdk\Actions\Base\GetByIdAction;
  * Retrieves the status of a payment by its ID.
  *
  * @see https://docs.asaas.com/reference/recuperar-status-de-uma-cobranca Official Asaas API Documentation
- *
  */
 final class GetPaymentStatusAction extends GetByIdAction
 {
@@ -21,11 +20,12 @@ final class GetPaymentStatusAction extends GetByIdAction
     {
         return 'Payment';
     }
+
     /**
      * {@inheritDoc}
      */
     protected function getEndpoint(string $id): string
     {
-        return "payments/" . rawurlencode($id) . "/status";
+        return 'payments/'.rawurlencode($id).'/status';
     }
 }

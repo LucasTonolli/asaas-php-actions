@@ -8,7 +8,7 @@ use AsaasPhpSdk\Actions\Base\RestoreByIdAction;
 
 /**
  * Restores a previously deleted payment.
- * 
+ *
  * @see https://docs.asaas.com/reference/restaurar-cobranca-removida Official Asaas API Documentation
  */
 final class RestorePaymentAction extends RestoreByIdAction
@@ -26,6 +26,6 @@ final class RestorePaymentAction extends RestoreByIdAction
      */
     protected function getEndpoint(string $id): string
     {
-        return 'payments/' . rawurlencode($id) . '/restore';
+        return 'payments/'.rawurlencode($id).'/restore';
     }
 }

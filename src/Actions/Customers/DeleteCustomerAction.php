@@ -10,7 +10,6 @@ use AsaasPhpSdk\Actions\Base\DeleteByIdAction;
  * Deletes an existing customer by their ID.
  *
  * @see https://docs.asaas.com/reference/remover-cliente Official Asaas API Documentation
- *
  */
 final class DeleteCustomerAction extends DeleteByIdAction
 {
@@ -27,6 +26,6 @@ final class DeleteCustomerAction extends DeleteByIdAction
      */
     protected function getEndpoint(string $id): string
     {
-        return "customers/" . rawurlencode($id);
+        return 'customers/'.rawurlencode($id);
     }
 }

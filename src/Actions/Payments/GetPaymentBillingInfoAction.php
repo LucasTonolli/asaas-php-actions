@@ -10,7 +10,6 @@ use AsaasPhpSdk\Actions\Base\GetByIdAction;
  * Retrieves the billing information for a specific payment.
  *
  * @see https://docs.asaas.com/reference/recuperar-informacoes-de-pagamento-de-uma-cobranca Official Asaas API Documentation
- *
  */
 final class GetPaymentBillingInfoAction extends GetByIdAction
 {
@@ -21,11 +20,12 @@ final class GetPaymentBillingInfoAction extends GetByIdAction
     {
         return 'Payment';
     }
+
     /**
      * {@inheritDoc}
      */
     protected function getEndpoint(string $id): string
     {
-        return "payments/" . rawurlencode($id) . "/billingInfo";
+        return 'payments/'.rawurlencode($id).'/billingInfo';
     }
 }

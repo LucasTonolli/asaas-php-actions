@@ -10,9 +10,7 @@ use AsaasPhpSdk\Actions\Base\GetByIdAction;
  *  Retrieves the QR code for a specific payment with PIX, boleto, or Undefined billing type.
  *
  * @see https://docs.asaas.com/reference/obter-qr-code-para-pagamentos-via-pix Official Asaas API Documentation
- *
  */
-
 final class GetPaymentQrCodeAction extends GetByIdAction
 {
     /**
@@ -28,6 +26,6 @@ final class GetPaymentQrCodeAction extends GetByIdAction
      */
     protected function getEndpoint(string $id): string
     {
-        return "payments/" . rawurlencode($id) . "/pixQrCode";
+        return 'payments/'.rawurlencode($id).'/pixQrCode';
     }
 }

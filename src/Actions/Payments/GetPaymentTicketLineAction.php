@@ -26,6 +26,6 @@ final class GetPaymentTicketLineAction extends GetByIdAction
      */
     protected function getEndpoint(string $id): string
     {
-        return "payments/" . rawurlencode($id) . "/identificationField";
+        return 'payments/'.rawurlencode($id).'/identificationField';
     }
 }

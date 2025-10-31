@@ -16,43 +16,43 @@ use AsaasPhpSdk\Exceptions\Api\ValidationException;
  */
 abstract class RestoreByIdAction extends AbstractAction
 {
-	use ValidateResourceIdTrait;
+    use ValidateResourceIdTrait;
 
-	/**
-	 * Handles the POST request to restore for a resource by ID.
-	 * 
-	 * @param  string  $id  The resource ID.
-	 * @return array<string, mixed> The restore response.
-	 * 
-	 * @throws \InvalidArgumentException if the provided resource ID is empty.
-	 * @throws AuthenticationException
-	 * @throws NotFoundException
-	 * @throws ValidationException
-	 * @throws RateLimitException
-	 * @throws ApiException
-	 */
-	public function handle(string $id): array
-	{
-		$normalizedId = $this->validateAndNormalizeId($id, $this->getResourceName());
-		$endpoint = $this->getEndpoint($normalizedId);
+    /**
+     * Handles the POST request to restore for a resource by ID.
+     *
+     * @param  string  $id  The resource ID.
+     * @return array<string, mixed> The restore response.
+     *
+     * @throws \InvalidArgumentException if the provided resource ID is empty.
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws ValidationException
+     * @throws RateLimitException
+     * @throws ApiException
+     */
+    public function handle(string $id): array
+    {
+        $normalizedId = $this->validateAndNormalizeId($id, $this->getResourceName());
+        $endpoint = $this->getEndpoint($normalizedId);
 
-		return $this->executeRequest(
-			fn() => $this->client->post($endpoint)
-		);
-	}
+        return $this->executeRequest(
+            fn () => $this->client->post($endpoint)
+        );
+    }
 
-	/**
-	 * Returns the name of the resource for error messages.
-	 *
-	 * @return string The resource name (e.g., 'Payment', 'Customer').
-	 */
-	abstract protected function getResourceName(): string;
+    /**
+     * Returns the name of the resource for error messages.
+     *
+     * @return string The resource name (e.g., 'Payment', 'Customer').
+     */
+    abstract protected function getResourceName(): string;
 
-	/**
-	 * Get the endpoint URL for the resource.
-	 *
-	 * @param  string  $id  The normalized and validated resource ID.
-	 * @return string The complete endpoint path.
-	 */
-	abstract protected function getEndpoint(string $id): string;
+    /**
+     * Get the endpoint URL for the resource.
+     *
+     * @param  string  $id  The normalized and validated resource ID.
+     * @return string The complete endpoint path.
+     */
+    abstract protected function getEndpoint(string $id): string;
 }
