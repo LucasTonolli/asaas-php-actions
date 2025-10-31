@@ -88,7 +88,7 @@ docs/
 ## 📖 Current Milestones
 
 - **v0.1.0** → Customer Module (CRUD + Tests + Docs) ✅
-- **v0.2.0** → Payment Module (DTOs, Actions, Tests, Docs) ⏳
+- **v0.2.0** → Payment Module (DTOs, Actions, Tests, Docs) ✅
 - **v0.3.0** → Subscription Module ⏳
 
 ---
