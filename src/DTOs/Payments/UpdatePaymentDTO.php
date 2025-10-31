@@ -138,14 +138,14 @@ final readonly class UpdatePaymentDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'split', Split::class);
             self::validateStructuredValueObject($data, 'callback', Callback::class);
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+            throw new InvalidPaymentDataException($e->getMessage(), 400, $e);
         }
 
         if ($data['split'] instanceof Split) {
             try {
                 $data['split']->validateFor($data['value']);
             } catch (\Throwable $e) {
-                throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
+                throw new InvalidPaymentDataException($e->getMessage(), 400, $e);
             }
         }
 

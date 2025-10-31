@@ -112,8 +112,8 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: '.$e->getMessage(),
-                0,
+                'Invalid credit card data: ' . $e->getMessage(),
+                400,
                 $e
             );
         }
