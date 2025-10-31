@@ -4,36 +4,28 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Payments;
 
-use AsaasPhpSdk\Actions\Base\AbstractAction;
-use AsaasPhpSdk\Exceptions\Api\ApiException;
-use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Exceptions\Api\RateLimitException;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Actions\Base\GetByIdAction;
 
-final class GetPaymentTicketLineAction extends AbstractAction
+/**
+ * Retrieves the ticket line information for a specific payment.
+ *
+ * @see https://docs.asaas.com/reference/obter-linha-digitavel-do-boleto Official Asaas API Documentation
+ */
+final class GetPaymentTicketLineAction extends GetByIdAction
 {
     /**
-     * Retrieves the ticket line information for a specific payment.
-     *
-     * @param  string  $paymentId  The ID of the payment.
-     * @return array<string, mixed> The ticket line information.
-     *
-     * @throws AuthenticationException If authentication fails.
-     * @throws NotFoundException If the payment is not found.
-     * @throws RateLimitException If the rate limit is exceeded.
-     * @throws ValidationException If the request data is invalid.
-     * @throws ApiException For other API-related errors.
+     * {@inheritDoc}
      */
-    public function handle(string $paymentId): array
+    protected function getResourceName(): string
     {
-        $normalizedId = trim($paymentId);
-        if ($normalizedId === '') {
-            throw new \InvalidArgumentException('Payment ID cannot be empty');
-        }
+        return 'Payment';
+    }
 
-        return $this->executeRequest(
-            fn () => $this->client->get('payments/'.rawurlencode($normalizedId).'/identificationField')
-        );
+    /**
+     * {@inheritDoc}
+     */
+    protected function getEndpoint(string $id): string
+    {
+        return "payments/" . rawurlencode($id) . "/identificationField";
     }
 }
