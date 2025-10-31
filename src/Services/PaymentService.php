@@ -14,9 +14,11 @@ use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
+use AsaasPhpSdk\Actions\Payments\UpdatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
+use AsaasPhpSdk\DTOs\Payments\UpdatePaymentDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
@@ -284,6 +286,14 @@ final class PaymentService
         return $action->handle($id);
     }
 
+    public function update(string $id, array $data): array
+    {
+        $dto = $this->createDTO(UpdatePaymentDTO::class, $data);
+        $action = new UpdatePaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id, $dto);
+    }
+
     /**
      * Helper method to create DTOs with consistent error handling.
      *
@@ -301,7 +311,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
