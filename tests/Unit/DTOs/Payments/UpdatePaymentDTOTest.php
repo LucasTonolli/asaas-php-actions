@@ -14,18 +14,18 @@ dataset('update_payment_missing_fields', [
     [[
         'value' => 150.75,
         'dueDate' => '2025-12-31',
-        'message' => 'Billing type is required.',
+        'message' => 'Required field \'billingType\' is missing.',
     ]],
     [[
         'billingType' => 'credit_card',
         'dueDate' => '2025-12-31',
-        'message' => 'Value is required.',
+        'message' => 'Required field \'value\' is missing.',
 
     ]],
     [[
         'billingType' => 'credit_card',
         'value' => 150.75,
-        'message' => 'Due date is required.',
+        'message' => 'Required field \'dueDate\' is missing',
     ]],
 
 ]);
@@ -36,20 +36,20 @@ dataset('update_payment_null_fields', [
             'billingType' => null,
             'value' => 150.75,
             'dueDate' => '2025-12-31',
-            'message' => 'Billing type is required.',
+            'message' => 'Required field \'billingType\' is missing.',
         ],
     ],
     [[
         'billingType' => 'credit_card',
         'value' => null,
         'dueDate' => '2025-12-31',
-        'message' => 'Value is required.',
+        'message' => 'Required field \'value\' is missing.',
     ]],
     [[
         'billingType' => 'credit_card',
         'value' => 150.75,
         'dueDate' => null,
-        'message' => 'Due date is required.',
+        'message' => 'Required field \'dueDate\' is missing',
     ]],
 
 ]);
@@ -143,13 +143,13 @@ describe('Update Payment DTO', function (): void {
     it('throws an exception if required fields are missing', function ($data): void {
         $exceptionMessage = $data['message'];
         unset($data['message']);
-        expect(fn () => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
+        expect(fn() => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
     })->with('update_payment_missing_fields');
 
     it('throws an exception if required fields are null', function ($data): void {
         $exceptionMessage = $data['message'];
         unset($data['message']);
-        expect(fn () => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
+        expect(fn() => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
     })->with('update_payment_null_fields');
 
     it('create update payment DTO with valid value objects', function ($data): void {
