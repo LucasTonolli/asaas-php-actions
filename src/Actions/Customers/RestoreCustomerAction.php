@@ -4,42 +4,29 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\Base\AbstractAction;
-use AsaasPhpSdk\Exceptions\Api\ApiException;
-use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Exceptions\Api\RateLimitException;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Actions\Base\RestoreById;
 
-final class RestoreCustomerAction extends AbstractAction
+/**
+ * Restores a previously deleted customer.
+ *
+ * @see https://docs.asaas.com/reference/restaurar-cliente-removido Official Asaas API Documentation
+ *  
+ */
+final class RestoreCustomerAction extends RestoreById
 {
     /**
-     * Restores a previously deleted customer.
-     *
-     * This action performs a pre-request validation to ensure the ID is not
-     * empty and then sends a POST request to the 'customers/{id}/restore' endpoint.
-     *
-     * @see https://docs.asaas.com/reference/restaurar-cliente-removido Official Asaas API Documentation
-     *
-     * @param  string  $customerId  The unique identifier of the customer to be restored.
-     * @return array<string, mixed> An array containing the data of the restored customer.
-     *
-     * @throws \InvalidArgumentException if the provided customer ID is empty.
-     * @throws AuthenticationException
-     * @throws NotFoundException
-     * @throws ValidationException
-     * @throws RateLimitException
-     * @throws ApiException
+     * {@inheritDoc}
      */
-    public function handle(string $customerId): array
+    protected function getResourceName(): string
     {
-        $normalizedId = trim($customerId);
-        if ($normalizedId === '') {
-            throw new \InvalidArgumentException('Customer ID cannot be empty');
-        }
+        return 'Customer';
+    }
 
-        return $this->executeRequest(
-            fn () => $this->client->post('customers/'.rawurlencode($normalizedId).'/restore')
-        );
+    /**
+     * {@inheritDoc}
+     */
+    protected function getEndpoint(string $id): string
+    {
+        return 'customers/' . rawurlencode($id) . '/restore';
     }
 }
