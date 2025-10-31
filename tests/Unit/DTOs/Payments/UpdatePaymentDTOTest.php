@@ -143,13 +143,13 @@ describe('Update Payment DTO', function (): void {
     it('throws an exception if required fields are missing', function ($data): void {
         $exceptionMessage = $data['message'];
         unset($data['message']);
-        expect(fn() => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
+        expect(fn () => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
     })->with('update_payment_missing_fields');
 
     it('throws an exception if required fields are null', function ($data): void {
         $exceptionMessage = $data['message'];
         unset($data['message']);
-        expect(fn() => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
+        expect(fn () => UpdatePaymentDTO::fromArray($data))->toThrow(InvalidPaymentDataException::class, $exceptionMessage);
     })->with('update_payment_null_fields');
 
     it('create update payment DTO with valid value objects', function ($data): void {
