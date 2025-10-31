@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Traits;
 
-use AsaasPhpSdk\Exceptions\InvalidArgumentException;
-
 /**
  * Trait for validating and normalizing resource IDs.
  */
