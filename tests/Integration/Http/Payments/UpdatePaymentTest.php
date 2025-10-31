@@ -75,8 +75,6 @@ describe('Update Payment', function (): void {
 			'value' => 200,
 			'dueDate' => '2025-12-31',
 		]);
-
-		var_dump($response);
 	})->throws(ValidationException::class, 'Não é possível alterar a forma de pagamento de cobranças recebidas ou confirmadas.');
 
 	it('throws an exception when the payment is not found (404)', function (): void {
