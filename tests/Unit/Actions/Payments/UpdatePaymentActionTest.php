@@ -14,8 +14,8 @@ describe('Update Payment Action', function (): void {
 				'customer' => 'cus_123',
 				'value' => 1000,
 				'status' => 'PENDING',
-			])
-		], 200);
+			], 200)
+		]);
 
 		$action = new UpdatePaymentAction($client, new ResponseHandler);
 
