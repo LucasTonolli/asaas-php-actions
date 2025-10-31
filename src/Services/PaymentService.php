@@ -288,14 +288,13 @@ final class PaymentService
 
     /**
      * Updates a payment by its ID.
-     * 
+     *
      * @see https://docs.asaas.com/reference/atualizar-cobranca-existente
-     * 
+     *
      * @param  string  $id  The ID of the payment to be updated.
      * @param  array<string, mixed>  $data  raw data.
-     * 
      * @return array<string, mixed> An array containing the data of the updated payment.
-     * 
+     *
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws RateLimitException
@@ -328,7 +327,7 @@ final class PaymentService
     {
         try {
             return $dtoClass::fromArray($data);
-        } catch (InvalidDateRangeException | InvalidPaymentDataException $e) {
+        } catch (InvalidDateRangeException|InvalidPaymentDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
     }
