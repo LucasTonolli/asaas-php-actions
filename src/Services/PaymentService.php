@@ -286,6 +286,23 @@ final class PaymentService
         return $action->handle($id);
     }
 
+    /**
+     * Updates a payment by its ID.
+     * 
+     * @see https://docs.asaas.com/reference/atualizar-cobranca-existente
+     * 
+     * @param  string  $id  The ID of the payment to be updated.
+     * @param  array<string, mixed>  $data  raw data.
+     * 
+     * @return array<string, mixed> An array containing the data of the updated payment.
+     * 
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
     public function update(string $id, array $data): array
     {
         $dto = $this->createDTO(UpdatePaymentDTO::class, $data);
