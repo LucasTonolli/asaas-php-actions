@@ -22,7 +22,7 @@ abstract class GetByIdAction extends AbstractAction
      * @param  string  $id  The resource ID.
      * @return array<string, mixed> The resource data.
      *
-     * @throws \InvalidArgumentException if the provided customer ID is empty.
+     * @throws \InvalidArgumentException if the provided resource ID is empty.
      * @throws AuthenticationException
      * @throws NotFoundException
      * @throws ValidationException
@@ -35,7 +35,7 @@ abstract class GetByIdAction extends AbstractAction
         $endpoint = $this->getEndpoint($normalizedId);
 
         return $this->executeRequest(
-            fn () => $this->client->get($endpoint)
+            fn() => $this->client->get($endpoint)
         );
     }
 
