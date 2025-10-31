@@ -23,7 +23,7 @@ describe('Update Payment', function (): void {
         $response = $this->asaasClient->payment()->update($createPaymentResponse['id'], [
             'billingType' => BillingTypeEnum::Boleto->value,
             'value' => 200,
-            'dueDate' => '2025-12-31',
+            'dueDate' => (string) ((int) date('Y') + 1).'-12-31',
         ]);
 
         expect($response['value'])->toBe(200.0)
@@ -37,7 +37,6 @@ describe('Update Payment', function (): void {
                 'status',
                 'dueDate',
                 'originalDueDate',
-                'dueDate',
             ]);
         $this->asaasClient->payment()->delete($createPaymentResponse['id']);
     });
