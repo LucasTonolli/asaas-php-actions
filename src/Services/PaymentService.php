@@ -14,9 +14,11 @@ use AsaasPhpSdk\Actions\Payments\GetPaymentStatusAction;
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
 use AsaasPhpSdk\Actions\Payments\ListPaymentsAction;
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
+use AsaasPhpSdk\Actions\Payments\UpdatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\ChargeWithCreditCardDTO;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\ListPaymentsDTO;
+use AsaasPhpSdk\DTOs\Payments\UpdatePaymentDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
@@ -282,6 +284,30 @@ final class PaymentService
         $action = new GetPaymentBillingInfoAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
+    }
+
+    /**
+     * Updates a payment by its ID.
+     *
+     * @see https://docs.asaas.com/reference/atualizar-cobranca-existente
+     *
+     * @param  string  $id  The ID of the payment to be updated.
+     * @param  array<string, mixed>  $data  raw data.
+     * @return array<string, mixed> An array containing the data of the updated payment.
+     *
+     * @throws AuthenticationException
+     * @throws NotFoundException
+     * @throws RateLimitException
+     * @throws ApiException
+     * @throws ValidationException
+     * @throws \InvalidArgumentException if the provided ID is empty.
+     */
+    public function update(string $id, array $data): array
+    {
+        $dto = $this->createDTO(UpdatePaymentDTO::class, $data);
+        $action = new UpdatePaymentAction($this->client, $this->responseHandler);
+
+        return $action->handle($id, $dto);
     }
 
     /**

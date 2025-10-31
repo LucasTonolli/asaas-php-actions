@@ -35,7 +35,7 @@ abstract class GetByIdAction extends AbstractAction
         $endpoint = $this->getEndpoint($normalizedId);
 
         return $this->executeRequest(
-            fn() => $this->client->get($endpoint)
+            fn () => $this->client->get($endpoint)
         );
     }
 
