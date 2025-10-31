@@ -24,7 +24,7 @@ abstract class DeleteByIdAction extends AbstractAction
 	 * @param  string  $id  The resource ID.
 	 * @return array<string, mixed> The deletion response.
 	 * 
-	 * @throws \InvalidArgumentException if the provided customer ID is empty.
+	 * @throws \InvalidArgumentException if the provided resource ID is empty.
 	 * @throws AuthenticationException
 	 * @throws NotFoundException
 	 * @throws ValidationException
