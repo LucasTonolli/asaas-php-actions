@@ -132,7 +132,7 @@ final readonly class CreatePaymentDTO extends AbstractDTO
             throw InvalidPaymentDataException::missingField('billingType');
         }
 
-        if (!isset($data['value']) || $data['value'] <= 0) {
+        if (! isset($data['value']) || $data['value'] <= 0) {
             throw new InvalidPaymentDataException('Value must be greater than 0');
         }
 

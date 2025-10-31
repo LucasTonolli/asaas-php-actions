@@ -26,7 +26,6 @@ use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Services\Base\AbstractService;
 
-
 /**
  * Provides a user-friendly interface for all payment-related operations.
  *
