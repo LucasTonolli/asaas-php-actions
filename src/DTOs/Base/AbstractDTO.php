@@ -6,7 +6,6 @@ namespace AsaasPhpSdk\DTOs\Base;
 
 use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Contracts\DTOContract;
-use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 
@@ -18,6 +17,8 @@ use AsaasPhpSdk\Support\Helpers\DataSanitizer;
  * It also enforces that any concrete DTO must implement its own `sanitize` method.
  *
  * @internal This is an internal framework class and should not be used directly.
+ *
+ * @phpstan-consistent-constructor
  */
 abstract readonly class AbstractDTO implements DTOContract
 {
@@ -263,8 +264,6 @@ abstract readonly class AbstractDTO implements DTOContract
      *
      * @param  array<string, mixed>  $data  The sanitized data.
      * @return array<string, mixed> The validated data.
-     *
-     * @throws InvalidDataException
      */
     protected static function validate(array $data): array
     {
