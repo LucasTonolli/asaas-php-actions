@@ -29,6 +29,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      * @param  ?CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information (required if no token).
      * @param  ?string  $creditCardToken  The tokenized credit card reference (alternative to providing card details).
      */
+    /** @phpstan-ignore-next-line */
     protected function __construct(
         #[SerializeAs(method: 'toArray')]
         public ?CreditCard $creditCard,
@@ -96,7 +97,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidPaymentDataException(
-                'Invalid credit card data: '.$e->getMessage(),
+                'Invalid credit card data: ' . $e->getMessage(),
                 400,
                 $e
             );

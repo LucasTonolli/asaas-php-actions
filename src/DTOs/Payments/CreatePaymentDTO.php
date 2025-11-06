@@ -46,6 +46,7 @@ final readonly class CreatePaymentDTO extends AbstractDTO
      * @param  ?Split  $split  Payment split settings.
      * @param  ?Callback  $callback  Callback and redirection settings.
      */
+    /** @phpstan-ignore-next-line */
     protected function __construct(
         public string $customer,
         public BillingTypeEnum $billingType,

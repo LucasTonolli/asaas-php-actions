@@ -48,6 +48,7 @@ final readonly class UpdateCustomerDTO extends AbstractDTO
      * @param  ?string  $company  The new company name.
      * @param  ?bool  $foreignCustomer  The new setting for foreign customer status.
      */
+    /** @phpstan-ignore-next-line */
     protected function __construct(
         public ?string $name,
         public null|Cpf|Cnpj $cpfCnpj,

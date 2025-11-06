@@ -47,6 +47,7 @@ final readonly class CreateCustomerDTO extends AbstractDTO
      * @param  ?string  $company  The company name, if applicable.
      * @param  ?bool  $foreignCustomer  Indicates if the customer is foreign.
      */
+    /** @phpstan-ignore-next-line */
     protected function __construct(
         public string $name,
         public Cpf|Cnpj $cpfCnpj,

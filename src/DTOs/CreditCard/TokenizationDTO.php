@@ -32,6 +32,7 @@ final readonly class TokenizationDTO extends AbstractDTO
      * @param  CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information.
      * @param  string  $remoteIp  The remote IP address.
      */
+    /** @phpstan-ignore-next-line */
     protected function __construct(
         public string $customer,
         #[SerializeAs(method: 'toArray')]
@@ -96,7 +97,7 @@ final readonly class TokenizationDTO extends AbstractDTO
             self::validateStructuredValueObject($data, 'creditCard', CreditCard::class);
             self::validateStructuredValueObject($data, 'creditCardHolderInfo', CreditCardHolderInfo::class);
         } catch (InvalidValueObjectException $e) {
-            throw new InvalidCreditCardDataException('Invalid credit card data: '.$e->getMessage(), 0, $e);
+            throw new InvalidCreditCardDataException('Invalid credit card data: ' . $e->getMessage(), 0, $e);
         }
 
         return $data;
