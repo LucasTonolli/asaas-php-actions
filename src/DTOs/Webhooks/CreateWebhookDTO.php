@@ -36,7 +36,7 @@ final readonly class CreateWebhookDTO extends AbstractDTO
 	 * @param  ?SendTypeEnum  $sendType  The send type for the webhook.
 	 * @param  EventEnum[]|null  $events  The events for the webhook.
 	 */
-	private function __construct(
+	protected function __construct(
 		public ?string $name = null,
 		public ?string $url = null,
 		public ?Email $email = null,
@@ -48,15 +48,6 @@ final readonly class CreateWebhookDTO extends AbstractDTO
 		public ?array $events = null
 	) {}
 
-	public static function fromArray(array $data): self
-	{
-		$sanitizedData = self::sanitize($data);
-		$validatedData = self::validate($sanitizedData);
-
-		return new self(
-			...$validatedData
-		);
-	}
 	/**
 	 * @internal
 	 */
@@ -86,7 +77,7 @@ final readonly class CreateWebhookDTO extends AbstractDTO
 	 * 
 	 * @throws InvalidWebhookDataException|InvalidValueObjectException
 	 */
-	private static function validate(array $data): array
+	protected static function validate(array $data): array
 	{
 		if (!(empty($data['url']))) {
 			if (! filter_var($data['url'], FILTER_VALIDATE_URL)) {
