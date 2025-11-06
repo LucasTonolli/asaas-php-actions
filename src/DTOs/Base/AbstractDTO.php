@@ -8,6 +8,7 @@ use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Contracts\DTOContract;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Support\Helpers\DataSanitizer;
+use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 
 /**
  * Base class for all Data Transfer Objects (DTOs).
@@ -20,6 +21,19 @@ use AsaasPhpSdk\Support\Helpers\DataSanitizer;
  */
 abstract readonly class AbstractDTO implements DTOContract
 {
+    /**
+     * Factory method to create a new DTO instance from raw array data.
+     *
+     * This method enforces the "Sanitize -> Validate -> Instantiate" lifecycle.
+     * It should not be overridden.
+     */
+    final public static function fromArray(array $data): static
+    {
+        $sanitizedData = static::sanitize($data);
+        $validatedData = static::validate($sanitizedData);
+
+        return new static(...$validatedData);
+    }
     /**
      * Converts the DTO's public properties to an associative array.
      *
@@ -54,18 +68,33 @@ abstract readonly class AbstractDTO implements DTOContract
                 $method = $attr->method;
                 $args = $attr->args ?? [];
                 $result[$attrKey ?? $key] = $value->{$method}(...$args);
-            } elseif ($value instanceof \BackedEnum) {
-                $result[$key] = $value->value;
-            } elseif ($value instanceof \UnitEnum) {
-                $result[$key] = $value->name;
-            } elseif (is_object($value) && method_exists($value, 'value')) {
-                $result[$key] = $value->value();
             } else {
-                $result[$key] = $value;
+                $result[$key] = $this->searializeValue($value);
             }
         }
 
         return $result;
+    }
+
+    private function searializeValue(mixed $value): mixed
+    {
+        if ($value instanceof \BackedEnum) {
+            return $value->value;
+        }
+
+        if ($value instanceof \UnitEnum) {
+            return $value->name;
+        }
+
+        if (is_object($value) && method_exists($value, 'value')) {
+            return $value->value();
+        }
+
+        if (is_array($value)) {
+            return array_map([$this, 'searializeValue'], $value);
+        }
+
+        return $value;
     }
 
     /**
@@ -87,7 +116,7 @@ abstract readonly class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Throwable $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
@@ -110,7 +139,7 @@ abstract readonly class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': ".$e->getMessage(),
+                    "Invalid format for '{$key}': " . $e->getMessage(),
                     0,
                     $e
                 );
@@ -224,4 +253,20 @@ abstract readonly class AbstractDTO implements DTOContract
      * @return array<string, mixed> The sanitized data array.
      */
     abstract protected static function sanitize(array $data): array;
+
+    /**
+     * Validates the structure and format of the sanitized data.
+     *
+     * Override this method in child DTOs to implement specific
+     * validation rules.
+     *
+     * @param  array<string, mixed>  $data  The sanitized data.
+     * @return array<string, mixed> The validated data.
+     *
+     * @throws InvalidDataException
+     */
+    protected static function validate(array $data): array
+    {
+        return $data;
+    }
 }
