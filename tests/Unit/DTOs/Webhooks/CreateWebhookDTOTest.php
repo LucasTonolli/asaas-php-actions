@@ -37,8 +37,8 @@ describe('Create Webhook DTO', function (): void {
 			->and($dto->authToken)->toBe('test-token')
 			->and($dto->sendType)->toBe(SendTypeEnum::Sequentially)
 			->and($dto->events)->toBe([
-				EventEnum::PaymentReceived->value,
-				EventEnum::PaymentCreated->value
+				EventEnum::PaymentReceived,
+				EventEnum::PaymentCreated
 			]);
 	});
 
