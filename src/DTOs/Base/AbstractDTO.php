@@ -6,9 +6,9 @@ namespace AsaasPhpSdk\DTOs\Base;
 
 use AsaasPhpSdk\DTOs\Attributes\SerializeAs;
 use AsaasPhpSdk\DTOs\Contracts\DTOContract;
+use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 use AsaasPhpSdk\Exceptions\ValueObjects\InvalidValueObjectException;
 use AsaasPhpSdk\Support\Helpers\DataSanitizer;
-use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 
 /**
  * Base class for all Data Transfer Objects (DTOs).
@@ -34,6 +34,7 @@ abstract readonly class AbstractDTO implements DTOContract
 
         return new static(...$validatedData);
     }
+
     /**
      * Converts the DTO's public properties to an associative array.
      *
@@ -116,7 +117,7 @@ abstract readonly class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Throwable $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': " . $e->getMessage(),
+                "Invalid format for '{$key}': ".$e->getMessage(),
                 0,
                 $e
             );
@@ -139,7 +140,7 @@ abstract readonly class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': " . $e->getMessage(),
+                    "Invalid format for '{$key}': ".$e->getMessage(),
                     0,
                     $e
                 );

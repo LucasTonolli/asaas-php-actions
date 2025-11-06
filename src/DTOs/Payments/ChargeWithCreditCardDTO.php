@@ -29,29 +29,13 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      * @param  ?CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information (required if no token).
      * @param  ?string  $creditCardToken  The tokenized credit card reference (alternative to providing card details).
      */
-    private function __construct(
+    protected function __construct(
         #[SerializeAs(method: 'toArray')]
         public ?CreditCard $creditCard,
         #[SerializeAs(method: 'toArray')]
         public ?CreditCardHolderInfo $creditCardHolderInfo,
         public ?string $creditCardToken,
     ) {}
-
-    /**
-     * Creates a ChargeWithCreditCardDTO from an array of data.
-     *
-     * @param  array<string, mixed>  $data  The data to create the ChargeWithCreditCardDTO from.
-     * @return ChargeWithCreditCardDTO The created ChargeWithCreditCardDTO.
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(
-            ...$validatedData
-        );
-    }
 
     /**
      * @internal
@@ -79,7 +63,7 @@ final readonly class ChargeWithCreditCardDTO extends AbstractDTO
      *
      * @throws InvalidPaymentDataException If validation fails.
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         $hasToken = ! empty($data['creditCardToken']);
         $hasCreditCard = isset($data['creditCard']);
