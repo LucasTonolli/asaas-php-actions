@@ -23,6 +23,14 @@ use AsaasPhpSdk\Support\Helpers\DataSanitizer;
 abstract readonly class AbstractDTO implements DTOContract
 {
     /**
+     * Protected constructor.
+     *
+     * @internal This is an internal framework class and should not be used directly.
+     * Child classes need to implement their own constructor.
+     */
+    protected function __construct() {}
+
+    /**
      * Factory method to create a new DTO instance from raw array data.
      *
      * This method enforces the "Sanitize -> Validate -> Instantiate" lifecycle.
