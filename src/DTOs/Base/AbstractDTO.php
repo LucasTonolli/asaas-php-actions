@@ -41,16 +41,7 @@ abstract readonly class AbstractDTO implements DTOContract
         $sanitizedData = static::sanitize($data);
         $validatedData = static::validate($sanitizedData);
 
-        $reflection = new \ReflectionClass(static::class);
-        $constructor = $reflection->getConstructor();
-        $params = [];
-
-        foreach ($constructor->getParameters() as $param) {
-            $name = $param->getName();
-            $params[$name] = $validatedData[$name];
-        }
-
-        return new static(...$params);
+        return new static(...$validatedData);
     }
 
     /**
