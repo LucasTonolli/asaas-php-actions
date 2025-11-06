@@ -116,12 +116,16 @@ final readonly class CreateWebhookDTO extends AbstractDTO
 		}
 
 		if (!empty($data['events'])) {
+			$validatedEvents = [];
 			foreach ($data['events'] as $event) {
 				$eventEnum = EventEnum::tryFromString($event);
 				if ($eventEnum === null) {
 					throw new InvalidWebhookDataException("Invalid event {$event}");
 				}
+				$validatedEvents[] = $eventEnum;
 			}
+
+			$data['events'] = $validatedEvents;
 		}
 
 		return $data;
