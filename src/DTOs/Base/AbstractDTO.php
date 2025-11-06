@@ -41,7 +41,16 @@ abstract readonly class AbstractDTO implements DTOContract
         $sanitizedData = static::sanitize($data);
         $validatedData = static::validate($sanitizedData);
 
-        return new static(...$validatedData);
+        $reflection = new \ReflectionClass(static::class);
+        $constructor = $reflection->getConstructor();
+        $params = [];
+
+        foreach ($constructor->getParameters() as $param) {
+            $name = $param->getName();
+            $params[$name] = $validatedData[$name];
+        }
+
+        return new static(...$params);
     }
 
     /**
@@ -126,7 +135,7 @@ abstract readonly class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Throwable $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
@@ -149,7 +158,7 @@ abstract readonly class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': ".$e->getMessage(),
+                    "Invalid format for '{$key}': " . $e->getMessage(),
                     0,
                     $e
                 );

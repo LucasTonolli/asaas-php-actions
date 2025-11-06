@@ -9,13 +9,14 @@ use AsaasPhpSdk\Exceptions\AsaasException;
 /**
  * Base class for exceptions related to invalid data in DTOs.
  */
+/** @phpstan-consistent-constructor */
 class InvalidDataException extends AsaasException
 {
     /**
      * Creates an exception for a missing required field.
      *
      * @param  string  $field  The name of the required field that is missing.
-     * @return self A new instance of the exception.
+     * @return static A new instance of the exception.
      */
     public static function missingField(string $field): static
     {
@@ -27,7 +28,7 @@ class InvalidDataException extends AsaasException
      *
      * @param  string  $field  The name of the field with the invalid format.
      * @param  ?string  $message  An optional, more specific error message. A default is used if not provided.
-     * @return self A new instance of the exception.
+     * @return static A new instance of the exception.
      */
     public static function invalidFormat(string $field, ?string $message = null): static
     {
