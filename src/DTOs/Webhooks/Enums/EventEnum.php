@@ -83,7 +83,7 @@ enum EventEnum: string
     case AccountStatusCommercialInfoPending = 'ACCOUNT_STATUS_COMMERCIAL_INFO_PENDING';
     case AccountStatusCommercialInfoRejected = 'ACCOUNT_STATUS_COMMERCIAL_INFO_REJECTED';
     case AccountStatusDocumentApproved = 'ACCOUNT_STATUS_DOCUMENT_APPROVED';
-    case AccountStatusDocumentAwaitingApproval = 'ACCOUNT_STATUS_DOCUMENT_Awaiting_Approval';
+    case AccountStatusDocumentAwaitingApproval = 'ACCOUNT_STATUS_DOCUMENT_AWAITING_APPROVAL';
     case AccountStatusDocumentPending = 'ACCOUNT_STATUS_DOCUMENT_PENDING';
     case AccountStatusDocumentRejected = 'ACCOUNT_STATUS_DOCUMENT_REJECTED';
     case AccountStatusGeneralApprovalApproved = 'ACCOUNT_STATUS_GENERAL_APPROVAL_APPROVED';
