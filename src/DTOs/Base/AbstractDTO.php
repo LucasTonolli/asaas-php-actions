@@ -79,14 +79,14 @@ abstract readonly class AbstractDTO implements DTOContract
                 $args = $attr->args ?? [];
                 $result[$attrKey ?? $key] = $value->{$method}(...$args);
             } else {
-                $result[$key] = $this->searializeValue($value);
+                $result[$key] = $this->serializeValue($value);
             }
         }
 
         return $result;
     }
 
-    private function searializeValue(mixed $value): mixed
+    private function serializeValue(mixed $value): mixed
     {
         if ($value instanceof \BackedEnum) {
             return $value->value;
@@ -101,7 +101,7 @@ abstract readonly class AbstractDTO implements DTOContract
         }
 
         if (is_array($value)) {
-            return array_map([$this, 'searializeValue'], $value);
+            return array_map([$this, 'serializeValue'], $value);
         }
 
         return $value;
@@ -126,7 +126,7 @@ abstract readonly class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Throwable $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
@@ -149,7 +149,7 @@ abstract readonly class AbstractDTO implements DTOContract
                 $data[$key] = $voClass::fromArray($data[$key]);
             } catch (\Throwable $e) {
                 throw new InvalidValueObjectException(
-                    "Invalid format for '{$key}': ".$e->getMessage(),
+                    "Invalid format for '{$key}': " . $e->getMessage(),
                     0,
                     $e
                 );
