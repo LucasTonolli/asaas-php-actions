@@ -17,7 +17,6 @@ enum EventEnum: string
     case PaymentApprovedByRiskAnalysis = 'PAYMENT_APPROVED_BY_RISK_ANALYSIS';
     case PaymentReprovedByRiskAnalysis = 'PAYMENT_REPROVED_BY_RISK_ANALYSIS';
     case PaymentCreated = 'PAYMENT_CREATED';
-    case PaymentUpdated = 'PAYMENT_UPDATED';
     case PaymentConfirmed = 'PAYMENT_CONFIRMED';
     case PaymentReceived = 'PAYMENT_RECEIVED';
     case PaymentAnticipated = 'PAYMENT_ANTICIPATED';
