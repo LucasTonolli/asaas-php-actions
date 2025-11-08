@@ -23,7 +23,7 @@ use AsaasPhpSdk\Exceptions\DTOs\InvalidDateRangeException;
 final readonly class ListPaymentsDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  ?string  $installment  The installment number.
      * @param  ?int  $offset  The number of payments to skip.

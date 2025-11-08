@@ -28,7 +28,7 @@ use DateTimeImmutable;
 final readonly class UpdatePaymentDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  BillingTypeEnum  $billingType  The payment method.
      * @param  float  $value  The monetary value of the payment.

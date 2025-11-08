@@ -25,7 +25,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 final readonly class CreateCustomerDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  string  $name  The customer's full name.
      * @param  Cpf|Cnpj  $cpfCnpj  The customer's document (CPF or CNPJ) as a Value Object.

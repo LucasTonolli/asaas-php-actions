@@ -27,7 +27,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Split;
 final readonly class CreatePaymentDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  string  $customer  The ID of the customer to whom the payment belongs.
      * @param  BillingTypeEnum  $billingType  The payment method.

@@ -23,7 +23,7 @@ use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 final readonly class ChargeWithCreditCardDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  ?CreditCard  $creditCard  The credit card details (required if no token).
      * @param  ?CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information (required if no token).

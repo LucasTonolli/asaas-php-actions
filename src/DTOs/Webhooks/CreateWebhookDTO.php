@@ -22,7 +22,7 @@ use AsaasPhpSdk\ValueObjects\Simple\Email;
 final readonly class CreateWebhookDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  string  $name  The name of the webhook.
      * @param  string  $url  The URL to which the webhook will be sent.
@@ -102,13 +102,11 @@ final readonly class CreateWebhookDTO extends AbstractDTO
             throw new InvalidWebhookDataException('Success URL must use HTTPS protocol');
         }
 
-
         try {
             $data['email'] = Email::from($data['email']);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidWebhookDataException('Invalid email', 400, $e);
         }
-
 
         $data['sendType'] = SendTypeEnum::tryFromString($data['sendType']);
 
