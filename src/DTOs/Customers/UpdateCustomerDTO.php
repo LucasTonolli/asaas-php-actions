@@ -26,7 +26,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 final readonly class UpdateCustomerDTO extends AbstractDTO
 {
     /**
-     * UpdateCustomerDTO private constructor.
+     * UpdateCustomerDTO protected constructor.
      *
      * @param  ?string  $name  The customer's new full name.
      * @param  null|Cpf|Cnpj  $cpfCnpj  The customer's new document (CPF or CNPJ).
