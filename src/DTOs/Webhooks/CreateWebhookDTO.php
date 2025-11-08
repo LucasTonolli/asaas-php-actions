@@ -102,6 +102,14 @@ final readonly class CreateWebhookDTO extends AbstractDTO
             throw new InvalidWebhookDataException('Success URL must use HTTPS protocol');
         }
 
+        if (! is_bool($data['enabled'])) {
+            throw InvalidWebhookDataException::invalidFormat('enabled', 'Enabled must be a boolean value.');
+        }
+
+        if (! is_bool($data['interrupted'])) {
+            throw InvalidWebhookDataException::invalidFormat('interrupted', 'Interrupted must be a boolean value.');
+        }
+
         try {
             $data['email'] = Email::from($data['email']);
         } catch (InvalidValueObjectException $e) {
