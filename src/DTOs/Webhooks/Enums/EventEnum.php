@@ -136,6 +136,10 @@ enum EventEnum: string
     {
         $normalized = DataSanitizer::sanitizeLowercase($value);
 
+        if ($normalized === null) {
+            throw new \ValueError("Invalid event type '{$value}'");
+        }
+
         $enumValue = strtoupper($normalized);
 
         $case = self::tryFrom($enumValue);
