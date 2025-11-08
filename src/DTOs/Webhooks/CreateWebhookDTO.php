@@ -116,16 +116,27 @@ final readonly class CreateWebhookDTO extends AbstractDTO
             throw new InvalidWebhookDataException('Invalid email', 400, $e);
         }
 
-        $data['sendType'] = SendTypeEnum::tryFromString($data['sendType']);
+        if ($data['sendType'] instanceof SendTypeEnum) {
+            $sendType = $data['sendType'];
+        } else {
+            $sendType = SendTypeEnum::tryFromString((string) $data['sendType']);
+        }
 
-        if ($data['sendType'] === null) {
+        if ($sendType === null) {
             throw new InvalidWebhookDataException('Invalid send type');
         }
+        $data['sendType'] = $sendType;
 
         if (! empty($data['events'])) {
             $validatedEvents = [];
             foreach ($data['events'] as $event) {
-                $eventEnum = EventEnum::tryFromString($event);
+                if ($event instanceof EventEnum) {
+                    $validatedEvents[] = $event;
+
+                    continue;
+                }
+
+                $eventEnum = EventEnum::tryFromString((string) $event);
                 if ($eventEnum === null) {
                     throw new InvalidWebhookDataException("Invalid event {$event}");
                 }
