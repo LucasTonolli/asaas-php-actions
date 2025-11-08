@@ -32,7 +32,7 @@ final readonly class TokenizationDTO extends AbstractDTO
      * @param  CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information.
      * @param  string  $remoteIp  The remote IP address.
      */
-    /** @phpstan-ignore-next-line */
+    /** @phpstan-ignore-next-line Constructor signature intentionally differs from AbstractDTO for factory pattern */
     protected function __construct(
         public string $customer,
         #[SerializeAs(method: 'toArray')]
