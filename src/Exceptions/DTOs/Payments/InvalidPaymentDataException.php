@@ -11,7 +11,6 @@ use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
  *
  * This exception is thrown during the validation of payment-related DTOs
  * (e.g., `CreatePaymentDTO`) to indicate that the provided data is invalid,
- * such as a missing required field or a malformed value. It uses static
- * factory methods for creating consistent error messages.
+ * such as a missing required field or a malformed value.
  */
 final class InvalidPaymentDataException extends InvalidDataException {}
