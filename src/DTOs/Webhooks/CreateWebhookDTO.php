@@ -99,7 +99,7 @@ final readonly class CreateWebhookDTO extends AbstractDTO
 
         $scheme = parse_url($data['url'], PHP_URL_SCHEME);
         if (strtolower((string) $scheme) !== 'https') {
-            throw new InvalidWebhookDataException('Success URL must use HTTPS protocol');
+            throw new InvalidWebhookDataException('Webhook URL must use HTTPS protocol');
         }
 
         if (! is_bool($data['enabled'])) {
