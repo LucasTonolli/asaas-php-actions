@@ -17,9 +17,33 @@ use AsaasPhpSdk\Support\Helpers\DataSanitizer;
  * It also enforces that any concrete DTO must implement its own `sanitize` method.
  *
  * @internal This is an internal framework class and should not be used directly.
+ *
+ * @phpstan-consistent-constructor
  */
 abstract readonly class AbstractDTO implements DTOContract
 {
+    /**
+     * Protected constructor.
+     *
+     * @internal This is an internal framework class and should not be used directly.
+     * Child classes need to implement their own constructor.
+     */
+    protected function __construct() {}
+
+    /**
+     * Factory method to create a new DTO instance from raw array data.
+     *
+     * This method enforces the "Sanitize -> Validate -> Instantiate" lifecycle.
+     * It should not be overridden.
+     */
+    final public static function fromArray(array $data): static
+    {
+        $sanitizedData = static::sanitize($data);
+        $validatedData = static::validate($sanitizedData);
+
+        return new static(...$validatedData);
+    }
+
     /**
      * Converts the DTO's public properties to an associative array.
      *
@@ -54,18 +78,33 @@ abstract readonly class AbstractDTO implements DTOContract
                 $method = $attr->method;
                 $args = $attr->args ?? [];
                 $result[$attrKey ?? $key] = $value->{$method}(...$args);
-            } elseif ($value instanceof \BackedEnum) {
-                $result[$key] = $value->value;
-            } elseif ($value instanceof \UnitEnum) {
-                $result[$key] = $value->name;
-            } elseif (is_object($value) && method_exists($value, 'value')) {
-                $result[$key] = $value->value();
             } else {
-                $result[$key] = $value;
+                $result[$key] = $this->serializeValue($value);
             }
         }
 
         return $result;
+    }
+
+    private function serializeValue(mixed $value): mixed
+    {
+        if ($value instanceof \BackedEnum) {
+            return $value->value;
+        }
+
+        if ($value instanceof \UnitEnum) {
+            return $value->name;
+        }
+
+        if (is_object($value) && method_exists($value, 'value')) {
+            return $value->value();
+        }
+
+        if (is_array($value)) {
+            return array_map([$this, 'serializeValue'], $value);
+        }
+
+        return $value;
     }
 
     /**
@@ -224,4 +263,18 @@ abstract readonly class AbstractDTO implements DTOContract
      * @return array<string, mixed> The sanitized data array.
      */
     abstract protected static function sanitize(array $data): array;
+
+    /**
+     * Validates the structure and format of the sanitized data.
+     *
+     * Override this method in child DTOs to implement specific
+     * validation rules.
+     *
+     * @param  array<string, mixed>  $data  The sanitized data.
+     * @return array<string, mixed> The validated data.
+     */
+    protected static function validate(array $data): array
+    {
+        return $data;
+    }
 }

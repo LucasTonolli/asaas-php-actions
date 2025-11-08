@@ -23,7 +23,7 @@ use AsaasPhpSdk\ValueObjects\Structured\CreditCardHolderInfo;
 final readonly class TokenizationDTO extends AbstractDTO
 {
     /**
-     * Private constructor for TokenizationDTO.
+     * Protected constructor for TokenizationDTO.
      *
      * @internal
      *
@@ -32,7 +32,8 @@ final readonly class TokenizationDTO extends AbstractDTO
      * @param  CreditCardHolderInfo  $creditCardHolderInfo  The credit card holder information.
      * @param  string  $remoteIp  The remote IP address.
      */
-    private function __construct(
+    /** @phpstan-ignore-next-line Constructor signature intentionally differs from AbstractDTO for factory pattern */
+    protected function __construct(
         public string $customer,
         #[SerializeAs(method: 'toArray')]
         public CreditCard $creditCard,
@@ -40,22 +41,6 @@ final readonly class TokenizationDTO extends AbstractDTO
         public CreditCardHolderInfo $creditCardHolderInfo,
         public string $remoteIp
     ) {}
-
-    /**
-     * Creates a TokenizationDTO from an array of data.
-     *
-     * @param  array<string, mixed>  $data  The data to create the TokenizationDTO from.
-     * @return TokenizationDTO The created TokenizationDTO.
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(
-            ...$validatedData
-        );
-    }
 
     /**
      * @internal
@@ -86,7 +71,7 @@ final readonly class TokenizationDTO extends AbstractDTO
      *
      * @throws InvalidCreditCardDataException If validation fails.
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (empty($data['customer'])) {
             throw new InvalidCreditCardDataException('Customer ID cannot be empty');

@@ -28,7 +28,7 @@ use DateTimeImmutable;
 final readonly class UpdatePaymentDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  BillingTypeEnum  $billingType  The payment method.
      * @param  float  $value  The monetary value of the payment.
@@ -43,7 +43,8 @@ final readonly class UpdatePaymentDTO extends AbstractDTO
      * @param  ?Split  $split  Payment split settings.
      * @param  ?Callback  $callback  Callback and redirection settings.
      */
-    private function __construct(
+    /** @phpstan-ignore-next-line */
+    protected function __construct(
         public BillingTypeEnum $billingType,
         public float $value,
         #[SerializeAs(method: 'format', args: ['Y-m-d'])]
@@ -63,14 +64,6 @@ final readonly class UpdatePaymentDTO extends AbstractDTO
         #[SerializeAs(method: 'toArray')]
         public ?Callback $callback = null
     ) {}
-
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(...$validatedData);
-    }
 
     /**
      * @internal
@@ -103,7 +96,7 @@ final readonly class UpdatePaymentDTO extends AbstractDTO
      *
      * @throws InvalidPaymentDataException
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (empty($data['billingType'])) {
             throw InvalidPaymentDataException::missingField('billingType');

@@ -26,7 +26,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 final readonly class UpdateCustomerDTO extends AbstractDTO
 {
     /**
-     * UpdateCustomerDTO private constructor.
+     * UpdateCustomerDTO protected constructor.
      *
      * @param  ?string  $name  The customer's new full name.
      * @param  null|Cpf|Cnpj  $cpfCnpj  The customer's new document (CPF or CNPJ).
@@ -48,7 +48,8 @@ final readonly class UpdateCustomerDTO extends AbstractDTO
      * @param  ?string  $company  The new company name.
      * @param  ?bool  $foreignCustomer  The new setting for foreign customer status.
      */
-    private function __construct(
+    /** @phpstan-ignore-next-line */
+    protected function __construct(
         public ?string $name,
         public null|Cpf|Cnpj $cpfCnpj,
         public ?Email $email = null,
@@ -70,25 +71,6 @@ final readonly class UpdateCustomerDTO extends AbstractDTO
         public ?string $company = null,
         public ?bool $foreignCustomer = null
     ) {}
-
-    /**
-     * Creates a new UpdateCustomerDTO instance from a raw array of data.
-     *
-     * This factory method takes a raw array of data to be updated. It sanitizes
-     * and validates only the fields that are provided in the array.
-     *
-     * @param  array<string, mixed>  $data  Raw data for the fields to be updated.
-     * @return self A new, validated instance of the DTO.
-     *
-     * @throws InvalidCustomerDataException if any of the provided data is malformed.
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(...$validatedData);
-    }
 
     /**
      * Sanitizes the raw input data array for the update operation.
@@ -131,7 +113,7 @@ final readonly class UpdateCustomerDTO extends AbstractDTO
      *
      * @throws InvalidCustomerDataException
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
 
         try {

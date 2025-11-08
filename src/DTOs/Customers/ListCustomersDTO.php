@@ -30,7 +30,7 @@ final readonly class ListCustomersDTO extends AbstractDTO
      * @param  ?string  $groupName  Filter by the name of the customer's group.
      * @param  ?string  $externalReference  Filter by the external unique identifier.
      */
-    private function __construct(
+    protected function __construct(
         public ?int $offset = null,
         public ?int $limit = null,
         public ?string $name = null,
@@ -39,23 +39,6 @@ final readonly class ListCustomersDTO extends AbstractDTO
         public ?string $groupName = null,
         public ?string $externalReference = null
     ) {}
-
-    /**
-     * Creates a new ListCustomersDTO instance from a raw array of filters.
-     *
-     * This factory method takes a raw array and sanitizes it. It does not
-     * perform strict validation and will not throw exceptions for invalid filters.
-     *
-     * @param  array<string, mixed>  $data  Raw filter data.
-     * @return self A new instance of the DTO with sanitized filters.
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(...$validatedData);
-    }
 
     /**
      * Sanitizes the raw filter data.
@@ -86,7 +69,7 @@ final readonly class ListCustomersDTO extends AbstractDTO
      * @param  array<string, mixed>  $data  The sanitized filter data.
      * @return array<string, mixed> The validated filter array.
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (isset($data['limit'])) {
             $data['limit'] = max(1, min(100, $data['limit']));

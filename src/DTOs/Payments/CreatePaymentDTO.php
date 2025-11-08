@@ -27,7 +27,7 @@ use AsaasPhpSdk\ValueObjects\Structured\Split;
 final readonly class CreatePaymentDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  string  $customer  The ID of the customer to whom the payment belongs.
      * @param  BillingTypeEnum  $billingType  The payment method.
@@ -46,7 +46,8 @@ final readonly class CreatePaymentDTO extends AbstractDTO
      * @param  ?Split  $split  Payment split settings.
      * @param  ?Callback  $callback  Callback and redirection settings.
      */
-    private function __construct(
+    /** @phpstan-ignore-next-line */
+    protected function __construct(
         public string $customer,
         public BillingTypeEnum $billingType,
         public float $value,
@@ -70,22 +71,6 @@ final readonly class CreatePaymentDTO extends AbstractDTO
         #[SerializeAs(method: 'toArray')]
         public ?Callback $callback = null
     ) {}
-
-    /**
-     * Creates a new CreatePaymentDTO instance from a raw array of data.
-     *
-     * @param  array<string, mixed>  $data  Raw data for the new payment.
-     * @return self A new, validated instance of the DTO.
-     *
-     * @throws InvalidPaymentDataException if the data is invalid.
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(...$validatedData);
-    }
 
     /**
      * @internal
@@ -122,7 +107,7 @@ final readonly class CreatePaymentDTO extends AbstractDTO
      *
      * @throws InvalidPaymentDataException|InvalidValueObjectException
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (empty($data['customer'])) {
             throw InvalidPaymentDataException::missingField('customer');

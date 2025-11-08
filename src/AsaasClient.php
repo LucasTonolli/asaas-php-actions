@@ -8,6 +8,7 @@ use AsaasPhpSdk\Config\AsaasConfig;
 use AsaasPhpSdk\Services\CreditCardService;
 use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
+use AsaasPhpSdk\Services\WebhookService;
 use AsaasPhpSdk\Support\Helpers\HttpClientFactory;
 use GuzzleHttp\Client;
 
@@ -36,6 +37,8 @@ final class AsaasClient
     private ?PaymentService $paymentService = null;
 
     private ?CreditCardService $creditCardService = null;
+
+    private ?WebhookService $webhookService = null;
 
     /**
      * AsaasClient constructor.
@@ -93,6 +96,24 @@ final class AsaasClient
         $this->creditCardService = new CreditCardService($this->httpClient);
 
         return $this->creditCardService;
+    }
+
+    /**
+     * Gets the Webhook service handler.
+     *
+     * The service is lazy-loaded: it is instantiated on the first call and the
+     * same instance is reused for all subsequent calls.
+     *
+     * @return WebhookService An instance of the WebhookService
+     */
+    public function webhook(): WebhookService
+    {
+        if ($this->webhookService !== null) {
+            return $this->webhookService;
+        }
+        $this->webhookService = new WebhookService($this->httpClient);
+
+        return $this->webhookService;
     }
 
     /**

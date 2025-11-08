@@ -25,7 +25,7 @@ use AsaasPhpSdk\ValueObjects\Simple\PostalCode;
 final readonly class CreateCustomerDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  string  $name  The customer's full name.
      * @param  Cpf|Cnpj  $cpfCnpj  The customer's document (CPF or CNPJ) as a Value Object.
@@ -47,7 +47,8 @@ final readonly class CreateCustomerDTO extends AbstractDTO
      * @param  ?string  $company  The company name, if applicable.
      * @param  ?bool  $foreignCustomer  Indicates if the customer is foreign.
      */
-    private function __construct(
+    /** @phpstan-ignore-next-line */
+    protected function __construct(
         public string $name,
         public Cpf|Cnpj $cpfCnpj,
         public ?Email $email = null,
@@ -69,28 +70,6 @@ final readonly class CreateCustomerDTO extends AbstractDTO
         public ?string $company = null,
         public ?bool $foreignCustomer = null
     ) {}
-
-    /**
-     * Creates a new CreateCustomerDTO instance from a raw array of data.
-     *
-     * This factory method orchestrates the sanitization and validation of the
-     * input data, ensuring the DTO is always created in a valid state.
-     *
-     * @param  array<string, mixed>  $data  Raw data, typically from an HTTP request or user input.
-     * @return self A new, validated instance of the DTO.
-     *
-     * @throws InvalidCustomerDataException if the data is invalid (e.g., missing required fields, invalid format).
-     */
-    public static function fromArray(array $data): self
-    {
-
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(
-            ...$validatedData
-        );
-    }
 
     /**
      * Sanitizes the raw input data array.
@@ -136,7 +115,7 @@ final readonly class CreateCustomerDTO extends AbstractDTO
      *
      * @throws InvalidCustomerDataException
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (empty($data['name'])) {
             throw InvalidCustomerDataException::missingField('name');

@@ -23,7 +23,7 @@ use AsaasPhpSdk\Exceptions\DTOs\InvalidDateRangeException;
 final readonly class ListPaymentsDTO extends AbstractDTO
 {
     /**
-     * Private constructor to enforce object creation via the static `fromArray` factory method.
+     * Protected constructor to enforce object creation via the static `fromArray` factory method.
      *
      * @param  ?string  $installment  The installment number.
      * @param  ?int  $offset  The number of payments to skip.
@@ -45,7 +45,7 @@ final readonly class ListPaymentsDTO extends AbstractDTO
      * @param  ?\DateTimeImmutable  $dueDateStart  The start date of the payment due date range.
      * @param  ?\DateTimeImmutable  $dueDateEnd  The end date of the payment due date range.
      */
-    private function __construct(
+    protected function __construct(
         public ?string $installment = null,
         public ?int $offset = null,
         public ?int $limit = null,
@@ -73,26 +73,6 @@ final readonly class ListPaymentsDTO extends AbstractDTO
         #[SerializeAs(key: 'dueDate[le]', method: 'format', args: ['Y-m-d'])]
         public ?\DateTimeImmutable $dueDateEnd = null
     ) {}
-
-    /**
-     * Create a new ListPaymentsDTO instance from a raw array of filters.
-     *
-     * This factory method sanitizes and validates the input array. Most invalid
-     * filter values are silently ignored, but it will throw InvalidDateRangeException
-     * if date range constraints are violated.
-     *
-     * @param  array<string, mixed>  $data  Raw filter data.
-     * @return self A new instance of the DTO with sanitized filters.
-     *
-     * @throws InvalidDateRangeException
-     */
-    public static function fromArray(array $data): self
-    {
-        $sanitizedData = self::sanitize($data);
-        $validatedData = self::validate($sanitizedData);
-
-        return new self(...$validatedData);
-    }
 
     /**
      * Sanitizes the raw filter data.
@@ -137,7 +117,7 @@ final readonly class ListPaymentsDTO extends AbstractDTO
      *
      * @throws InvalidDateRangeException
      */
-    private static function validate(array $data): array
+    protected static function validate(array $data): array
     {
         if (isset($data['limit'])) {
             $data['limit'] = max(1, min(100, $data['limit']));
