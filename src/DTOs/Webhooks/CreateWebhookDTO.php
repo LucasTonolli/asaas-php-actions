@@ -110,7 +110,7 @@ final readonly class CreateWebhookDTO extends AbstractDTO
             throw InvalidWebhookDataException::invalidFormat('interrupted', 'Interrupted must be a boolean value.');
         }
 
-        if (!$data['email'] instanceof Email) {
+        if (! $data['email'] instanceof Email) {
             try {
                 $data['email'] = Email::from($data['email']);
             } catch (InvalidValueObjectException $e) {
