@@ -13,11 +13,11 @@ Este SDK é construído com foco em princípios de **arquitetura limpa**, **segu
 
 ## ✨ Principais Funcionalidades
 
--   **API Fluida e Intuitiva**: Encadeie métodos de forma lógica para acessar recursos e realizar ações (ex: `$asaas->cliente()->criar(...)`).
--   **Tratamento de Erros Robusto e Previsível**: Chega de adivinhações sobre o que deu errado. O Theol lança exceções específicas e tipadas para diferentes cenários de erro (`ValidationException`, `NotFoundException`, `RateLimitException`, etc.).
--   **Retentativas Automáticas**: Resiliência integrada. Requisições que falham devido a problemas de rede ou erros temporários do servidor (`5xx`, `429`) são automaticamente retentadas com uma estratégia inteligente de `backoff`.
--   **Estruturas de Dados Imutáveis e Seguras por Tipo**: Utiliza DTOs e Value Objects `readonly` para garantir a integridade dos dados e prevenir mutações acidentais de estado.
--   **PHP 8.1+ Moderno**: Aproveita os recursos modernos do PHP, como `Enums`, propriedades `readonly` e atributos para uma base de código limpa e de fácil manutenção.
+- **API Fluida e Intuitiva**: Encadeie métodos de forma lógica para acessar recursos e realizar ações (ex: `$asaas->cliente()->criar(...)`).
+- **Tratamento de Erros Robusto e Previsível**: Chega de adivinhações sobre o que deu errado. O Theol lança exceções específicas e tipadas para diferentes cenários de erro (`ValidationException`, `NotFoundException`, `RateLimitException`, etc.).
+- **Retentativas Automáticas**: Resiliência integrada. Requisições que falham devido a problemas de rede ou erros temporários do servidor (`5xx`, `429`) são automaticamente retentadas com uma estratégia inteligente de `backoff`.
+- **Estruturas de Dados Imutáveis e Seguras por Tipo**: Utiliza DTOs e Value Objects `readonly` para garantir a integridade dos dados e prevenir mutações acidentais de estado.
+- **PHP 8.1+ Moderno**: Aproveita os recursos modernos do PHP, como `Enums`, propriedades `readonly` e atributos para uma base de código limpa e de fácil manutenção.
 
 ---
 
@@ -79,12 +79,12 @@ try {
 
 O SDK segue os princípios de arquitetura limpa, separando as preocupações em camadas distintas.
 
--   **Services**: A API pública para um recurso (ex: `CustomerService`). Este é o seu principal ponto de entrada para interagir com o SDK.
--   **Actions**: "Casos de uso" internos que executam uma única operação específica (ex: `CreateCustomerAction`). Eles orquestram a criação de DTOs e as chamadas à API.
--   **DTOs (Data Transfer Objects)**: Objetos estruturados, validados e imutáveis que transportam dados entre as camadas. Eles garantem que os dados são válidos antes que uma chamada à API seja feita.
--   **Value Objects**: Objetos auto-validáveis e imutáveis que representam um único valor de domínio (ex: `Cpf`, `Email`, `CreditCard`). Eles garantem a consistência dos dados no nível mais baixo.
--   **Exceptions**: Uma rica hierarquia de exceções personalizadas e tipadas que permitem um tratamento de erros preciso.
--   **Helpers**: Classes utilitárias sem estado que lidam com preocupações transversais, como sanitização de dados (`DataSanitizer`), configuração de clientes HTTP (`HttpClientFactory`) e tratamento de respostas (`ResponseHandler`).
+- **Services**: A API pública para um recurso (ex: `CustomerService`). Este é o seu principal ponto de entrada para interagir com o SDK.
+- **Actions**: "Casos de uso" internos que executam uma única operação específica (ex: `CreateCustomerAction`). Eles orquestram a criação de DTOs e as chamadas à API.
+- **DTOs (Data Transfer Objects)**: Objetos estruturados, validados e imutáveis que transportam dados entre as camadas. Eles garantem que os dados são válidos antes que uma chamada à API seja feita.
+- **Value Objects**: Objetos auto-validáveis e imutáveis que representam um único valor de domínio (ex: `Cpf`, `Email`, `CreditCard`). Eles garantem a consistência dos dados no nível mais baixo.
+- **Exceptions**: Uma rica hierarquia de exceções personalizadas e tipadas que permitem um tratamento de erros preciso.
+- **Helpers**: Classes utilitárias sem estado que lidam com preocupações transversais, como sanitização de dados (`DataSanitizer`), configuração de clientes HTTP (`HttpClientFactory`) e tratamento de respostas (`ResponseHandler`).
 
 ---
 
@@ -127,24 +127,24 @@ docs/
 
 ## ⚡ Fluxo de Desenvolvimento
 
--   **Branching**: `feature/*`, `fix/*`, `docs/*`
--   **Commits**: Siga o [Conventional Commits](https://www.conventionalcommits.org/)
--   **Testes**: Testes de Unidade + Integração são obrigatórios para novas funcionalidades.
--   **Documentação**: Atualize `/docs/patterns` para quaisquer novas convenções.
+- **Branching**: `feature/*`, `fix/*`, `docs/*`
+- **Commits**: Siga o [Conventional Commits](https://www.conventionalcommits.org/)
+- **Testes**: Testes de Unidade + Integração são obrigatórios para novas funcionalidades.
+- **Documentação**: Atualize `/docs/patterns` para quaisquer novas convenções.
 
 ---
 
 ## 📖 Marcos Atuais
 
--   **v0.1.0** → Módulo Cliente (CRUD + Testes + Documentos) ✅
--   **v0.2.0** → Módulo Pagamento (DTOs, Actions, Testes, Documentos) ✅
--   **v0.3.0** → Módulo Webhook (CRUD + Documentos) ✅
--   **v0.4.0** → Refatorar documentação e padrões ✅
--   **v1.0.0** → Lançamento Estável ⏳
+- **v0.1.0** → Módulo Cliente (CRUD + Testes + Documentos) ✅
+- **v0.2.0** → Módulo Pagamento (DTOs, Actions, Testes, Documentos) ✅
+- **v0.3.0** → Módulo Webhook (CRUD + Documentos) ⏳
+- **v0.3.0** → Refatorar documentação e padrões ✅
+- **v1.0.0** → Lançamento Estável ⏳
 
 ---
 
 ## 📝 Notas
 
--   A cobertura da API é **parcial**; alguns endpoints ainda estão em implementação.
--   DTOs e Value Objects são **imutáveis**. Sempre use seus métodos estáticos `from()` ou `fromArray()` para criar novas instâncias.
+- A cobertura da API é **parcial**; alguns endpoints ainda estão em implementação.
+- DTOs e Value Objects são **imutáveis**. Sempre use seus métodos estáticos `from()` ou `fromArray()` para criar novas instâncias.
