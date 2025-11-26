@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Webhooks\CreateWebhookAction;
+use AsaasPhpSdk\Actions\Webhooks\DeleteWebhookAction;
 use AsaasPhpSdk\Actions\Webhooks\GetWebhookAction;
 use AsaasPhpSdk\DTOs\Webhooks\CreateWebhookDTO;
 use AsaasPhpSdk\Services\Base\AbstractService;
@@ -45,6 +46,21 @@ final class WebhookService extends AbstractService
     public function get(string $id): array
     {
         $action = new GetWebhookAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Deletes a webhook by its ID.
+     *
+     * @see https://docs.asaas.com/reference/excluir-um-webhook
+     *
+     * @param  string  $id  The ID of the webhook to delete.
+     * @return array<string, mixed> An array confirming the deletion.
+     */
+    public function delete(string $id): array
+    {
+        $action = new DeleteWebhookAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
