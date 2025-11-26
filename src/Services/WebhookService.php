@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Webhooks\CreateWebhookAction;
+use AsaasPhpSdk\Actions\Webhooks\GetWebhookAction;
 use AsaasPhpSdk\DTOs\Webhooks\CreateWebhookDTO;
 use AsaasPhpSdk\Services\Base\AbstractService;
 
@@ -31,5 +32,12 @@ final class WebhookService extends AbstractService
         $action = new CreateWebhookAction($this->client, $this->responseHandler);
 
         return $action->handle($dto);
+    }
+
+    public function get(string $id): array
+    {
+        $action = new GetWebhookAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
     }
 }
