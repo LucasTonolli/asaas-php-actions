@@ -2,7 +2,7 @@
 
 As **Actions** são a camada de fronteira (`boundary layer`) do SDK. Elas atuam como a **ponte entre o mundo interno e estruturado (DTOs, VOs) e o mundo externo (a API HTTP)**.
 
-A principal responsabilidade de uma `Action` é traduzir um DTO de entrada, que já foi validado e tipado, em uma requisição HTTP específica e executar essa chamada de forma segura e padronizada.
+A principal responsabilidade de uma `Action` é traduzir um DTO de entrada (ou um ID) em uma requisição HTTP específica e executar essa chamada de forma segura e padronizada.
 
 ---
 
@@ -29,29 +29,52 @@ Isso remove a necessidade de ter blocos `try/catch` para status codes repetidos 
 
 ---
 
-## 🧭 Regras de Implementação
+## 🏗️ Base Actions para Operações Comuns
 
-- Toda `Action` deve **estender `AbstractAction`**.
-- Toda `Action` deve **utilizar um DTO** como parâmetro de entrada para seu método principal.
-- O método principal deve se chamar `handle()`.
-- O método `handle()` deve **sempre retornar um `array`**, que é o resultado padronizado processado pelo `ResponseHandler`.
+Para operações CRUD comuns, existem classes base abstratas que você deve estender para evitar a duplicação de lógica:
+
+-   `GetByIdAction`: Para recuperar um recurso por ID (`GET /recurso/{id}`).
+-   `DeleteByIdAction`: Para deletar um recurso por ID (`DELETE /recurso/{id}`).
+-   `RestoreByIdAction`: Para restaurar um recurso por ID (`POST /recurso/{id}/restore`).
+
+Quando você estende uma dessas classes, você só precisa implementar dois métodos:
+
+-   `getResourceName()`: Retorna o nome do recurso (e.g., `'Customer'`, `'Payment'`). Usado para mensagens de erro padronizadas.
+-   `getEndpoint(string $id)`: Retorna a string do endpoint formatada com o ID.
+
+Esta abordagem encapsula a lógica de validação do ID e a chamada HTTP, tornando a `Action` concreta extremamente enxuta.
+
+### ✨ Validação de ID com `ValidateResourceIdTrait`
+
+As `Base Actions` acima utilizam o `ValidateResourceIdTrait`. Este trait fornece o método `validateAndNormalizeId()`, que garante que o ID de um recurso não seja uma string vazia antes de fazer a chamada à API, lançando uma `InvalidArgumentException` se a validação falhar.
+
+Você pode usar este trait em qualquer `Action` que receba um ID de recurso.
 
 ---
 
-### ✅ Exemplo
+## 🧭 Regras de Implementação
+
+-   Toda `Action` deve **estender `AbstractAction`** (ou uma de suas filhas, como `GetByIdAction`).
+-   Toda `Action` que recebe dados complexos deve **utilizar um DTO** como parâmetro de entrada.
+-   O método principal deve se chamar `handle()`.
+-   O método `handle()` deve **sempre retornar um `array`**, que é o resultado padronizado processado pelo `ResponseHandler`.
+
+---
+
+## ✅ Exemplos
+
+### Ação Simples (com DTO)
 
 ```php
+// src/Actions/Customers/CreateCustomerAction.php
+
 namespace AsaasPhpSdk\Actions\Customers;
 
-use AsaasPhpSdk\Actions\AbstractAction;
+use AsaasPhpSdk\Actions\Base\AbstractAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 
-class CreateCustomerAction extends AbstractAction
+final class CreateCustomerAction extends AbstractAction
 {
-    /**
-     * @param CreateCustomerDTO $data O DTO com os dados do cliente validados.
-     * @return array O array de resposta da API, processado pelo ResponseHandler.
-     */
     public function handle(CreateCustomerDTO $data): array
     {
         // O método executeRequest cuida de toda a lógica de try/catch e
@@ -64,3 +87,29 @@ class CreateCustomerAction extends AbstractAction
     }
 }
 ```
+
+### Ação com `GetByIdAction`
+
+Este exemplo mostra como é simples criar uma `Action` para buscar um recurso por ID.
+
+```php
+// src/Actions/Customers/GetCustomerAction.php
+
+namespace AsaasPhpSdk\Actions\Customers;
+
+use AsaasPhpSdk\Actions\Base\GetByIdAction;
+
+final class GetCustomerAction extends GetByIdAction
+{
+    protected function getResourceName(): string
+    {
+        return 'Customer';
+    }
+
+    protected function getEndpoint(string $id): string
+    {
+        return 'customers/' . rawurlencode($id);
+    }
+}
+```
+
