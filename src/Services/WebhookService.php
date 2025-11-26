@@ -10,9 +10,9 @@ use AsaasPhpSdk\DTOs\Webhooks\CreateWebhookDTO;
 use AsaasPhpSdk\Services\Base\AbstractService;
 
 /**
- * Provides a user-friendly interface for creating webhooks.
+ * Provides a user-friendly interface for all webhooks-related operations.
  *
- * This service acts as the main entry point for creating webhooks in the Asaas API.
+ * This service acts as the main entry point for managing webhooks in the Asaas API.
  * It abstracts the underlying complexity of DTOs and Actions, providing a clean
  * and simple API for the SDK consumer.
  */
