@@ -14,8 +14,8 @@ describe('Delete Webhook', function (): void {
         // Arrange
         $id = uniqid();
         $createWebhookResponse = $this->asaasClient->webhook()->create([
-            'url' => 'https://example.com/webhook-' . $id,
-            'name' => 'Test Webhook - ' . $id,
+            'url' => 'https://example.com/webhook-'.$id,
+            'name' => 'Test Webhook - '.$id,
             'email' => 'iEo0Q@example.com',
             'sendType' => SendTypeEnum::Sequentially->value,
             'events' => [
@@ -33,17 +33,17 @@ describe('Delete Webhook', function (): void {
             ->and($deleteResponse['id'])->toBe($createWebhookResponse['id']);
 
         // Verify that the webhook is actually gone
-        expect(fn() => $this->asaasClient->webhook()->get($createWebhookResponse['id']))
+        expect(fn () => $this->asaasClient->webhook()->get($createWebhookResponse['id']))
             ->toThrow(NotFoundException::class, 'Resource not found');
     });
 
     it('throws an exception when trying to delete a non-existent webhook (404)', function (): void {
-        expect(fn() => $this->asaasClient->webhook()->delete('wh_nonexistent'))
+        expect(fn () => $this->asaasClient->webhook()->delete('wh_nonexistent'))
             ->toThrow(NotFoundException::class, 'Resource not found');
     });
 
     it('throws an exception when the webhook ID is empty', function (): void {
-        expect(fn() => $this->asaasClient->webhook()->delete(''))
+        expect(fn () => $this->asaasClient->webhook()->delete(''))
             ->toThrow(InvalidArgumentException::class, 'Webhook ID cannot be empty');
     });
 });

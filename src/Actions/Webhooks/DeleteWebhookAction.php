@@ -26,6 +26,6 @@ final class DeleteWebhookAction extends DeleteByIdAction
      */
     protected function getEndpoint(string $id): string
     {
-        return 'webhooks/' . rawurlencode($id);
+        return 'webhooks/'.rawurlencode($id);
     }
 }

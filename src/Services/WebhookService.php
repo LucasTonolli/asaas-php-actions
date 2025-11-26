@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Webhooks\CreateWebhookAction;
-use AsaasPhpSdk\Actions\Webhooks\GetWebhookAction;
 use AsaasPhpSdk\Actions\Webhooks\DeleteWebhookAction;
+use AsaasPhpSdk\Actions\Webhooks\GetWebhookAction;
 use AsaasPhpSdk\DTOs\Webhooks\CreateWebhookDTO;
 use AsaasPhpSdk\Services\Base\AbstractService;
 

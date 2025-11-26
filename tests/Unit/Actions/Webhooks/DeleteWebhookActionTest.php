@@ -13,7 +13,7 @@ describe('DeleteWebhookAction', function (): void {
                 'id' => $webhookId,
                 'deleted' => true,
                 'object' => 'webhook',
-            ], 200)
+            ], 200),
         ]);
         $action = new DeleteWebhookAction($client, new ResponseHandler);
 
