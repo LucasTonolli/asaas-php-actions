@@ -7,7 +7,6 @@ use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 
-
 describe('GetWebhookAction', function (): void {
     it('gets a webhook by id', function (): void {
         // Arrange
@@ -23,9 +22,9 @@ describe('GetWebhookAction', function (): void {
                 'sendType' => SendTypeEnum::Sequentially->value,
                 'events' => [
                     EventEnum::PaymentReceived->value,
-                    EventEnum::PaymentAnticipated->value
-                ]
-            ], 200)
+                    EventEnum::PaymentAnticipated->value,
+                ],
+            ], 200),
         ]);
 
         // Act
@@ -48,13 +47,12 @@ describe('GetWebhookAction', function (): void {
         $action->handle($webhookId);
     })->throws(NotFoundException::class, 'Resource not found');
 
-
     it('throws ValidationException on 400 status code', function (): void {
         // Arrange
         $webhookId = 'invalid-id';
         $asaasClient = mockClient([
             mockErrorResponse('Invalid request.', 400, [
-                ['description' => 'ID format is invalid']
+                ['description' => 'ID format is invalid'],
             ]),
         ]);
 
