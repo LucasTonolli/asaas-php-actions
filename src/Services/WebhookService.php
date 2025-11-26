@@ -34,6 +34,14 @@ final class WebhookService extends AbstractService
         return $action->handle($dto);
     }
 
+    /**
+     * Retrieves a webhook by its ID.
+     *
+     * @see https://docs.asaas.com/reference/recuperar-um-unico-webhook
+     *
+     * @param  string  $id  The ID of the webhook to retrieve.
+     * @return array<string, mixed> An array representing the retrieved webhook as returned by the API.
+     */
     public function get(string $id): array
     {
         $action = new GetWebhookAction($this->client, $this->responseHandler);
