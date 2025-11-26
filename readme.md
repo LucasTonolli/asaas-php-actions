@@ -1,69 +1,118 @@
-# Asaas PHP SDK (In Development)
+# Asaas PHP SDK
 
 [![PHP](https://img.shields.io/badge/php-8.1%2B-blue)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE)
 
----
+Um SDK PHP não oficial, moderno e fluente para interagir com a [API Asaas](https://docs.asaas.com/reference).
 
-## 📌 Overview
+Este SDK é construído com foco em princípios de **arquitetura limpa**, **segurança de tipo** (type-safety) e uma excelente experiência para desenvolvedores, aproveitando os recursos modernos do PHP 8.1+.
 
-This SDK provides a **structured and type-safe way to interact with Asaas API**.
-It follows **clean architecture** principles:
-
-- **DTOs** → Data Transfer Objects for structured, immutable data.
-- **Actions** → Perform operations using the API (Create/Update/Delete/Restore).
-- **Value Objects** → Encapsulate and validate domain-specific values (Email, CPF, CNPJ, Phone, PostalCode).
-- **Services** → High-level orchestration of multiple Actions.
-
-> ⚠️ **Currently in active development. APIs may change.**
+> ⚠️ **Atualmente em desenvolvimento ativo. As APIs podem sofrer alterações antes de um lançamento estável da v1.0.0.**
 
 ---
 
-## 🛠 Getting Started
+## ✨ Principais Funcionalidades
 
-### Install via Composer
+-   **API Fluida e Intuitiva**: Encadeie métodos de forma lógica para acessar recursos e realizar ações (ex: `$asaas->cliente()->criar(...)`).
+-   **Tratamento de Erros Robusto e Previsível**: Chega de adivinhações sobre o que deu errado. O Theol lança exceções específicas e tipadas para diferentes cenários de erro (`ValidationException`, `NotFoundException`, `RateLimitException`, etc.).
+-   **Retentativas Automáticas**: Resiliência integrada. Requisições que falham devido a problemas de rede ou erros temporários do servidor (`5xx`, `429`) são automaticamente retentadas com uma estratégia inteligente de `backoff`.
+-   **Estruturas de Dados Imutáveis e Seguras por Tipo**: Utiliza DTOs e Value Objects `readonly` para garantir a integridade dos dados e prevenir mutações acidentais de estado.
+-   **PHP 8.1+ Moderno**: Aproveita os recursos modernos do PHP, como `Enums`, propriedades `readonly` e atributos para uma base de código limpa e de fácil manutenção.
+
+---
+
+## 🛠️ Começando
+
+### 1. Instalação via Composer
 
 ```bash
-composer require lucas-tonolli/asaas-php-actions
+composer require lucas-tonolli/asaas-php-sdk
 ```
 
-### Quick Example
+### 2. Exemplos Rápidos
+
+#### Criando um Cliente
 
 ```php
 use AsaasPhpSdk\AsaasClient;
 use AsaasPhpSdk\Config\AsaasConfig;
-use AsaasPhpSdk\DTOs\CreateCustomerDTO;
 
-/**
- * Sandbox mode
- */
+// Configura para o ambiente de sandbox
+$config = new AsaasConfig(token: 'SUA_TOKEN_SANDBOX', isSandbox: true);
 
-$config = new AsaasConfig('your_token', true);
+// Instancia o cliente principal
+$asaas = new AsaasClient($config);
 
-$client = new AsaasClient($config);
-
-$response = $client->customer()->create([
-    'name' => 'John Doe',
+$novoCliente = $asaas->cliente()->criar([
+    'nome' => 'João Silva',
     'cpfCnpj' => '12345678901',
-    'email' => 'john@example.com',
+    'email' => 'joao@example.com',
 ]);
-print_r($response);
 
+print_r($novoCliente);
+```
+
+#### Tratamento de Erros de Validação
+
+O Toolkit facilita a captura de erros específicos.
+
+```php
+use AsaasPhpSdk\AsaasClient;
+use AsaasPhpSdk\Config\AsaasConfig;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+
+$config = new AsaasConfig(token: 'SUA_TOKEN_SANDBOX', isSandbox: true);
+$asaas = new AsaasClient($config);
+
+try {
+    // Tenta criar um cliente com dados inválidos
+    $asaas->cliente()->criar(['nome' => 'Maria Silva']); // cpfCnpj está faltando
+} catch (ValidationException $e) {
+    echo "Falha na validação: " . $e->getMessage();
+    // Saída: Falha na validação: O campo obrigatório 'cpfCnpj' está faltando.
+}
 ```
 
 ---
 
-## 📂 Project Structure
+## 🏛️ Visão Geral da Arquitetura
+
+O SDK segue os princípios de arquitetura limpa, separando as preocupações em camadas distintas.
+
+-   **Services**: A API pública para um recurso (ex: `CustomerService`). Este é o seu principal ponto de entrada para interagir com o SDK.
+-   **Actions**: "Casos de uso" internos que executam uma única operação específica (ex: `CreateCustomerAction`). Eles orquestram a criação de DTOs e as chamadas à API.
+-   **DTOs (Data Transfer Objects)**: Objetos estruturados, validados e imutáveis que transportam dados entre as camadas. Eles garantem que os dados são válidos antes que uma chamada à API seja feita.
+-   **Value Objects**: Objetos auto-validáveis e imutáveis que representam um único valor de domínio (ex: `Cpf`, `Email`, `CreditCard`). Eles garantem a consistência dos dados no nível mais baixo.
+-   **Exceptions**: Uma rica hierarquia de exceções personalizadas e tipadas que permitem um tratamento de erros preciso.
+-   **Helpers**: Classes utilitárias sem estado que lidam com preocupações transversais, como sanitização de dados (`DataSanitizer`), configuração de clientes HTTP (`HttpClientFactory`) e tratamento de respostas (`ResponseHandler`).
+
+---
+
+## 📂 Estrutura do Projeto
 
 ```
 src/
 ├── Actions/
+│   ├── Base/
+│   └── {Recurso}/
 ├── DTOs/
+│   ├── Base/
+│   └── {Recurso}/
 ├── Exceptions/
-├── Helpers/
+│   ├── Api/
+│   └── DTOs/
+│   └── ValueObjects/
 ├── Services/
+│   └── Base/
+├── Support/
+│   ├── Helpers/
+│   └── Traits/
 ├── ValueObjects/
-└── Config/AsaasClient.php
+│   ├── Base/
+│   ├── Simple/
+│   └── Structured/
+├── AsaasClient.php
+└── Config/
 
 tests/
 ├── Unit/
@@ -76,25 +125,26 @@ docs/
 
 ---
 
-## ⚡ Development Workflow
+## ⚡ Fluxo de Desenvolvimento
 
-- **Branching**: feature/_, fix/_, docs/\*
-- **Commits**: follow [Conventional Commits](https://www.conventionalcommits.org/)
-- **Testing**: Unit + Integration tests required for new features
-- **Documentation**: Update `/docs/patterns` and `/docs/workflow` for new conventions
-
----
-
-## 📖 Current Milestones
-
-- **v0.1.0** → Customer Module (CRUD + Tests + Docs) ✅
-- **v0.2.0** → Payment Module (DTOs, Actions, Tests, Docs) ✅
-- **v0.3.0** → Webhook Module ⏳
+-   **Branching**: `feature/*`, `fix/*`, `docs/*`
+-   **Commits**: Siga o [Conventional Commits](https://www.conventionalcommits.org/)
+-   **Testes**: Testes de Unidade + Integração são obrigatórios para novas funcionalidades.
+-   **Documentação**: Atualize `/docs/patterns` para quaisquer novas convenções.
 
 ---
 
-## 📝 Notes
+## 📖 Marcos Atuais
 
-- API coverage is **partial**; some endpoints still under implementation.
-- DTOs are **immutable**; always use `fromArray()` to create instances.
-- Value Objects ensure **data consistency** and **validation** at construction.
+-   **v0.1.0** → Módulo Cliente (CRUD + Testes + Documentos) ✅
+-   **v0.2.0** → Módulo Pagamento (DTOs, Actions, Testes, Documentos) ✅
+-   **v0.3.0** → Módulo Webhook (CRUD + Documentos) ✅
+-   **v0.4.0** → Refatorar documentação e padrões ✅
+-   **v1.0.0** → Lançamento Estável ⏳
+
+---
+
+## 📝 Notas
+
+-   A cobertura da API é **parcial**; alguns endpoints ainda estão em implementação.
+-   DTOs e Value Objects são **imutáveis**. Sempre use seus métodos estáticos `from()` ou `fromArray()` para criar novas instâncias.
