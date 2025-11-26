@@ -10,21 +10,26 @@ O objetivo é dar ao usuário do SDK o máximo de contexto possível sobre o que
 
 Todas as exceções lançadas pelo SDK herdam de uma classe base comum, a `AsaasException`. Isso permite que você capture qualquer erro originado do SDK com um único bloco `catch`. A hierarquia foi pensada para permitir a captura de erros tanto de forma específica quanto categorizada.
 
-A estrutura geral é a seguinte:
+Abaixo, a estrutura visual da hierarquia:
 
-- `\Throwable` (Nativa do PHP)
-  - `AsaasException` (**Base para todas as exceções do SDK**)
-    - `ApiException` (Erros genéricos da API ou 5xx)
-    - `AuthenticationException` (Erro 401 - Token inválido)
-    - `NotFoundException` (Erro 404 - Recurso não encontrado)
-    - `RateLimitException` (Erro 429 - Limite de requisições excedido)
-    - `ValidationException` (Erro 400 - Erros de validação retornados pela API)
-    - `InvalidCustomerDataException` (Erro de validação de dados do cliente)
-    - `InvalidValueObjectException` (**Base para erros de VOs**)
-      - `InvalidCpfException`
-      - `InvalidCnpjException`
-      - `InvalidEmailException`
-      - etc...
+-   `\Throwable` (Nativa do PHP)
+    -   `AsaasException` (**Base para todas as exceções do SDK**)
+        -   **API Exceptions** (Erros da API, pós-requisição)
+            -   `ApiException` (Erros genéricos da API ou 5xx)
+            -   `AuthenticationException` (Erro 401 - Token inválido)
+            -   `NotFoundException` (Erro 404 - Recurso não encontrado)
+            -   `RateLimitException` (Erro 429 - Limite de requisições excedido)
+            -   `ValidationException` (Erro 400 - Erros de validação retornados pela API)
+        -   **DTO Validation Exceptions** (Erros de validação em DTOs, pré-requisição)
+            -   `InvalidDataException` (**Base para erros de DTOs**)
+                -   `InvalidCustomerDataException`
+                -   `InvalidPaymentDataException`
+                -   `InvalidWebhookDataException`
+                -   `InvalidDateRangeException`
+        -   **Value Object Validation Exceptions** (Erros de validação em VOs, pré-requisição)
+            -   `InvalidValueObjectException` (**Base para erros de VOs**)
+                -   `InvalidCpfException`, `InvalidCnpjException`, `InvalidEmailException`, etc.
+                -   `InvalidCreditCardException`, `InvalidSplitException`, etc.
 
 ---
 
@@ -36,21 +41,41 @@ As exceções podem ser divididas em duas categorias principais, dependendo de *
 
 Ocorrem **antes** de qualquer chamada à API ser feita, geralmente durante a criação de `DTOs` ou `Value Objects`. Eles indicam que os dados fornecidos pelo usuário não estão em um formato válido.
 
-- `InvalidCustomerDataException`
-- `InvalidValueObjectException` (Exceção genérica para VOs)
-  - `InvalidCpfException`, `InvalidCnpjException`, `InvalidEmailException`, `InvalidPhoneException`, etc. (Exceções específicas que herdam de `InvalidValueObjectException`)
+#### DTO Validation Exceptions
 
-A vantagem dessa hierarquia é que você pode capturar um erro específico (`catch (InvalidCpfException $e)`) ou qualquer erro de validação de VO (`catch (InvalidValueObjectException $e)`).
+Lançadas durante a validação de um DTO (no método `validate`). Elas herdam de `InvalidDataException`, que oferece factories estáticas para mensagens de erro padronizadas:
+
+-   `InvalidDataException::missingField('name')` -> "Required field 'name' is missing."
+-   `InvalidDataException::invalidFormat('email')` -> "Field 'email' has invalid format."
+
+```php
+// Exemplo de uso em um DTO
+final class CreateCustomerDTO extends AbstractDTO
+{
+    protected static function validate(array $data): array
+    {
+        if (empty($data['name'])) {
+            // Lança uma InvalidCustomerDataException com uma mensagem padrão
+            throw InvalidCustomerDataException::missingField('name');
+        }
+        // ...
+    }
+}
+```
+
+#### Value Object Validation Exceptions
+
+Lançadas quando um `Value Object` não pode ser criado a partir do valor fornecido. A vantagem dessa hierarquia é que você pode capturar um erro específico (`catch (InvalidCpfException $e)`) ou qualquer erro de validação de VO (`catch (InvalidValueObjectException $e)`).
 
 ### 2\. Erros da API (Pós-Requisição)
 
 São lançados pelo `ResponseHandler` quando a API do Asaas retorna um `status code` de erro (4xx ou 5xx). Eles representam uma falha na comunicação ou no processamento da requisição pela API.
 
-- `AuthenticationException` (Status 401)
-- `NotFoundException` (Status 404)
-- `RateLimitException` (Status 429)
-- `ValidationException` (Status 400)
-- `ApiException` (Status 5xx ou outros erros não mapeados)
+-   `AuthenticationException` (Status 401)
+-   `NotFoundException` (Status 404)
+-   `RateLimitException` (Status 429)
+-   `ValidationException` (Status 400)
+-   `ApiException` (Status 5xx ou outros erros não mapeados)
 
 ---
 
@@ -100,7 +125,7 @@ try {
 
 Ao criar novas exceções para o SDK, siga estas diretrizes:
 
-- **Hierarquia Consistente**: Toda exceção deve herdar de `AsaasException`. Exceções de `Value Objects` devem herdar da classe base `InvalidValueObjectException`.
-- **Encapsulamento com `Throwable`**: A `AsaasException` utiliza `?Throwable` em seu construtor, permitindo encapsular qualquer tipo de erro do PHP (`Exception` ou `Error`) para manter o contexto completo da falha.
-- **Construtores Estáticos**: Para erros de validação com mensagens padronizadas, use construtores estáticos como em `InvalidCustomerDataException::missingField('name')`.
-- **Enriquecimento com Contexto**: Se uma exceção pode carregar dados úteis para o usuário (como a `RateLimitException`), adicione propriedades `readonly` no construtor e um `getter` para expor essa informação.
+-   **Hierarquia Consistente**: Toda exceção deve herdar de `AsaasException`. Exceções de DTO devem herdar de `InvalidDataException`. Exceções de `Value Objects` devem herdar de `InvalidValueObjectException`.
+-   **Encapsulamento com `Throwable`**: A `AsaasException` utiliza `?Throwable` em seu construtor, permitindo encapsular qualquer tipo de erro do PHP (`Exception` ou `Error`) para manter o contexto completo da falha.
+-   **Construtores Estáticos**: Para erros de validação com mensagens padronizadas, use `static factory methods` como em `InvalidDataException::missingField('name')`. Isso centraliza a criação das mensagens e torna o código mais legível.
+-   **Enriquecimento com Contexto**: Se uma exceção pode carregar dados úteis para o usuário (como a `RateLimitException`), adicione propriedades `readonly` no construtor e um `getter` para expor essa informação de forma segura.
