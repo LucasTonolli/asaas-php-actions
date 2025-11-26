@@ -43,7 +43,7 @@ $config = new AsaasConfig(token: 'SUA_TOKEN_SANDBOX', isSandbox: true);
 // Instancia o cliente principal
 $asaas = new AsaasClient($config);
 
-$novoCliente = $asaas->cliente()->criar([
+$novoCliente = $asaas->client()->create([
     'nome' => 'João Silva',
     'cpfCnpj' => '12345678901',
     'email' => 'joao@example.com',
@@ -66,7 +66,7 @@ $asaas = new AsaasClient($config);
 
 try {
     // Tenta criar um cliente com dados inválidos
-    $asaas->cliente()->criar(['nome' => 'Maria Silva']); // cpfCnpj está faltando
+    $asaas->client()->create(['nome' => 'Maria Silva']); // cpfCnpj está faltando
 } catch (ValidationException $e) {
     echo "Falha na validação: " . $e->getMessage();
     // Saída: Falha na validação: O campo obrigatório 'cpfCnpj' está faltando.
