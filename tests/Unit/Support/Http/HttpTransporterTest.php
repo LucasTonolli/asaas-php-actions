@@ -27,44 +27,43 @@ it('should send a request correctly and return an array in handler', function ()
     $data = ['name' => 'John Doe'];
     $expectedResponse = ['id' => 'cus_123'];
 
-    // 1. Mock da Request
+    // 1. Mock of Request
     $requestMock = Mockery::mock(RequestInterface::class);
     $responseMock = Mockery::mock(ResponseInterface::class);
     $streamMock = Mockery::mock(StreamInterface::class);
 
-    // Expectativa: Criar a request
+    // Expect : Create Request
     $this->requestFactory->shouldReceive('createRequest')
         ->once()
         ->with('POST', $path)
         ->andReturn($requestMock);
 
-    // Expectativa: Criar o Stream do Body
+    // Expect: Create Stream
     $this->streamFactory->shouldReceive('createStream')
         ->once()
         ->with(json_encode($data))
         ->andReturn($streamMock);
 
-    // Expectativa: Vincular Body à Request
+    //Expect : Add body
     $requestMock->shouldReceive('withBody')
         ->once()
         ->with($streamMock)
         ->andReturnSelf();
 
-    // Expectativa: Cliente envia e recebe response
+    // Expect: Send Request
     $this->client->shouldReceive('sendRequest')
         ->once()
         ->with($requestMock)
         ->andReturn($responseMock);
 
-    // Expectativa: Handler processa a response
+    // Expect: Handle Response
     $this->responseHandler->shouldReceive('handle')
         ->once()
         ->with($responseMock)
         ->andReturn($expectedResponse);
 
-    // Execução
+    // Execute
     $result = $this->transporter->send('POST', $path, $data);
 
-    // Verificação
     expect($result)->toBe($expectedResponse);
 });
