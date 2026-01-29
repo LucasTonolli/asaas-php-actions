@@ -9,8 +9,11 @@ use AsaasPhpSdk\Services\CreditCardService;
 use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
 use AsaasPhpSdk\Services\WebhookService;
-use AsaasPhpSdk\Support\Helpers\HttpClientFactory;
-use GuzzleHttp\Client;
+use AsaasPhpSdk\Support\Http\GuzzleClientFactory;
+use AsaasPhpSdk\Support\Http\Interface\HttpClientFactoryInterface;
+use AsaasPhpSdk\Support\Http\HttpTransporter;
+use AsaasPhpSdk\Support\Http\ResponseHandler;
+use Http\Discovery\Psr17FactoryDiscovery;
 
 /**
  * The main entry point for interacting with the Asaas API.
@@ -30,7 +33,7 @@ use GuzzleHttp\Client;
  */
 final class AsaasClient
 {
-    private Client $httpClient;
+    private HttpTransporter $transporter;
 
     private ?CustomerService $customerService = null;
 
@@ -47,9 +50,10 @@ final class AsaasClient
      *
      * @throws \InvalidArgumentException if the API token in the config is empty.
      */
-    public function __construct(private readonly AsaasConfig $config)
+    public function __construct(private readonly AsaasConfig $config, private HttpClientFactoryInterface $factory)
     {
-        $this->httpClient = HttpClientFactory::make($this->config);
+        $this->factory ??= new GuzzleClientFactory($this->config);
+        $this->transporter = $this->buildTransporter();
     }
 
     /**
@@ -60,25 +64,25 @@ final class AsaasClient
      *
      * @return CustomerService An instance of the CustomerService.
      */
-    public function customer(): CustomerService
-    {
-        if ($this->customerService !== null) {
-            return $this->customerService;
-        }
-        $this->customerService = new CustomerService($this->httpClient);
+    // public function customer(): CustomerService
+    // {
+    //     if ($this->customerService !== null) {
+    //         return $this->customerService;
+    //     }
+    //     $this->customerService = new CustomerService($this->httpClient);
 
-        return $this->customerService;
-    }
+    //     return $this->customerService;
+    // }
 
-    public function payment(): PaymentService
-    {
-        if ($this->paymentService !== null) {
-            return $this->paymentService;
-        }
-        $this->paymentService = new PaymentService($this->httpClient);
+    // public function payment(): PaymentService
+    // {
+    //     if ($this->paymentService !== null) {
+    //         return $this->paymentService;
+    //     }
+    //     $this->paymentService = new PaymentService($this->httpClient);
 
-        return $this->paymentService;
-    }
+    //     return $this->paymentService;
+    // }
 
     /**
      * Gets the CreditCard service handler.
@@ -88,15 +92,15 @@ final class AsaasClient
      *
      * @return CreditCardService An instance of the CreditCardService
      */
-    public function creditCard(): CreditCardService
-    {
-        if ($this->creditCardService !== null) {
-            return $this->creditCardService;
-        }
-        $this->creditCardService = new CreditCardService($this->httpClient);
+    // public function creditCard(): CreditCardService
+    // {
+    //     if ($this->creditCardService !== null) {
+    //         return $this->creditCardService;
+    //     }
+    //     $this->creditCardService = new CreditCardService($this->httpClient);
 
-        return $this->creditCardService;
-    }
+    //     return $this->creditCardService;
+    // }
 
     /**
      * Gets the Webhook service handler.
@@ -106,15 +110,15 @@ final class AsaasClient
      *
      * @return WebhookService An instance of the WebhookService
      */
-    public function webhook(): WebhookService
-    {
-        if ($this->webhookService !== null) {
-            return $this->webhookService;
-        }
-        $this->webhookService = new WebhookService($this->httpClient);
+    // public function webhook(): WebhookService
+    // {
+    //     if ($this->webhookService !== null) {
+    //         return $this->webhookService;
+    //     }
+    //     $this->webhookService = new WebhookService($this->httpClient);
 
-        return $this->webhookService;
-    }
+    //     return $this->webhookService;
+    // }
 
     /**
      * Gets the configuration object used by the client.
@@ -124,17 +128,15 @@ final class AsaasClient
         return $this->config;
     }
 
-    /**
-     * Gets the underlying Guzzle HTTP client instance.
-     *
-     * This can be useful for advanced use cases, such as adding custom
-     * middleware or inspecting requests/responses.
-     *
-     * @return Client The configured GuzzleHttp\Client instance.
-     */
-    public function httpClient(): Client
+    private function buildTransporter(): HttpTransporter
     {
-        return $this->httpClient;
+
+        return new HttpTransporter(
+            $this->factory->create(),
+            Psr17FactoryDiscovery::findRequestFactory(),
+            Psr17FactoryDiscovery::findStreamFactory(),
+            new ResponseHandler()
+        );
     }
 
     /**
