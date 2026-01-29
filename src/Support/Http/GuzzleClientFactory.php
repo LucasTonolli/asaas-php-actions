@@ -61,7 +61,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $this->config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,
@@ -90,6 +90,10 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 }
 
                 if ($response && in_array($response->getStatusCode(), [429, 500, 502, 503, 504])) {
+                    return true;
+                }
+
+                if ($exception instanceof \GuzzleHttp\Exception\ConnectException) {
                     return true;
                 }
 
