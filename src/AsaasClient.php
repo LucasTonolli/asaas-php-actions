@@ -18,18 +18,15 @@ use Http\Discovery\Psr17FactoryDiscovery;
 /**
  * The main entry point for interacting with the Asaas API.
  *
- * This class provides access to all the different services (e.g., Customer, Payment)
- * and manages the underlying HTTP client configuration.
+ * This facade provides access to all available services and centralizes 
+ * the HTTP communication layer configuration.
  *
  * @example
- * // 1. Create a configuration object
- * $config = new AsaasPhpSdk\Config\AsaasConfig('YOUR_API_KEY', isSandbox: true);
- *
- * // 2. Instantiate the main client
- * $asaas = new AsaasPhpSdk\AsaasClient($config);
- *
- * // 3. Access a service and make a call
- * $allCustomers = $asaas->customer()->list();
+ * ```php
+ * $config = new AsaasConfig('api-token');
+ * $asaas = new AsaasClient($config);
+ * $customers = $asaas->customer()->list();
+ * ```
  */
 final class AsaasClient
 {
@@ -44,13 +41,13 @@ final class AsaasClient
     private ?WebhookService $webhookService = null;
 
     /**
-     * AsaasClient constructor.
+     * Initializes the Asaas SDK Client.
      *
-     * @param  AsaasConfig  $config  The configuration object with API token and environment settings.
-     *
-     * @throws \InvalidArgumentException if the API token in the config is empty.
+     * @param AsaasConfig $config Environment and authentication settings.
+     * @param HttpClientFactoryInterface|null $factory Optional custom factory for the HTTP Client. 
+     * If null, GuzzleClientFactory will be used by default.
      */
-    public function __construct(private readonly AsaasConfig $config, private HttpClientFactoryInterface $factory)
+    public function __construct(private readonly AsaasConfig $config, private HttpClientFactoryInterface|null $factory)
     {
         $this->factory ??= new GuzzleClientFactory($this->config);
         $this->transporter = $this->buildTransporter();
@@ -121,13 +118,18 @@ final class AsaasClient
     // }
 
     /**
-     * Gets the configuration object used by the client.
+     * Returns the configuration instance used by this client.
      */
     public function config(): AsaasConfig
     {
         return $this->config;
     }
 
+    /**
+     * Builds the internal transporter using PSR-17 discovery.
+     * * @return HttpTransporter
+     * @throws \Http\Discovery\Exception\DiscoveryFailedException If no PSR-17 factories are found.
+     */
     private function buildTransporter(): HttpTransporter
     {
 
@@ -140,9 +142,7 @@ final class AsaasClient
     }
 
     /**
-     * Checks if the client is configured to use the sandbox environment.
-     *
-     * A convenience proxy method for `$client->config()->isSandbox()`.
+     * Helper to check if the current environment is Sandbox.
      */
     public function isSandbox(): bool
     {
