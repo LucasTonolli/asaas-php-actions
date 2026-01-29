@@ -17,11 +17,11 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * A factory for creating a pre-configured Guzzle HTTP client.
  *
- * This class centralizes all HTTP client configuration for the SDK. It sets
- * default headers, timeouts, and attaches crucial middleware for resilient
- * API communication, such as automatic retries and request logging.
+ * This class implements the HttpClientFactoryInterface to provide a Guzzle-backed
+ * PSR-18 client. It centralizes SDK-specific configurations such as authentication 
+ * headers, timeouts, and resiliency middlewares (retries and logging).
  *
- * @internal This is an internal helper class and is not intended for public use by SDK consumers.
+ * @internal This is an internal infrastructure component.
  */
 final class GuzzleClientFactory implements HttpClientFactoryInterface
 {
@@ -31,14 +31,17 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
     /** @var int The base delay in milliseconds between retries. */
     private const RETRY_DELAY_MS = 1000;
 
+    /**
+     * GuzzleClientFactory constructor.
+     * * @param AsaasConfig $config The SDK configuration context.
+     */
     public function __construct(private readonly AsaasConfig $config) {}
 
 
     /**
-     * Creates and configures a new Guzzle Client instance based on the provided settings.
+     * Creates and configures a Guzzle implementation of ClientInterface.
      *
-     * @param  AsaasConfig  $config  The configuration object with API token and environment settings.
-     * @return Client A fully configured GuzzleHttp\Client instance.
+     * @return ClientInterface A fully configured PSR-18 compliant HTTP client.
      */
     public function create(): ClientInterface
     {
@@ -66,15 +69,12 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
     }
 
     /**
-     * Creates the retry middleware for the Guzzle client.
+     * Creates the retry middleware for resilient API communication.
      *
-     * This middleware will retry requests up to MAX_RETRIES times if a connection
-     * error occurs or if the API returns a retryable status code (429, 500, 502, 503, 504).
-     * The delay between retries increases linearly.
+     * Retries requests on connection errors or specific server-side status codes
+     * (429, 500, 502, 503, 504) using a linear backoff strategy.
      *
-     * @return callable The Guzzle retry middleware.
-     *
-     * @internal
+     * @return callable(callable): callable
      */
     private static function createRetryMiddleware(): callable
     {
@@ -102,14 +102,11 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
     }
 
     /**
-     * Creates the request logging middleware for the Guzzle client.
+     * Creates a logging middleware for request debugging.
      *
-     * This middleware logs the request method, URI, and body to the PHP error log.
-     * It is only intended for use in the sandbox environment for debugging purposes.
+     * Only active in Sandbox mode if logs are explicitly enabled in AsaasConfig.
      *
-     * @return callable The Guzzle logging middleware.
-     *
-     * @internal
+     * @return callable(callable): callable
      */
     private static function createLoggingMiddleware(): callable
     {
