@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Support\Http;
 
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -17,7 +18,7 @@ use Psr\Http\Message\StreamFactoryInterface;
  *
  * @internal This class is not part of the public API and may change without notice.
  */
-final readonly class HttpTransporter
+final readonly class HttpTransporter implements HttpTransporterInterface
 {
     /**
      * @param  ClientInterface  $client  The PSR-18 HTTP client implementation.

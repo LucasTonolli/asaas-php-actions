@@ -2,7 +2,8 @@
 
 namespace AsaasPhpSdk\Actions\Base;
 
-use AsaasPhpSdk\Support\Http\HttpTransporter;
+
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 /**
  * Base class for all SDK Actions.
@@ -23,6 +24,6 @@ abstract class AbstractAction
      *                                        PSR-compliant requests and handle responses.
      */
     public function __construct(
-        protected readonly HttpTransporter $transporter
+        protected readonly HttpTransporterInterface $transporter
     ) {}
 }
