@@ -49,7 +49,7 @@ final class CustomerService extends AbstractService
     public function create(array $data): array
     {
         $dto = $this->createDTO(CreateCustomerDTO::class, $data);
-        $action = new CreateCustomerAction($this->client, $this->responseHandler);
+        $action = new CreateCustomerAction($this->transporter);
 
         return $action->handle($dto);
     }
@@ -69,7 +69,7 @@ final class CustomerService extends AbstractService
     public function list(array $filters = []): array
     {
         $dto = $this->createDTO(ListCustomersDTO::class, $filters);
-        $action = new ListCustomersAction($this->client, $this->responseHandler);
+        $action = new ListCustomersAction($this->transporter);
 
         return $action->handle($dto);
     }
@@ -90,7 +90,7 @@ final class CustomerService extends AbstractService
      */
     public function get(string $id): array
     {
-        $action = new GetCustomerAction($this->client, $this->responseHandler);
+        $action = new GetCustomerAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -114,7 +114,7 @@ final class CustomerService extends AbstractService
     public function update(string $id, array $data): array
     {
         $dto = $this->createDTO(UpdateCustomerDTO::class, $data);
-        $action = new UpdateCustomerAction($this->client, $this->responseHandler);
+        $action = new UpdateCustomerAction($this->transporter);
 
         return $action->handle($id, $dto);
     }
@@ -135,7 +135,7 @@ final class CustomerService extends AbstractService
      */
     public function delete(string $id): array
     {
-        $action = new DeleteCustomerAction($this->client, $this->responseHandler);
+        $action = new DeleteCustomerAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -156,7 +156,7 @@ final class CustomerService extends AbstractService
      */
     public function restore(string $id): array
     {
-        $action = new RestoreCustomerAction($this->client, $this->responseHandler);
+        $action = new RestoreCustomerAction($this->transporter);
 
         return $action->handle($id);
     }

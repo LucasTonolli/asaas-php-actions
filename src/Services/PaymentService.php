@@ -62,7 +62,7 @@ final class PaymentService extends AbstractService
     public function create(array $data): array
     {
         $dto = $this->createDTO(CreatePaymentDTO::class, $data);
-        $action = new CreatePaymentAction($this->client, $this->responseHandler);
+        $action = new CreatePaymentAction($this->transporter);
 
         return $action->handle($dto);
     }
@@ -82,7 +82,7 @@ final class PaymentService extends AbstractService
     public function list(array $filters = []): array
     {
         $dto = $this->createDTO(ListPaymentsDTO::class, $filters);
-        $action = new ListPaymentsAction($this->client, $this->responseHandler);
+        $action = new ListPaymentsAction($this->transporter);
 
         return $action->handle($dto);
     }
@@ -103,7 +103,7 @@ final class PaymentService extends AbstractService
      */
     public function get(string $id): array
     {
-        $action = new GetPaymentAction($this->client, $this->responseHandler);
+        $action = new GetPaymentAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -125,7 +125,7 @@ final class PaymentService extends AbstractService
      */
     public function delete(string $id): array
     {
-        $action = new DeletePaymentAction($this->client, $this->responseHandler);
+        $action = new DeletePaymentAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -146,7 +146,7 @@ final class PaymentService extends AbstractService
      */
     public function restore(string $id): array
     {
-        $action = new RestorePaymentAction($this->client, $this->responseHandler);
+        $action = new RestorePaymentAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -168,7 +168,7 @@ final class PaymentService extends AbstractService
      */
     public function getStatus(string $id): array
     {
-        $action = new GetPaymentStatusAction($this->client, $this->responseHandler);
+        $action = new GetPaymentStatusAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -190,7 +190,7 @@ final class PaymentService extends AbstractService
      */
     public function getTicketLine(string $id): array
     {
-        $action = new GetPaymentTicketLineAction($this->client, $this->responseHandler);
+        $action = new GetPaymentTicketLineAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -212,7 +212,7 @@ final class PaymentService extends AbstractService
      */
     public function getQrCode(string $id): array
     {
-        $action = new GetPaymentQrCodeAction($this->client, $this->responseHandler);
+        $action = new GetPaymentQrCodeAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -236,7 +236,7 @@ final class PaymentService extends AbstractService
     public function chargeWithCreditCard(string $id, array $data): array
     {
         $dto = $this->createDTO(ChargeWithCreditCardDTO::class, $data);
-        $action = new ChargeWithCreditCardAction($this->client, $this->responseHandler);
+        $action = new ChargeWithCreditCardAction($this->transporter);
 
         return $action->handle($id, $dto);
     }
@@ -258,7 +258,7 @@ final class PaymentService extends AbstractService
      */
     public function getBillingInfo(string $id): array
     {
-        $action = new GetPaymentBillingInfoAction($this->client, $this->responseHandler);
+        $action = new GetPaymentBillingInfoAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -282,7 +282,7 @@ final class PaymentService extends AbstractService
     public function update(string $id, array $data): array
     {
         $dto = $this->createDTO(UpdatePaymentDTO::class, $data);
-        $action = new UpdatePaymentAction($this->client, $this->responseHandler);
+        $action = new UpdatePaymentAction($this->transporter);
 
         return $action->handle($id, $dto);
     }

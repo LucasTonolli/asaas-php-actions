@@ -47,7 +47,7 @@ final class AsaasClient
      * @param  HttpClientFactoryInterface|null  $factory  Optional custom factory for the HTTP Client.
      *                                                    If null, GuzzleClientFactory will be used by default.
      */
-    public function __construct(private readonly AsaasConfig $config, private ?HttpClientFactoryInterface $factory)
+    public function __construct(private readonly AsaasConfig $config, private ?HttpClientFactoryInterface $factory = null)
     {
         $this->factory ??= new GuzzleClientFactory($this->config);
         $this->transporter = $this->buildTransporter();
@@ -61,25 +61,25 @@ final class AsaasClient
      *
      * @return CustomerService An instance of the CustomerService.
      */
-    // public function customer(): CustomerService
-    // {
-    //     if ($this->customerService !== null) {
-    //         return $this->customerService;
-    //     }
-    //     $this->customerService = new CustomerService($this->httpClient);
+    public function customer(): CustomerService
+    {
+        if ($this->customerService !== null) {
+            return $this->customerService;
+        }
+        $this->customerService = new CustomerService($this->transporter);
 
-    //     return $this->customerService;
-    // }
+        return $this->customerService;
+    }
 
-    // public function payment(): PaymentService
-    // {
-    //     if ($this->paymentService !== null) {
-    //         return $this->paymentService;
-    //     }
-    //     $this->paymentService = new PaymentService($this->httpClient);
+    public function payment(): PaymentService
+    {
+        if ($this->paymentService !== null) {
+            return $this->paymentService;
+        }
+        $this->paymentService = new PaymentService($this->transporter);
 
-    //     return $this->paymentService;
-    // }
+        return $this->paymentService;
+    }
 
     /**
      * Gets the CreditCard service handler.
@@ -89,15 +89,15 @@ final class AsaasClient
      *
      * @return CreditCardService An instance of the CreditCardService
      */
-    // public function creditCard(): CreditCardService
-    // {
-    //     if ($this->creditCardService !== null) {
-    //         return $this->creditCardService;
-    //     }
-    //     $this->creditCardService = new CreditCardService($this->httpClient);
+    public function creditCard(): CreditCardService
+    {
+        if ($this->creditCardService !== null) {
+            return $this->creditCardService;
+        }
+        $this->creditCardService = new CreditCardService($this->transporter);
 
-    //     return $this->creditCardService;
-    // }
+        return $this->creditCardService;
+    }
 
     /**
      * Gets the Webhook service handler.
@@ -107,15 +107,15 @@ final class AsaasClient
      *
      * @return WebhookService An instance of the WebhookService
      */
-    // public function webhook(): WebhookService
-    // {
-    //     if ($this->webhookService !== null) {
-    //         return $this->webhookService;
-    //     }
-    //     $this->webhookService = new WebhookService($this->httpClient);
+    public function webhook(): WebhookService
+    {
+        if ($this->webhookService !== null) {
+            return $this->webhookService;
+        }
+        $this->webhookService = new WebhookService($this->transporter);
 
-    //     return $this->webhookService;
-    // }
+        return $this->webhookService;
+    }
 
     /**
      * Returns the configuration instance used by this client.
