@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
  * A factory for creating a pre-configured Guzzle HTTP client.
  *
  * This class implements the HttpClientFactoryInterface to provide a Guzzle-backed
- * PSR-18 client. It centralizes SDK-specific configurations such as authentication 
+ * PSR-18 client. It centralizes SDK-specific configurations such as authentication
  * headers, timeouts, and resiliency middlewares (retries and logging).
  *
  * @internal This is an internal infrastructure component.
@@ -33,10 +33,10 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
 
     /**
      * GuzzleClientFactory constructor.
+     *
      * * @param AsaasConfig $config The SDK configuration context.
      */
     public function __construct(private readonly AsaasConfig $config) {}
-
 
     /**
      * Creates and configures a Guzzle implementation of ClientInterface.
@@ -61,7 +61,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $this->config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,

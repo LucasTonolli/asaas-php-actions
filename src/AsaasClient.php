@@ -10,15 +10,15 @@ use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
 use AsaasPhpSdk\Services\WebhookService;
 use AsaasPhpSdk\Support\Http\GuzzleClientFactory;
-use AsaasPhpSdk\Support\Http\Interface\HttpClientFactoryInterface;
 use AsaasPhpSdk\Support\Http\HttpTransporter;
+use AsaasPhpSdk\Support\Http\Interface\HttpClientFactoryInterface;
 use AsaasPhpSdk\Support\Http\ResponseHandler;
 use Http\Discovery\Psr17FactoryDiscovery;
 
 /**
  * The main entry point for interacting with the Asaas API.
  *
- * This facade provides access to all available services and centralizes 
+ * This facade provides access to all available services and centralizes
  * the HTTP communication layer configuration.
  *
  * @example
@@ -43,11 +43,11 @@ final class AsaasClient
     /**
      * Initializes the Asaas SDK Client.
      *
-     * @param AsaasConfig $config Environment and authentication settings.
-     * @param HttpClientFactoryInterface|null $factory Optional custom factory for the HTTP Client. 
-     * If null, GuzzleClientFactory will be used by default.
+     * @param  AsaasConfig  $config  Environment and authentication settings.
+     * @param  HttpClientFactoryInterface|null  $factory  Optional custom factory for the HTTP Client.
+     *                                                    If null, GuzzleClientFactory will be used by default.
      */
-    public function __construct(private readonly AsaasConfig $config, private HttpClientFactoryInterface|null $factory)
+    public function __construct(private readonly AsaasConfig $config, private ?HttpClientFactoryInterface $factory)
     {
         $this->factory ??= new GuzzleClientFactory($this->config);
         $this->transporter = $this->buildTransporter();
@@ -127,7 +127,7 @@ final class AsaasClient
 
     /**
      * Builds the internal transporter using PSR-17 discovery.
-     * * @return HttpTransporter
+     *
      * @throws \Http\Discovery\Exception\DiscoveryFailedException If no PSR-17 factories are found.
      */
     private function buildTransporter(): HttpTransporter
@@ -137,7 +137,7 @@ final class AsaasClient
             $this->factory->create(),
             Psr17FactoryDiscovery::findRequestFactory(),
             Psr17FactoryDiscovery::findStreamFactory(),
-            new ResponseHandler()
+            new ResponseHandler
         );
     }
 
