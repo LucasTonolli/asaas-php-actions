@@ -7,18 +7,20 @@ use AsaasPhpSdk\Support\Http\HttpTransporter;
 /**
  * Base class for all SDK Actions.
  *
- * This class provides a standardized method to execute API requests,
- * centralizing the error handling logic for HTTP exceptions. All concrete
- * action classes (e.g., CreateCustomerAction) should extend this class.
+ * This class serves as a template for API interactions, providing concrete 
+ * actions with access to the internal HttpTransporter. It ensures a 
+ * consistent dependency injection pattern across all SDK use cases.
  *
- * @internal This is an internal class and should not be used directly by SDK consumers.
+ * @internal This class is a core architectural component and should not be 
+ * instantiated or extended by SDK consumers.
  */
 abstract class AbstractAction
 {
     /**
      * AbstractAction constructor.
      *
-     * @param  HttpTransporter  $transporter          The HTTP client used for making API requests.
+     * @param HttpTransporter $transporter The internal engine used to send 
+     * PSR-compliant requests and handle responses.
      */
     public function __construct(
         protected readonly HttpTransporter $transporter
