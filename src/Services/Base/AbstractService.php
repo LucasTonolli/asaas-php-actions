@@ -7,30 +7,25 @@ namespace AsaasPhpSdk\Services\Base;
 use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\HttpTransporter;
 use GuzzleHttp\Client;
 
+/**
+ * Base class for all domain services.
+ *
+ * This class provides common utilities for services, such as access to the 
+ * internal transporter and safe DTO instantiation.
+ */
 abstract class AbstractService
 {
     /**
-     * The response handler instance for processing API responses.
-     *
-     * @internal
-     */
-    protected readonly ResponseHandler $responseHandler;
-
-    /**
      * AbstractService constructor.
      *
-     * @param  Client  $client  The configured Guzzle HTTP client.
-     * @param  ?ResponseHandler  $responseHandler  Optional custom response handler.
+     * @param HttpTransporter $transporter The engine responsible for HTTP communication.
      */
     public function __construct(
-        protected Client $client,
-        ?ResponseHandler $responseHandler = null
-    ) {
-        $this->responseHandler = $responseHandler ?? new ResponseHandler;
-    }
+        protected HttpTransporter $transporter,
+    ) {}
 
     /**
      * Helper method to create DTOs with consistent error handling.
