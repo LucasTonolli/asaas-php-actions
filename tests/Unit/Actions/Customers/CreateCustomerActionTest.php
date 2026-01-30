@@ -4,69 +4,53 @@ use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
-use GuzzleHttp\Exception\ConnectException;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
+
 
 describe('Create Customer Action', function (): void {
 
-    it('creates customer successfully', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'id' => 'cus_123',
-                'name' => 'João Silva',
-                'cpfCnpj' => '89887966088',
-            ], 201),
-        ]);
+    beforeEach(function () {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new CreateCustomerAction($this->transporter);
 
-        $action = new CreateCustomerAction($client, new ResponseHandler);
-
-        $dto = CreateCustomerDTO::fromArray([
+        $this->dto = CreateCustomerDTO::fromArray([
             'name' => 'João Silva',
-            'cpfCnpj' => '898.879.660-88',
+            'cpfCnpj' => '111.444.777-35',
         ]);
-
-        $result = $action->handle($dto);
-
-        expect($result)->toBeArray()
-            ->and($result['id'])->toBe('cus_123')
-            ->and($result['name'])->toBe('João Silva')
-            ->and($result['cpfCnpj'])->toBe('89887966088');
     });
 
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Input validation failed', 400, [
-                ['description' => 'CPF is invalid'],
-            ]),
-        ]);
-        $action = new CreateCustomerAction($client, new ResponseHandler);
-
-        $dto = CreateCustomerDTO::fromArray([
+    it('creates customer successfully', function (): void {
+        $expectedData = [
             'name' => 'João Silva',
             'cpfCnpj' => '11144477735',
-        ]);
+        ];
 
-        $action->handle($dto);
-    })->throws(ValidationException::class, 'CPF is invalid');
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('POST', 'customers', $expectedData)
+            ->andReturn(['id' => 'cus_123', 'name' => 'João Silva', 'cpfCnpj' => '11144477735']);
 
-    it('throws ApiException on network connection error', function (): void {
-        $mock = new GuzzleHttp\Handler\MockHandler([
-            new ConnectException(
-                'Connection failed',
-                new GuzzleHttp\Psr7\Request('POST', 'customers')
-            ),
-        ]);
 
-        $handlerStack = GuzzleHttp\HandlerStack::create($mock);
-        $client = new GuzzleHttp\Client(['handler' => $handlerStack]);
+        $result = $this->action->handle($this->dto);
 
-        $action = new CreateCustomerAction($client, new ResponseHandler);
+        expect($result['id'])->toBe('cus_123');
+    });
 
-        $dto = CreateCustomerDTO::fromArray([
-            'name' => 'João Silva',
-            'cpfCnpj' => '11144477735',
-        ]);
+    it('throws ValidationException when transporter reports validation error', function (): void {
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->andThrow(new ValidationException('CPF is invalid'));
 
-        $action->handle($dto);
-    })->throws(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
+        expect(fn() => $this->action->handle($this->dto))
+            ->toThrow(ValidationException::class, 'CPF is invalid');
+    });
+
+    it('throws ApiException on transporter network failure', function (): void {
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->andThrow(new ApiException('Failed to connect to Asaas API: Connection failed'));
+
+        expect(fn() => $this->action->handle($this->dto))
+            ->toThrow(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
+    });
 });
