@@ -17,7 +17,7 @@ Services (e.g., `CustomerService`) act as the public API. They are responsible f
 
 Each API endpoint or use case is encapsulated in an **Action** class.
 
-- **Responsability:** Knows the HTTP method, the endpoint path, and the required DTO.
+- **Responsibility:** Knows the HTTP method, the endpoint path, and the required DTO.
 - **Benefits:** High maintainability and single responsibility.
 
 ### 3. HttpTransporter (The Bridge)
