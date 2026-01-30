@@ -39,9 +39,9 @@ final readonly class HttpTransporter implements HttpTransporterInterface
      * @param  string  $method  The HTTP verb (GET, POST, etc.).
      * @param  string  $path  The relative endpoint path (e.g., 'customers').
      * @param  array<string, mixed>  $data  Optional data to be sent as JSON in the request body.
-     *                                      * @return array<string, mixed> The decoded JSON response from the API.
+     * @return array<string, mixed> The decoded JSON response from the API.
      *
-     * * @throws \Psr\Http\Client\ClientExceptionInterface If the request execution fails at the network level.
+     * @throws \Psr\Http\Client\ClientExceptionInterface If the request execution fails at the network level.
      * @throws \JsonException If the provided data cannot be encoded to JSON.
      * @throws \AsaasPhpSdk\Exceptions\Api\ApiException Or its subtypes, if the API returns an error.
      */

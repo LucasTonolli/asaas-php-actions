@@ -34,7 +34,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
     /**
      * GuzzleClientFactory constructor.
      *
-     * * @param AsaasConfig $config The SDK configuration context.
+     * @param AsaasConfig $config The SDK configuration context.
      */
     public function __construct(private readonly AsaasConfig $config) {}
 
