@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Support\Helpers;
+namespace AsaasPhpSdk\Support\Http;
 
 use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use AsaasPhpSdk\Exceptions\Api\RateLimitException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -21,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal This is an internal helper class and is not intended for public use by SDK consumers.
  */
-final class ResponseHandler
+final class ResponseHandler implements ResponseHandlerInterface
 {
     /**
      * Main entry point to process an HTTP response.
@@ -75,26 +76,26 @@ final class ResponseHandler
         }
         $errorMessage = $this->extractErrorMessage($body);
 
-        match (true) {
-            $statusCode === 401 => throw new AuthenticationException(
+        match ($statusCode) {
+            401 => throw new AuthenticationException(
                 $errorMessage ?? 'Invalid API token or unauthorized access'
             ),
-            $statusCode === 400 => throw new ValidationException(
+            400 => throw new ValidationException(
                 $errorMessage ?? 'Invalid data provided',
                 0,
                 null,
                 $body['errors'] ?? []
             ),
-            $statusCode === 404 => throw new NotFoundException(
+            404 => throw new NotFoundException(
                 $errorMessage ?? 'Resource not found'
             ),
-            $statusCode === 429 => throw new RateLimitException(
+            429 => throw new RateLimitException(
                 $errorMessage ?? 'Rate limit exceeded. Please try again later.',
                 429,
                 null,
                 $this->extractRetryAfter($response)
             ),
-            $statusCode >= 500 => throw new ApiException(
+            500 => throw new ApiException(
                 $errorMessage ?? 'Asaas API server error. Please try again later.',
                 $statusCode
             ),
@@ -115,7 +116,12 @@ final class ResponseHandler
      */
     private function parseBody(ResponseInterface $response): array
     {
-        $body = $response->getBody()->getContents();
+        $stream = $response->getBody();
+        $body = (string) $stream;
+
+        if ($stream->isSeekable()) {
+            $stream->rewind();
+        }
 
         if (empty($body)) {
             return [];

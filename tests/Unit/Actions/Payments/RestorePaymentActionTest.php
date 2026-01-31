@@ -1,45 +1,37 @@
 <?php
 
 use AsaasPhpSdk\Actions\Payments\RestorePaymentAction;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-describe('Restore Payment Action', function (): void {
+describe('RestorePaymentAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new RestorePaymentAction($this->transporter);
+    });
 
-    it('Restore a payment successfully (200)', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'object' => 'payment',
-                'id' => 'pay_123',
-                'dateCreated' => '2023-06-01T00:00:00.000Z',
-                'amount' => 1000,
-                'deleted' => false,
-            ], 200),
-        ]);
+    it('restores a payment successfully (200)', function (): void {
+        $paymentId = 'pay_123';
+        $expectedData = [
+            'object' => 'payment',
+            'id' => $paymentId,
+            'dateCreated' => '2023-06-01T00:00:00.000Z',
+            'amount' => 1000,
+            'deleted' => false,
+        ];
 
-        $action = new RestorePaymentAction($client, new ResponseHandler);
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('POST', 'payments/'.$paymentId.'/restore', [])
+            ->andReturn($expectedData);
 
-        $result = $action->handle('pay_123');
+        $result = $this->action->handle($paymentId);
 
         expect($result)->toBeArray()
             ->and($result['deleted'])->toBeFalse()
-            ->and($result['id'])->toBe('pay_123');
+            ->and($result['id'])->toBe($paymentId);
     });
 
-    it('throws NotFoundException on 404 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Resource not found', 404),
-        ]);
-
-        $action = new RestorePaymentAction($client, new ResponseHandler);
-
-        $action->handle('non-existent-id');
-    })->throws(\AsaasPhpSdk\Exceptions\Api\NotFoundException::class, 'Resource not found');
-
-    it('throws InvalidArgumentException on invalid ID', function (): void {
-        $client = mockClient();
-
-        $action = new RestorePaymentAction($client, new ResponseHandler);
-
-        $action->handle('');
-    })->throws(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+    it('throws InvalidArgumentException when ID is empty', function (): void {
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+    });
 });

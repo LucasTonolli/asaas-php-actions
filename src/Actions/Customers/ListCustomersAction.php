@@ -29,8 +29,6 @@ final class ListCustomersAction extends AbstractAction
      */
     public function handle(ListCustomersDTO $data): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->get('customers', ['query' => $data->toArray()])
-        );
+        return $this->transporter->send('GET', 'customers', $data->toArray());
     }
 }

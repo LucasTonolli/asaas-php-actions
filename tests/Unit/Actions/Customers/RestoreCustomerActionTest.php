@@ -1,70 +1,36 @@
 <?php
 
 use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
-use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('Restore Customer Action', function (): void {
 
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new RestoreCustomerAction($this->transporter);
+    });
+
     it('Restore a customer successfully (200)', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'object' => 'customer',
-                'id' => 'cus_123',
-                'dateCreated' => '2023-06-01T00:00:00.000Z',
-                'name' => 'John Doe',
-                'deleted' => false,
-            ], 200),
-        ]);
+        $expectedData = [
+            'object' => 'customer',
+            'id' => 'cus_123',
+            'dateCreated' => '2023-06-01T00:00:00.000Z',
+            'name' => 'John Doe',
+            'deleted' => false,
+        ];
 
-        $action = new RestoreCustomerAction($client, new ResponseHandler);
-
-        $result = $action->handle('cus_123');
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('POST', 'customers/cus_123/restore', [])
+            ->andReturn($expectedData);
+        $result = $this->action->handle('cus_123');
 
         expect($result)->toBeArray()
             ->and($result['deleted'])->toBeFalse()
             ->and($result['id'])->toBe('cus_123');
     });
 
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Invalid request', 400, [
-                ['description' => 'Customer cannot be restored'],
-            ]),
-        ]);
-
-        $action = new RestoreCustomerAction($client, new ResponseHandler);
-
-        $action->handle('cus_invalid');
-    })->throws(ValidationException::class, 'Customer cannot be restored');
-
-    it('throws AuthenticationException on 401 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Unauthorized', 401),
-        ]);
-
-        $action = new RestoreCustomerAction($client, new ResponseHandler);
-
-        $action->handle('cus_unauthorized');
-    })->throws(AuthenticationException::class, 'Invalid API token or unauthorized access');
-
-    it('throws NotFoundException on 404 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Resource not found', 404),
-        ]);
-
-        $action = new RestoreCustomerAction($client, new ResponseHandler);
-
-        $action->handle('non-existent-id');
-    })->throws(NotFoundException::class, 'Resource not found');
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        $client = mockClient();
-
-        $action = new RestoreCustomerAction($client, new ResponseHandler);
-
-        $action->handle('');
-    })->throws(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+    });
 });

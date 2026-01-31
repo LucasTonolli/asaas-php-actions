@@ -33,8 +33,6 @@ final class CreateCustomerAction extends AbstractAction
      */
     public function handle(CreateCustomerDTO $data): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->post('customers', ['json' => $data->toArray()])
-        );
+        return $this->transporter->send('POST', 'customers', $data->toArray());
     }
 }

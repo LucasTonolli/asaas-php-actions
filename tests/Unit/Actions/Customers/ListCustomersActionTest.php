@@ -2,90 +2,56 @@
 
 use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
-use AsaasPhpSdk\Exceptions\Api\ApiException;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\Request;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('List Customers Action', function (): void {
+    beforeEach(function (): void {
+        // Mockamos a interface do Transporter
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new ListCustomersAction($this->transporter);
+    });
 
-    it('lists customers successfully', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'object' => 'list',
-                'totalCount' => 2,
-                'limit' => 10,
-                'offset' => 0,
-                'hasMore' => false,
-                'data' => [
-                    [
-                        'id' => 'cus_001',
-                        'name' => 'Maria Oliveira',
-                        'cpfCnpj' => '12345678900',
-                        'email' => 'maria@example.com',
-                    ],
-                    [
-                        'id' => 'cus_002',
-                        'name' => 'João Souza',
-                        'cpfCnpj' => '98765432100',
-                        'email' => 'joao@example.com',
-                    ],
-                ],
-            ], 200),
-        ]);
-
-        $action = new ListCustomersAction($client, new ResponseHandler);
-
-        $dto = ListCustomersDTO::fromArray([
+    it('lists customers successfully (200)', function (): void {
+        // Dados que o DTO vai gerar
+        $filters = [
             'limit' => 2,
             'offset' => 0,
             'name' => 'Maria',
-        ]);
+        ];
 
-        $result = $action->handle($dto);
+        $expectedResponse = [
+            'object' => 'list',
+            'totalCount' => 2,
+            'data' => [
+                ['id' => 'cus_001', 'name' => 'Maria Oliveira'],
+                ['id' => 'cus_002', 'name' => 'João Souza'],
+            ],
+        ];
 
-        expect($result)->toBeArray()
-            ->and($result['object'])->toBe('list')
-            ->and($result['totalCount'])->toBe(2)
-            ->and($result['limit'])->toBe(10)
-            ->and($result['offset'])->toBe(0)
-            ->and($result['hasMore'])->toBeFalse()
-            ->and($result['data'])->toBeArray()
-            ->and($result['data'][0]['name'])->toBe('Maria Oliveira')
-            ->and($result['data'][1]['id'])->toBe('cus_002');
+        // Verificamos se a Action chama o Transporter com o array de filtros
+        // A lógica de transformar isso em ?limit=2... agora é responsabilidade do Transporter
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('GET', 'customers', $filters)
+            ->andReturn($expectedResponse);
+
+        $dto = ListCustomersDTO::fromArray($filters);
+        $result = $this->action->handle($dto);
+
+        expect($result)->toBe($expectedResponse)
+            ->and($result['data'][0]['id'])->toBe('cus_001');
     });
 
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Invalid parameters', 400, [
-                ['description' => 'Limit must be less than or equal to 100'],
-            ]),
-        ]);
+    // Removidos os testes de 400 e Connection Error (já testados no Transporter/Handler)
+    // Se quiser manter um teste de erro, foque apenas em um caso genérico:
 
-        $action = new ListCustomersAction($client, new ResponseHandler);
+    it('bubbles up exceptions from transporter', function (): void {
+        $this->transporter->shouldReceive('send')
+            ->andThrow(new \AsaasPhpSdk\Exceptions\Api\ApiException('Any error'));
 
-        $dto = ListCustomersDTO::fromArray([
-            'limit' => 1000, // inválido
-        ]);
+        $dto = ListCustomersDTO::fromArray(['limit' => 10]);
 
-        $action->handle($dto);
-    })->throws(ValidationException::class, 'Limit must be less than or equal to 100');
-
-    it('throws ApiException on network connection error', function (): void {
-        $client = mockClient([
-            new ConnectException(
-                'Connection failed',
-                new Request('GET', 'customers')
-            ),
-        ]);
-
-        $action = new ListCustomersAction($client, new ResponseHandler);
-
-        $dto = ListCustomersDTO::fromArray([
-            'limit' => 10,
-        ]);
-
-        $action->handle($dto);
-    })->throws(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
+        expect(fn () => $this->action->handle($dto))
+            ->toThrow(\AsaasPhpSdk\Exceptions\Api\ApiException::class, 'Any error');
+    });
 });

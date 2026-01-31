@@ -76,7 +76,7 @@ final class CustomerService extends AbstractService
         $dto = $this->createDTO(CreateCustomerDTO::class, $data);
 
         // 2. Instancia a Action específica para a operação
-        $action = new CreateCustomerAction($this->client, $this->responseHandler);
+        $action = new CreateCustomerAction($this->transporter);
 
         // 3. Delega a execução para a Action e retorna o resultado
         return $action->handle($dto);
@@ -92,7 +92,7 @@ final class CustomerService extends AbstractService
     {
         // Para operações simples que não usam DTO,
         // a Action é instanciada e chamada diretamente.
-        $action = new GetCustomerAction($this->client, $this->responseHandler);
+        $action = new GetCustomerAction($this->transporter);
 
         return $action->handle($id);
     }

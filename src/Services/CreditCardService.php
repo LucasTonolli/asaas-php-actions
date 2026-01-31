@@ -28,7 +28,7 @@ final class CreditCardService extends AbstractService
     public function tokenize(array $data): array
     {
         $dto = $this->createDTO(TokenizationDTO::class, $data);
-        $action = new TokenizationAction($this->client, $this->responseHandler);
+        $action = new TokenizationAction($this->transporter);
 
         return $action->handle($dto);
     }

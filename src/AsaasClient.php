@@ -9,28 +9,28 @@ use AsaasPhpSdk\Services\CreditCardService;
 use AsaasPhpSdk\Services\CustomerService;
 use AsaasPhpSdk\Services\PaymentService;
 use AsaasPhpSdk\Services\WebhookService;
-use AsaasPhpSdk\Support\Helpers\HttpClientFactory;
-use GuzzleHttp\Client;
+use AsaasPhpSdk\Support\Http\GuzzleClientFactory;
+use AsaasPhpSdk\Support\Http\HttpTransporter;
+use AsaasPhpSdk\Support\Http\Interface\HttpClientFactoryInterface;
+use AsaasPhpSdk\Support\Http\ResponseHandler;
+use Http\Discovery\Psr17FactoryDiscovery;
 
 /**
  * The main entry point for interacting with the Asaas API.
  *
- * This class provides access to all the different services (e.g., Customer, Payment)
- * and manages the underlying HTTP client configuration.
+ * This facade provides access to all available services and centralizes
+ * the HTTP communication layer configuration.
  *
  * @example
- * // 1. Create a configuration object
- * $config = new AsaasPhpSdk\Config\AsaasConfig('YOUR_API_KEY', isSandbox: true);
- *
- * // 2. Instantiate the main client
- * $asaas = new AsaasPhpSdk\AsaasClient($config);
- *
- * // 3. Access a service and make a call
- * $allCustomers = $asaas->customer()->list();
+ * ```php
+ * $config = new AsaasConfig('api-token');
+ * $asaas = new AsaasClient($config);
+ * $customers = $asaas->customer()->list();
+ * ```
  */
 final class AsaasClient
 {
-    private Client $httpClient;
+    private HttpTransporter $transporter;
 
     private ?CustomerService $customerService = null;
 
@@ -41,15 +41,16 @@ final class AsaasClient
     private ?WebhookService $webhookService = null;
 
     /**
-     * AsaasClient constructor.
+     * Initializes the Asaas SDK Client.
      *
-     * @param  AsaasConfig  $config  The configuration object with API token and environment settings.
-     *
-     * @throws \InvalidArgumentException if the API token in the config is empty.
+     * @param  AsaasConfig  $config  Environment and authentication settings.
+     * @param  HttpClientFactoryInterface|null  $factory  Optional custom factory for the HTTP Client.
+     *                                                    If null, GuzzleClientFactory will be used by default.
      */
-    public function __construct(private readonly AsaasConfig $config)
+    public function __construct(private readonly AsaasConfig $config, private ?HttpClientFactoryInterface $factory = null)
     {
-        $this->httpClient = HttpClientFactory::make($this->config);
+        $this->factory ??= new GuzzleClientFactory($this->config);
+        $this->transporter = $this->buildTransporter();
     }
 
     /**
@@ -65,7 +66,7 @@ final class AsaasClient
         if ($this->customerService !== null) {
             return $this->customerService;
         }
-        $this->customerService = new CustomerService($this->httpClient);
+        $this->customerService = new CustomerService($this->transporter);
 
         return $this->customerService;
     }
@@ -75,7 +76,7 @@ final class AsaasClient
         if ($this->paymentService !== null) {
             return $this->paymentService;
         }
-        $this->paymentService = new PaymentService($this->httpClient);
+        $this->paymentService = new PaymentService($this->transporter);
 
         return $this->paymentService;
     }
@@ -93,7 +94,7 @@ final class AsaasClient
         if ($this->creditCardService !== null) {
             return $this->creditCardService;
         }
-        $this->creditCardService = new CreditCardService($this->httpClient);
+        $this->creditCardService = new CreditCardService($this->transporter);
 
         return $this->creditCardService;
     }
@@ -111,13 +112,13 @@ final class AsaasClient
         if ($this->webhookService !== null) {
             return $this->webhookService;
         }
-        $this->webhookService = new WebhookService($this->httpClient);
+        $this->webhookService = new WebhookService($this->transporter);
 
         return $this->webhookService;
     }
 
     /**
-     * Gets the configuration object used by the client.
+     * Returns the configuration instance used by this client.
      */
     public function config(): AsaasConfig
     {
@@ -125,22 +126,23 @@ final class AsaasClient
     }
 
     /**
-     * Gets the underlying Guzzle HTTP client instance.
+     * Builds the internal transporter using PSR-17 discovery.
      *
-     * This can be useful for advanced use cases, such as adding custom
-     * middleware or inspecting requests/responses.
-     *
-     * @return Client The configured GuzzleHttp\Client instance.
+     * @throws \Http\Discovery\Exception\DiscoveryFailedException If no PSR-17 factories are found.
      */
-    public function httpClient(): Client
+    private function buildTransporter(): HttpTransporter
     {
-        return $this->httpClient;
+
+        return new HttpTransporter(
+            $this->factory->create(),
+            Psr17FactoryDiscovery::findRequestFactory(),
+            Psr17FactoryDiscovery::findStreamFactory(),
+            new ResponseHandler
+        );
     }
 
     /**
-     * Checks if the client is configured to use the sandbox environment.
-     *
-     * A convenience proxy method for `$client->config()->isSandbox()`.
+     * Helper to check if the current environment is Sandbox.
      */
     public function isSandbox(): bool
     {

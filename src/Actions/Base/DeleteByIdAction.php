@@ -36,9 +36,7 @@ abstract class DeleteByIdAction extends AbstractAction
         $normalizedId = $this->validateAndNormalizeId($id, $this->getResourceName());
         $endpoint = $this->getEndpoint($normalizedId);
 
-        return $this->executeRequest(
-            fn () => $this->client->delete($endpoint)
-        );
+        return $this->transporter->send('DELETE', $endpoint, []);
     }
 
     /**

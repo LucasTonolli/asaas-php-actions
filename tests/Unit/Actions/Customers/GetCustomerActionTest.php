@@ -1,29 +1,30 @@
 <?php
 
 use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
-use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('GetCustomerAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new GetCustomerAction($this->transporter);
+    });
 
     it('retrieves a customer successfully (200)', function (): void {
         $customerId = 'cus_123';
+        $expectedData = [
+            'id' => $customerId,
+            'name' => 'Maria Oliveira',
+            'email' => 'maria@example.com',
+            'cpfCnpj' => '12345678900',
+            'object' => 'customer',
+        ];
 
-        $client = mockClient([
-            mockResponse([
-                'id' => $customerId,
-                'name' => 'Maria Oliveira',
-                'email' => 'maria@example.com',
-                'cpfCnpj' => '12345678900',
-                'object' => 'customer',
-            ], 200),
-        ]);
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('GET', 'customers/'.$customerId, [])
+            ->andReturn($expectedData);
 
-        $action = new GetCustomerAction($client, new ResponseHandler);
-
-        $result = $action->handle($customerId);
+        $result = $this->action->handle($customerId);
 
         expect($result)->toBeArray()
             ->and($result['id'])->toBe($customerId)
@@ -31,42 +32,7 @@ describe('GetCustomerAction', function (): void {
             ->and($result['object'])->toBe('customer');
     });
 
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Invalid customer ID', 400, [
-                ['description' => 'ID format is invalid'],
-            ]),
-        ]);
-
-        $action = new GetCustomerAction($client, new ResponseHandler);
-
-        $action->handle('invalid-id');
-    })->throws(ValidationException::class, 'ID format is invalid');
-
-    it('throws AuthenticationException on 401 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Unauthorized', 401),
-        ]);
-
-        $action = new GetCustomerAction($client, new ResponseHandler);
-
-        $action->handle('cus_unauth');
-    })->throws(AuthenticationException::class, 'Invalid API token or unauthorized access');
-
-    it('throws NotFoundException on 404 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Customer not found', 404),
-        ]);
-
-        $action = new GetCustomerAction($client, new ResponseHandler);
-
-        $action->handle('cus_notfound');
-    })->throws(NotFoundException::class, 'Resource not found');
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        $client = mockClient([]);
-        $action = new GetCustomerAction($client, new ResponseHandler);
-
-        $action->handle('');
-    })->throws(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+    });
 });

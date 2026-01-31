@@ -40,8 +40,6 @@ final class UpdateCustomerAction extends AbstractAction
     {
         $normalizedId = $this->validateAndNormalizeId($customerId, 'Customer');
 
-        return $this->executeRequest(
-            fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
-        );
+        return $this->transporter->send('PUT', 'customers/'.rawurlencode($normalizedId), $data->toArray());
     }
 }

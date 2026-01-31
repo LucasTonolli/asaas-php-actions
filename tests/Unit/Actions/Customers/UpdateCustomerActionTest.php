@@ -2,47 +2,40 @@
 
 use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('Update Customer Action', function (): void {
-
-    it('update customer successfully', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'id' => 'cus_123',
-                'name' => 'João V. Silva',
-                'cpfCnpj' => '89887966088',
-            ], 200),
-        ]);
-
-        $action = new UpdateCustomerAction($client, new ResponseHandler);
-
-        $dto = UpdateCustomerDTO::fromArray([
-            'name' => 'João V. Silva',
-        ]);
-
-        $result = $action->handle('cus_123', $dto);
-
-        expect($result)->toBeArray()
-            ->and($result['id'])->toBe('cus_123')
-            ->and($result['name'])->toBe('João V. Silva')
-            ->and($result['cpfCnpj'])->toBe('89887966088');
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new UpdateCustomerAction($this->transporter);
     });
 
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Input validation failed', 400, [
-                ['description' => 'CPF is invalid'],
-            ]),
-        ]);
-        $action = new UpdateCustomerAction($client, new ResponseHandler);
+    it('updates a customer successfully (200)', function (): void {
+        $customerId = 'cus_123';
+        $updateData = ['name' => 'João V. Silva'];
 
-        $dto = UpdateCustomerDTO::fromArray([
-            'name' => 'João Silva',
-            'cpfCnpj' => '11144477735',
-        ]);
+        $expectedResponse = [
+            'id' => $customerId,
+            'name' => 'João V. Silva',
+            'cpfCnpj' => '89887966088',
+        ];
 
-        $action->handle('cus_123', $dto);
-    })->throws(ValidationException::class, 'CPF is invalid');
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('PUT', "customers/{$customerId}", $updateData)
+            ->andReturn($expectedResponse);
+
+        $dto = UpdateCustomerDTO::fromArray($updateData);
+        $result = $this->action->handle($customerId, $dto);
+
+        expect($result)->toBe($expectedResponse)
+            ->and($result['name'])->toBe('João V. Silva');
+    });
+
+    it('throws InvalidArgumentException when ID is empty', function (): void {
+        $dto = UpdateCustomerDTO::fromArray(['name' => 'João Silva']);
+
+        expect(fn () => $this->action->handle('', $dto))
+            ->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+    });
 });

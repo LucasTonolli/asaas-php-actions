@@ -30,8 +30,6 @@ final class TokenizationAction extends AbstractAction
      */
     public function handle(TokenizationDTO $dto): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->post('creditCard/tokenizeCreditCard', ['json' => $dto->toArray()])
-        );
+        return $this->transporter->send('POST', 'creditCard/tokenizeCreditCard', $dto->toArray());
     }
 }

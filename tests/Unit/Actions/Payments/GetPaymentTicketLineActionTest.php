@@ -1,24 +1,28 @@
 <?php
 
 use AsaasPhpSdk\Actions\Payments\GetPaymentTicketLineAction;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-describe('Get Payment Ticket Line Action', function (): void {
-    it('retrieves payment ticket line successfully', function (): void {
+describe('GetPaymentTicketLineAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new GetPaymentTicketLineAction($this->transporter);
+    });
+
+    it('retrieves payment ticket line successfully (200)', function (): void {
         $paymentId = 'pay_123';
+        $expectedData = [
+            'identificationField' => '1234567890',
+            'nossoNumero' => '0987654321',
+            'barCode' => '00190500954014481606906809350314337370000000100',
+        ];
 
-        $client = mockClient([
-            mockResponse([
-                'identificationField' => '1234567890',
-                'nossoNumero' => '0987654321',
-                'barCode' => '00190500954014481606906809350314337370000000100',
-            ], 200),
-        ]);
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('GET', 'payments/'.rawurlencode($paymentId).'/identificationField', [])
+            ->andReturn($expectedData);
 
-        $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
-
-        $result = $action->handle($paymentId);
+        $result = $this->action->handle($paymentId);
 
         expect($result)->toBeArray()
             ->and($result)->toHaveKeys([
@@ -28,22 +32,7 @@ describe('Get Payment Ticket Line Action', function (): void {
             ]);
     });
 
-    it('throws NotFoundException on 404 error', function (): void {
-        $paymentId = 'pay_123';
-
-        $client = mockClient([
-            mockResponse([], 404),
-        ]);
-
-        $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
-
-        expect(fn () => $action->handle($paymentId))->toThrow(NotFoundException::class);
-    });
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        $client = mockClient([]);
-        $action = new GetPaymentTicketLineAction($client, new ResponseHandler);
-
-        expect(fn () => $action->handle(''))->toThrow(\InvalidArgumentException::class);
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

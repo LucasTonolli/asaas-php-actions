@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\DTOs\Customers\InvalidCustomerDataException;
 

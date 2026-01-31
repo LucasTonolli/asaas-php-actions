@@ -33,8 +33,6 @@ final class CreatePaymentAction extends AbstractAction
      */
     public function handle(CreatePaymentDTO $data): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->post('payments', ['json' => $data->toArray()])
-        );
+        return $this->transporter->send('POST', 'payments', $data->toArray());
     }
 }

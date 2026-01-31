@@ -30,7 +30,7 @@ final class WebhookService extends AbstractService
     public function create(array $data): array
     {
         $dto = $this->createDTO(CreateWebhookDTO::class, $data);
-        $action = new CreateWebhookAction($this->client, $this->responseHandler);
+        $action = new CreateWebhookAction($this->transporter);
 
         return $action->handle($dto);
     }
@@ -45,7 +45,7 @@ final class WebhookService extends AbstractService
      */
     public function get(string $id): array
     {
-        $action = new GetWebhookAction($this->client, $this->responseHandler);
+        $action = new GetWebhookAction($this->transporter);
 
         return $action->handle($id);
     }
@@ -60,7 +60,7 @@ final class WebhookService extends AbstractService
      */
     public function delete(string $id): array
     {
-        $action = new DeleteWebhookAction($this->client, $this->responseHandler);
+        $action = new DeleteWebhookAction($this->transporter);
 
         return $action->handle($id);
     }

@@ -27,7 +27,26 @@ Este SDK é construído com foco em princípios de **arquitetura limpa**, **segu
 
 ```bash
 composer require lucas-tonolli/asaas-php-sdk
+
 ```
+
+> **Configuração de Plugins do Composer** > Este SDK depende do `php-http/discovery` para localizar automaticamente as implementações PSR-17 e PSR-18 disponíveis no seu projeto. Como o Composer só respeita a configuração `allow-plugins` do pacote raiz, você deve permitir explicitamente o uso deste plugin no seu `composer.json` para evitar prompts interativos ou falhas em ambientes de CI:
+>
+> ```bash
+> composer config allow-plugins.php-http/discovery true
+>
+> ```
+>
+> Ou adicione manualmente ao seu `composer.json`:
+>
+> ```json
+> "config": {
+>     "allow-plugins": {
+>         "php-http/discovery": true
+>     }
+> }
+>
+> ```
 
 ### 2. Exemplos Rápidos
 
