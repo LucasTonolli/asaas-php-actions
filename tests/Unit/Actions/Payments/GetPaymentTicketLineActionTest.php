@@ -19,7 +19,7 @@ describe('GetPaymentTicketLineAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'payments/' . $paymentId . '/identificationField', [])
+            ->with('GET', 'payments/' . rawurlencode($paymentId) . '/identificationField', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);

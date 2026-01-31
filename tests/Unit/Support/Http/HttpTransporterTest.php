@@ -42,7 +42,7 @@ it('should send a request correctly and return an array in handler', function ()
 
     $this->streamFactory->shouldReceive('createStream')
         ->once()
-        ->with(json_encode($data, JSON_THROW_ON_ERROR)) // Flag adicionada para bater com o código
+        ->with(json_encode($data, JSON_THROW_ON_ERROR))
         ->andReturn($streamMock);
 
     $requestMock->shouldReceive('withBody')
@@ -65,8 +65,6 @@ it('should send a request correctly and return an array in handler', function ()
     expect($result)->toBe($expectedResponse);
 });
 
-// --- Testes de Exceção Centralizados ---
-
 it('bubbles up ValidationException from response handler', function (): void {
     $requestMock = Mockery::mock(RequestInterface::class);
     $responseMock = Mockery::mock(ResponseInterface::class);
@@ -74,7 +72,6 @@ it('bubbles up ValidationException from response handler', function (): void {
     $this->requestFactory->shouldReceive('createRequest')->andReturn($requestMock);
     $this->client->shouldReceive('sendRequest')->andReturn($responseMock);
 
-    // O Transporter recebe a exceção do Handler e a relança
     $this->responseHandler->shouldReceive('handle')
         ->once()
         ->andThrow(new ValidationException('ID format is invalid'));

@@ -17,7 +17,7 @@ describe('GetPaymentStatusAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'payments/' . $paymentId . '/status', [])
+            ->with('GET', 'payments/' . rawurlencode($paymentId) . '/status', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);

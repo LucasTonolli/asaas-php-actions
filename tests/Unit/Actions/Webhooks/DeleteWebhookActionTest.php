@@ -19,7 +19,7 @@ describe('DeleteWebhookAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('DELETE', 'webhooks/' . $webhookId, [])
+            ->with('DELETE', 'webhooks/' . rawurlencode($webhookId), [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($webhookId);
