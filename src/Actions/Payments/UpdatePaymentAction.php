@@ -37,8 +37,6 @@ final class UpdatePaymentAction extends AbstractAction
     {
         $normalizedId = $this->validateAndNormalizeId($paymentId, 'Payment');
 
-        return $this->executeRequest(
-            fn () => $this->client->put('payments/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
-        );
+        return $this->transporter->send('PUT', 'payments/' . rawurlencode($normalizedId), $data->toArray());
     }
 }
