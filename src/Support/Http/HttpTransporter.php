@@ -8,6 +8,7 @@ use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 /**
@@ -47,15 +48,35 @@ final readonly class HttpTransporter implements HttpTransporterInterface
      */
     public function send(string $method, string $path, array $data = []): array
     {
-        $request = $this->requestFactory->createRequest($method, $path);
-
-        if (! empty($data)) {
-            $body = $this->streamFactory->createStream(json_encode($data, JSON_THROW_ON_ERROR));
-            $request = $request->withBody($body);
-        }
+        $request = $this->prepareRequest(strtoupper($method), $path, $data);
 
         $response = $this->client->sendRequest($request);
 
         return $this->responseHandler->handle($response);
+    }
+
+    /**
+     * Prepares the HTTP request based on the provided method, path, and data.
+     *
+     * @param  string  $method  The HTTP verb (GET, POST, etc.).
+     * @param  string  $path  The relative endpoint path (e.g., 'customers').
+     * @param  array<string, mixed>  $data  Optional data to be sent as JSON in the request body.
+     * @return \Psr\Http\Message\RequestInterface The prepared HTTP request.
+     */
+    private function prepareRequest(string $method, string $path, array $data): RequestInterface
+    {
+        if ($method === 'GET' && !empty($data)) {
+            $path .= (str_contains($path, '?') ? '&' : '?') . http_build_query($data);
+            $data = [];
+        }
+
+        $request = $this->requestFactory->createRequest($method, $path);
+
+        if (!empty($data)) {
+            $body = $this->streamFactory->createStream(json_encode($data, JSON_THROW_ON_ERROR));
+            $request = $request->withBody($body);
+        }
+
+        return $request;
     }
 }
