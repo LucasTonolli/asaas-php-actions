@@ -36,9 +36,7 @@ abstract class RestoreByIdAction extends AbstractAction
         $normalizedId = $this->validateAndNormalizeId($id, $this->getResourceName());
         $endpoint = $this->getEndpoint($normalizedId);
 
-        return $this->executeRequest(
-            fn () => $this->client->post($endpoint)
-        );
+        return $this->transporter->send('POST', $endpoint, []);
     }
 
     /**
