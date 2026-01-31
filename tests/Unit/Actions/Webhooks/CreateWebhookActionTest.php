@@ -4,30 +4,15 @@ use AsaasPhpSdk\Actions\Webhooks\CreateWebhookAction;
 use AsaasPhpSdk\DTOs\Webhooks\CreateWebhookDTO;
 use AsaasPhpSdk\DTOs\Webhooks\Enums\EventEnum;
 use AsaasPhpSdk\DTOs\Webhooks\Enums\SendTypeEnum;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-describe('Create Webhook Action', function (): void {
-    it('creates a webhook successfully', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'id' => 'wh_123',
-                'name' => 'Test Webhook',
-                'url' => 'https://example.com/webhook',
-                'email' => 'ieo0q@example.com',
-                'enabled' => true,
-                'interrupted' => false,
-                'apiVersion' => 3,
-                'hasAuthToken' => false,
-                'sendType' => SendTypeEnum::Sequentially->value,
-                'events' => [
-                    EventEnum::PaymentReceived->value,
-                    EventEnum::PaymentConfirmed->value,
-                ],
-            ], 200),
-        ]);
+describe('CreateWebhookAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new CreateWebhookAction($this->transporter);
+    });
 
-        $action = new CreateWebhookAction($client, new ResponseHandler);
+    it('creates a webhook successfully (200)', function (): void {
         $dto = CreateWebhookDTO::fromArray([
             'name' => 'Test Webhook',
             'url' => 'https://example.com/webhook',
@@ -43,7 +28,28 @@ describe('Create Webhook Action', function (): void {
             ],
         ]);
 
-        $result = $action->handle($dto);
+        $expectedData = [
+            'id' => 'wh_123',
+            'name' => 'Test Webhook',
+            'url' => 'https://example.com/webhook',
+            'email' => 'ieo0q@example.com',
+            'enabled' => true,
+            'interrupted' => false,
+            'apiVersion' => 3,
+            'hasAuthToken' => false,
+            'sendType' => SendTypeEnum::Sequentially->value,
+            'events' => [
+                EventEnum::PaymentReceived->value,
+                EventEnum::PaymentConfirmed->value,
+            ],
+        ];
+
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('POST', 'webhooks', $dto->toArray())
+            ->andReturn($expectedData);
+
+        $result = $this->action->handle($dto);
 
         expect($result)->toBeArray()
             ->and($result['id'])->toBe('wh_123')
@@ -59,31 +65,5 @@ describe('Create Webhook Action', function (): void {
                 EventEnum::PaymentReceived->value,
                 EventEnum::PaymentConfirmed->value,
             ]);
-    });
-
-    it('throws ValidationException on 400 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Invalid webhook data', 400, [
-                ['description' => 'Invalid URL'],
-            ]),
-        ]);
-
-        $action = new CreateWebhookAction($client, new ResponseHandler);
-        $dto = CreateWebhookDTO::fromArray([
-            'name' => 'Test Webhook',
-            'url' => 'https://example.com/webhook',
-            'email' => 'iEo0Q@example.com',
-            'enabled' => true,
-            'interrupted' => false,
-            'apiVersion' => 3,
-            'authToken' => 'test-token',
-            'sendType' => SendTypeEnum::Sequentially->value,
-            'events' => [
-                EventEnum::PaymentReceived->value,
-                EventEnum::PaymentConfirmed->value,
-            ],
-        ]);
-
-        expect(fn () => $action->handle($dto))->toThrow(ValidationException::class);
     });
 });

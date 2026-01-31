@@ -1,41 +1,34 @@
 <?php
 
 use AsaasPhpSdk\Actions\Payments\DeletePaymentAction;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-describe('Delete Payment Action', function (): void {
-    it('deletes a payment successfully', function (): void {
-        $client = mockClient([
-            mockResponse([
-                'deleted' => true,
-                'id' => 'pay_123',
-            ]),
-        ]);
+describe('DeletePaymentAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new DeletePaymentAction($this->transporter);
+    });
 
-        $action = new DeletePaymentAction($client, new ResponseHandler);
+    it('deletes a payment successfully (200)', function (): void {
+        $paymentId = 'pay_123';
+        $expectedData = [
+            'deleted' => true,
+            'id' => $paymentId,
+        ];
 
-        $result = $action->handle('pay_123');
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('DELETE', 'payments/' . $paymentId, [])
+            ->andReturn($expectedData);
+
+        $result = $this->action->handle($paymentId);
 
         expect($result)->toBeArray()
             ->and($result['deleted'])->toBeTrue()
-            ->and($result['id'])->toBe('pay_123');
+            ->and($result['id'])->toBe($paymentId);
     });
 
-    it('throws NotFoundException on 404 error', function (): void {
-        $client = mockClient([
-            mockErrorResponse('Payment not found', 404),
-        ]);
-
-        $action = new DeletePaymentAction($client, new ResponseHandler);
-
-        $action->handle('non-existent-id');
-    })->throws(NotFoundException::class, 'Resource not found');
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        $client = mockClient();
-        $action = new DeletePaymentAction($client, new ResponseHandler);
-
-        $action->handle('');
-    })->throws(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+    });
 });

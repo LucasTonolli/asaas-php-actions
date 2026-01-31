@@ -1,49 +1,35 @@
 <?php
 
 use AsaasPhpSdk\Actions\Webhooks\DeleteWebhookAction;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('DeleteWebhookAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new DeleteWebhookAction($this->transporter);
+    });
+
     it('deletes a webhook successfully (200)', function (): void {
-        // Arrange
         $webhookId = 'wh_123456';
-        $client = mockClient([
-            mockResponse([
-                'id' => $webhookId,
-                'deleted' => true,
-                'object' => 'webhook',
-            ], 200),
-        ]);
-        $action = new DeleteWebhookAction($client, new ResponseHandler);
+        $expectedData = [
+            'id' => $webhookId,
+            'deleted' => true,
+            'object' => 'webhook',
+        ];
 
-        // Act
-        $result = $action->handle($webhookId);
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('DELETE', 'webhooks/' . $webhookId, [])
+            ->andReturn($expectedData);
 
-        // Assert
+        $result = $this->action->handle($webhookId);
+
         expect($result)->toBeArray()
             ->and($result['id'])->toBe($webhookId)
             ->and($result['deleted'])->toBeTrue();
     });
 
-    it('throws NotFoundException on 404 error', function (): void {
-        // Arrange
-        $webhookId = 'wh_notfound';
-        $client = mockClient([
-            mockErrorResponse('Webhook not found', 404),
-        ]);
-        $action = new DeleteWebhookAction($client, new ResponseHandler);
-
-        // Act & Assert
-        $action->handle($webhookId);
-    })->throws(NotFoundException::class, 'Resource not found');
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        // Arrange
-        $client = mockClient([]);
-        $action = new DeleteWebhookAction($client, new ResponseHandler);
-
-        // Act & Assert
-        $action->handle('');
-    })->throws(InvalidArgumentException::class, 'Webhook ID cannot be empty');
+        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Webhook ID cannot be empty');
+    });
 });

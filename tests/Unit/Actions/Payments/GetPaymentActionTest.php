@@ -1,29 +1,32 @@
 <?php
 
 use AsaasPhpSdk\Actions\Payments\GetPaymentAction;
-use AsaasPhpSdk\Exceptions\Api\NotFoundException;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
+use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-describe('Get Payment Action', function (): void {
+describe('GetPaymentAction', function (): void {
+    beforeEach(function (): void {
+        $this->transporter = Mockery::mock(HttpTransporterInterface::class);
+        $this->action = new GetPaymentAction($this->transporter);
+    });
 
-    it('retrieves a payment successfully', function (): void {
+    it('retrieves a payment successfully (200)', function (): void {
         $paymentId = 'pay_123';
+        $expectedData = [
+            'object' => 'payment',
+            'id' => $paymentId,
+            'customer' => 'cus_123',
+            'value' => 150.75,
+            'billingType' => 'Boleto',
+            'dueDate' => '2025-12-31',
+            'status' => 'PENDING',
+        ];
 
-        $client = mockClient([
-            mockResponse([
-                'object' => 'payment',
-                'id' => $paymentId,
-                'customer' => 'cus_123',
-                'value' => 150.75,
-                'billingType' => 'Boleto',
-                'dueDate' => '2025-12-31',
-                'status' => 'PENDING',
-            ], 200),
-        ]);
+        $this->transporter->shouldReceive('send')
+            ->once()
+            ->with('GET', 'payments/' . $paymentId, [])
+            ->andReturn($expectedData);
 
-        $action = new GetPaymentAction($client, new ResponseHandler);
-
-        $result = $action->handle($paymentId);
+        $result = $this->action->handle($paymentId);
 
         expect($result)->toBeArray()
             ->and($result['object'])->toBe('payment')
@@ -35,22 +38,7 @@ describe('Get Payment Action', function (): void {
             ->and($result['status'])->toBe('PENDING');
     });
 
-    it('throws NotFoundException on 404 error', function (): void {
-        $paymentId = 'pay_123';
-
-        $client = mockClient([
-            mockErrorResponse('Payment not found', 404),
-        ]);
-
-        $action = new GetPaymentAction($client, new ResponseHandler);
-
-        $action->handle($paymentId);
-    })->throws(NotFoundException::class, 'Resource not found');
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        $client = mockClient([]);
-        $action = new GetPaymentAction($client, new ResponseHandler);
-
-        $action->handle('');
-    })->throws(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+    });
 });
