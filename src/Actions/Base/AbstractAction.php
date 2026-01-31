@@ -2,7 +2,6 @@
 
 namespace AsaasPhpSdk\Actions\Base;
 
-
 use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 /**
