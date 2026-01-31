@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+
 
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;

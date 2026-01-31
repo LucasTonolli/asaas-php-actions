@@ -13,6 +13,7 @@ use GuzzleHttp\Middleware;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 /**
  * A factory for creating a pre-configured Guzzle HTTP client.
@@ -83,7 +84,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 int $retries,
                 RequestInterface $request,
                 ?ResponseInterface $response = null,
-                ?RequestException $exception = null
+                ?Throwable  $exception = null
             ): bool {
                 if ($retries >= self::MAX_RETRIES) {
                     return false;
