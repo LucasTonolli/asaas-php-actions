@@ -2,6 +2,9 @@
 
 use AsaasPhpSdk\Support\Http\HttpTransporter;
 use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
+use AsaasPhpSdk\Exceptions\Api\NotFoundException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -14,6 +17,7 @@ beforeEach(function (): void {
     $this->requestFactory = Mockery::mock(RequestFactoryInterface::class);
     $this->streamFactory = Mockery::mock(StreamFactoryInterface::class);
     $this->responseHandler = Mockery::mock(ResponseHandlerInterface::class);
+
     $this->transporter = new HttpTransporter(
         $this->client,
         $this->requestFactory,
@@ -27,43 +31,84 @@ it('should send a request correctly and return an array in handler', function ()
     $data = ['name' => 'John Doe'];
     $expectedResponse = ['id' => 'cus_123'];
 
-    // 1. Mock of Request
     $requestMock = Mockery::mock(RequestInterface::class);
     $responseMock = Mockery::mock(ResponseInterface::class);
     $streamMock = Mockery::mock(StreamInterface::class);
 
-    // Expect : Create Request
     $this->requestFactory->shouldReceive('createRequest')
         ->once()
         ->with('POST', $path)
         ->andReturn($requestMock);
 
-    // Expect: Create Stream
     $this->streamFactory->shouldReceive('createStream')
         ->once()
-        ->with(json_encode($data))
+        ->with(json_encode($data, JSON_THROW_ON_ERROR)) // Flag adicionada para bater com o código
         ->andReturn($streamMock);
 
-    //Expect : Add body
     $requestMock->shouldReceive('withBody')
         ->once()
         ->with($streamMock)
         ->andReturnSelf();
 
-    // Expect: Send Request
     $this->client->shouldReceive('sendRequest')
         ->once()
         ->with($requestMock)
         ->andReturn($responseMock);
 
-    // Expect: Handle Response
     $this->responseHandler->shouldReceive('handle')
         ->once()
         ->with($responseMock)
         ->andReturn($expectedResponse);
 
-    // Execute
     $result = $this->transporter->send('POST', $path, $data);
 
     expect($result)->toBe($expectedResponse);
+});
+
+// --- Testes de Exceção Centralizados ---
+
+it('bubbles up ValidationException from response handler', function (): void {
+    $requestMock = Mockery::mock(RequestInterface::class);
+    $responseMock = Mockery::mock(ResponseInterface::class);
+
+    $this->requestFactory->shouldReceive('createRequest')->andReturn($requestMock);
+    $this->client->shouldReceive('sendRequest')->andReturn($responseMock);
+
+    // O Transporter recebe a exceção do Handler e a relança
+    $this->responseHandler->shouldReceive('handle')
+        ->once()
+        ->andThrow(new ValidationException('ID format is invalid'));
+
+    expect(fn() => $this->transporter->send('GET', 'customers/invalid'))
+        ->toThrow(ValidationException::class, 'ID format is invalid');
+});
+
+it('bubbles up AuthenticationException from response handler', function (): void {
+    $requestMock = Mockery::mock(RequestInterface::class);
+    $responseMock = Mockery::mock(ResponseInterface::class);
+
+    $this->requestFactory->shouldReceive('createRequest')->andReturn($requestMock);
+    $this->client->shouldReceive('sendRequest')->andReturn($responseMock);
+
+    $this->responseHandler->shouldReceive('handle')
+        ->once()
+        ->andThrow(new AuthenticationException('Invalid API token'));
+
+    expect(fn() => $this->transporter->send('GET', 'customers'))
+        ->toThrow(AuthenticationException::class, 'Invalid API token');
+});
+
+it('bubbles up NotFoundException from response handler', function (): void {
+    $requestMock = Mockery::mock(RequestInterface::class);
+    $responseMock = Mockery::mock(ResponseInterface::class);
+
+    $this->requestFactory->shouldReceive('createRequest')->andReturn($requestMock);
+    $this->client->shouldReceive('sendRequest')->andReturn($responseMock);
+
+    $this->responseHandler->shouldReceive('handle')
+        ->once()
+        ->andThrow(new NotFoundException('Resource not found'));
+
+    expect(fn() => $this->transporter->send('GET', 'customers/notfound'))
+        ->toThrow(NotFoundException::class, 'Resource not found');
 });
