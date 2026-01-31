@@ -33,8 +33,6 @@ final class CreateWebhookAction extends AbstractAction
      */
     public function handle(CreateWebhookDTO $data): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->post('webhooks', ['json' => $data->toArray()])
-        );
+        return $this->transporter->send('POST', 'webhooks', $data->toArray());
     }
 }
