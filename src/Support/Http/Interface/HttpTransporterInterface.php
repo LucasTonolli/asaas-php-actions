@@ -22,7 +22,7 @@ interface HttpTransporterInterface
 	 * @param string $method The HTTP verb (GET, POST, PUT, DELETE).
 	 * @param string $path The relative API endpoint path (e.g., 'customers').
 	 * @param array<string, mixed> $data Associative array of data to be sent in the request body.
-	 * * @return array<string, mixed> The decoded API response body.
+	 * @return array<string, mixed> The decoded API response body.
 	 *
 	 * @throws \AsaasPhpSdk\Exceptions\Api\ApiException Or one of its specialized subtypes (4xx/5xx).
 	 * @throws \Psr\Http\Client\ClientExceptionInterface If a network-level error occurs.
