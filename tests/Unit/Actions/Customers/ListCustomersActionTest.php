@@ -51,7 +51,7 @@ describe('List Customers Action', function (): void {
 
         $dto = ListCustomersDTO::fromArray(['limit' => 10]);
 
-        expect(fn() => $this->action->handle($dto))
+        expect(fn () => $this->action->handle($dto))
             ->toThrow(\AsaasPhpSdk\Exceptions\Api\ApiException::class, 'Any error');
     });
 });

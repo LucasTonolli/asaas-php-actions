@@ -21,7 +21,7 @@ describe('RestorePaymentAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('POST', 'payments/' . $paymentId . '/restore', [])
+            ->with('POST', 'payments/'.$paymentId.'/restore', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);
@@ -32,6 +32,6 @@ describe('RestorePaymentAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

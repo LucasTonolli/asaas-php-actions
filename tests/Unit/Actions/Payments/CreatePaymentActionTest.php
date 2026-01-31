@@ -1,7 +1,5 @@
 <?php
 
-
-
 use AsaasPhpSdk\Actions\Payments\CreatePaymentAction;
 use AsaasPhpSdk\DTOs\Payments\CreatePaymentDTO;
 use AsaasPhpSdk\DTOs\Payments\Enums\BillingTypeEnum;
@@ -48,7 +46,7 @@ describe('CreatePaymentAction', function (): void {
     });
 
     it('throws InvalidPaymentDataException when DTO validation fails', function (): void {
-        expect(fn() => CreatePaymentDTO::fromArray([
+        expect(fn () => CreatePaymentDTO::fromArray([
             'customer' => 'cus_123',
             'billingType' => BillingTypeEnum::Boleto->value,
             'value' => 100,

@@ -7,7 +7,6 @@ namespace AsaasPhpSdk\Support\Http;
 use AsaasPhpSdk\Config\AsaasConfig;
 use AsaasPhpSdk\Support\Http\Interface\HttpClientFactoryInterface;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Client\ClientInterface;
@@ -35,7 +34,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
     /**
      * GuzzleClientFactory constructor.
      *
-     * @param AsaasConfig $config The SDK configuration context.
+     * @param  AsaasConfig  $config  The SDK configuration context.
      */
     public function __construct(private readonly AsaasConfig $config) {}
 
@@ -62,7 +61,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $this->config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,
@@ -84,7 +83,7 @@ final class GuzzleClientFactory implements HttpClientFactoryInterface
                 int $retries,
                 RequestInterface $request,
                 ?ResponseInterface $response = null,
-                ?Throwable  $exception = null
+                ?Throwable $exception = null
             ): bool {
                 if ($retries >= self::MAX_RETRIES) {
                     return false;

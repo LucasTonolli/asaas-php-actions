@@ -19,7 +19,7 @@ describe('GetPaymentTicketLineAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'payments/' . rawurlencode($paymentId) . '/identificationField', [])
+            ->with('GET', 'payments/'.rawurlencode($paymentId).'/identificationField', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);
@@ -33,6 +33,6 @@ describe('GetPaymentTicketLineAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

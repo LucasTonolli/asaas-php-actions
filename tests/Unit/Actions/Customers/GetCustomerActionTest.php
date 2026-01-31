@@ -21,9 +21,8 @@ describe('GetCustomerAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'customers/' . $customerId, [])
+            ->with('GET', 'customers/'.$customerId, [])
             ->andReturn($expectedData);
-
 
         $result = $this->action->handle($customerId);
 
@@ -34,6 +33,6 @@ describe('GetCustomerAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
     });
 });

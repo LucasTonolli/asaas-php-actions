@@ -8,12 +8,11 @@ use AsaasPhpSdk\DTOs\Base\AbstractDTO;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\DTOs\Base\InvalidDataException;
 use AsaasPhpSdk\Support\Http\HttpTransporter;
-use GuzzleHttp\Client;
 
 /**
  * Base class for all domain services.
  *
- * This class provides common utilities for services, such as access to the 
+ * This class provides common utilities for services, such as access to the
  * internal transporter and safe DTO instantiation.
  */
 abstract class AbstractService
@@ -21,7 +20,7 @@ abstract class AbstractService
     /**
      * AbstractService constructor.
      *
-     * @param HttpTransporter $transporter The engine responsible for HTTP communication.
+     * @param  HttpTransporter  $transporter  The engine responsible for HTTP communication.
      */
     public function __construct(
         protected HttpTransporter $transporter,

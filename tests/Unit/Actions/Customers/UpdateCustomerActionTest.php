@@ -35,7 +35,7 @@ describe('Update Customer Action', function (): void {
     it('throws InvalidArgumentException when ID is empty', function (): void {
         $dto = UpdateCustomerDTO::fromArray(['name' => 'João Silva']);
 
-        expect(fn() => $this->action->handle('', $dto))
+        expect(fn () => $this->action->handle('', $dto))
             ->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
     });
 });

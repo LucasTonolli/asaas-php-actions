@@ -19,7 +19,7 @@ describe('DeleteWebhookAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('DELETE', 'webhooks/' . rawurlencode($webhookId), [])
+            ->with('DELETE', 'webhooks/'.rawurlencode($webhookId), [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($webhookId);
@@ -30,6 +30,6 @@ describe('DeleteWebhookAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Webhook ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Webhook ID cannot be empty');
     });
 });

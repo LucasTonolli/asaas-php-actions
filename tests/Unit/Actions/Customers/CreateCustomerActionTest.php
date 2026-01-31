@@ -6,7 +6,6 @@ use AsaasPhpSdk\Exceptions\Api\ApiException;
 use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
-
 describe('Create Customer Action', function (): void {
 
     beforeEach(function () {
@@ -30,7 +29,6 @@ describe('Create Customer Action', function (): void {
             ->with('POST', 'customers', $expectedData)
             ->andReturn(['id' => 'cus_123', 'name' => 'João Silva', 'cpfCnpj' => '11144477735']);
 
-
         $result = $this->action->handle($this->dto);
 
         expect($result['id'])->toBe('cus_123');
@@ -41,7 +39,7 @@ describe('Create Customer Action', function (): void {
             ->once()
             ->andThrow(new ValidationException('CPF is invalid'));
 
-        expect(fn() => $this->action->handle($this->dto))
+        expect(fn () => $this->action->handle($this->dto))
             ->toThrow(ValidationException::class, 'CPF is invalid');
     });
 
@@ -50,7 +48,7 @@ describe('Create Customer Action', function (): void {
             ->once()
             ->andThrow(new ApiException('Failed to connect to Asaas API: Connection failed'));
 
-        expect(fn() => $this->action->handle($this->dto))
+        expect(fn () => $this->action->handle($this->dto))
             ->toThrow(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
     });
 });

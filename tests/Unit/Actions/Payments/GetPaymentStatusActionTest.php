@@ -17,7 +17,7 @@ describe('GetPaymentStatusAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'payments/' . rawurlencode($paymentId) . '/status', [])
+            ->with('GET', 'payments/'.rawurlencode($paymentId).'/status', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);
@@ -27,6 +27,6 @@ describe('GetPaymentStatusAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

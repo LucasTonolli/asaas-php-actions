@@ -65,14 +65,14 @@ final readonly class HttpTransporter implements HttpTransporterInterface
      */
     private function prepareRequest(string $method, string $path, array $data): RequestInterface
     {
-        if ($method === 'GET' && !empty($data)) {
-            $path .= (str_contains($path, '?') ? '&' : '?') . http_build_query($data);
+        if ($method === 'GET' && ! empty($data)) {
+            $path .= (str_contains($path, '?') ? '&' : '?').http_build_query($data);
             $data = [];
         }
 
         $request = $this->requestFactory->createRequest($method, $path);
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $body = $this->streamFactory->createStream(json_encode($data, JSON_THROW_ON_ERROR));
             $request = $request->withBody($body);
         }

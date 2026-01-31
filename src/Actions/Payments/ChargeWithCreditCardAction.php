@@ -39,6 +39,7 @@ final class ChargeWithCreditCardAction extends AbstractAction
     public function handle(string $paymentId, ChargeWithCreditCardDTO $dto): array
     {
         $normalizedId = $this->validateAndNormalizeId($paymentId, 'Payment');
-        return $this->transporter->send('POST', 'payments/' . rawurlencode($normalizedId) . '/payWithCreditCard', $dto->toArray());
+
+        return $this->transporter->send('POST', 'payments/'.rawurlencode($normalizedId).'/payWithCreditCard', $dto->toArray());
     }
 }

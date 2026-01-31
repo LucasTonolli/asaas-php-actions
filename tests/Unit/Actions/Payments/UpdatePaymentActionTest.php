@@ -28,7 +28,7 @@ describe('UpdatePaymentAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('PUT', 'payments/' . $paymentId, $dto->toArray())
+            ->with('PUT', 'payments/'.$paymentId, $dto->toArray())
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId, $dto);
@@ -47,6 +47,6 @@ describe('UpdatePaymentAction', function (): void {
             'dueDate' => '2025-12-31',
         ]);
 
-        expect(fn() => $this->action->handle('', $dto))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle('', $dto))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

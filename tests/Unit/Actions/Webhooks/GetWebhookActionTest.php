@@ -29,7 +29,7 @@ describe('GetWebhookAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'webhooks/' . $webhookId, [])
+            ->with('GET', 'webhooks/'.$webhookId, [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($webhookId);
@@ -40,6 +40,6 @@ describe('GetWebhookAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Webhook ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Webhook ID cannot be empty');
     });
 });

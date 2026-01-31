@@ -30,8 +30,7 @@ describe('Restore Customer Action', function (): void {
             ->and($result['id'])->toBe('cus_123');
     });
 
-
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
     });
 });

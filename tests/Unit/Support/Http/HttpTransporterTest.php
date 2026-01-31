@@ -1,10 +1,10 @@
 <?php
 
-use AsaasPhpSdk\Support\Http\HttpTransporter;
-use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
-use AsaasPhpSdk\Exceptions\Api\ValidationException;
 use AsaasPhpSdk\Exceptions\Api\AuthenticationException;
 use AsaasPhpSdk\Exceptions\Api\NotFoundException;
+use AsaasPhpSdk\Exceptions\Api\ValidationException;
+use AsaasPhpSdk\Support\Http\HttpTransporter;
+use AsaasPhpSdk\Support\Http\Interface\ResponseHandlerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -76,7 +76,7 @@ it('bubbles up ValidationException from response handler', function (): void {
         ->once()
         ->andThrow(new ValidationException('ID format is invalid'));
 
-    expect(fn() => $this->transporter->send('GET', 'customers/invalid'))
+    expect(fn () => $this->transporter->send('GET', 'customers/invalid'))
         ->toThrow(ValidationException::class, 'ID format is invalid');
 });
 
@@ -91,7 +91,7 @@ it('bubbles up AuthenticationException from response handler', function (): void
         ->once()
         ->andThrow(new AuthenticationException('Invalid API token'));
 
-    expect(fn() => $this->transporter->send('GET', 'customers'))
+    expect(fn () => $this->transporter->send('GET', 'customers'))
         ->toThrow(AuthenticationException::class, 'Invalid API token');
 });
 
@@ -106,6 +106,6 @@ it('bubbles up NotFoundException from response handler', function (): void {
         ->once()
         ->andThrow(new NotFoundException('Resource not found'));
 
-    expect(fn() => $this->transporter->send('GET', 'customers/notfound'))
+    expect(fn () => $this->transporter->send('GET', 'customers/notfound'))
         ->toThrow(NotFoundException::class, 'Resource not found');
 });

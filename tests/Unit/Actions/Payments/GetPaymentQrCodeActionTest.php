@@ -20,7 +20,7 @@ describe('GetPaymentQrCodeAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('GET', 'payments/' . $paymentId . '/pixQrCode', [])
+            ->with('GET', 'payments/'.$paymentId.'/pixQrCode', [])
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId);
@@ -30,6 +30,6 @@ describe('GetPaymentQrCodeAction', function (): void {
     });
 
     it('throws InvalidArgumentException when ID is empty', function (): void {
-        expect(fn() => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle(''))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });

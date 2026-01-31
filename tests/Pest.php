@@ -1,7 +1,5 @@
 <?php
 
-
-
 use AsaasPhpSdk\AsaasClient;
 use AsaasPhpSdk\Config\AsaasConfig;
 use GuzzleHttp\Client;

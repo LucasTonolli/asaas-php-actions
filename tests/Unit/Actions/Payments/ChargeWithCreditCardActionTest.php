@@ -41,7 +41,7 @@ describe('ChargeWithCreditCardAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('POST', 'payments/' . $paymentId . '/payWithCreditCard', $dto->toArray())
+            ->with('POST', 'payments/'.$paymentId.'/payWithCreditCard', $dto->toArray())
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId, $dto);
@@ -72,7 +72,7 @@ describe('ChargeWithCreditCardAction', function (): void {
 
         $this->transporter->shouldReceive('send')
             ->once()
-            ->with('POST', 'payments/' . $paymentId . '/payWithCreditCard', $dto->toArray())
+            ->with('POST', 'payments/'.$paymentId.'/payWithCreditCard', $dto->toArray())
             ->andReturn($expectedData);
 
         $result = $this->action->handle($paymentId, $dto);
@@ -105,6 +105,6 @@ describe('ChargeWithCreditCardAction', function (): void {
             ],
         ]);
 
-        expect(fn() => $this->action->handle('', $dto))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
+        expect(fn () => $this->action->handle('', $dto))->toThrow(\InvalidArgumentException::class, 'Payment ID cannot be empty');
     });
 });
