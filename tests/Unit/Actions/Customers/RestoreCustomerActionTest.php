@@ -1,7 +1,6 @@
 <?php
 
 use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
-use AsaasPhpSdk\Support\Helpers\ResponseHandler;
 use AsaasPhpSdk\Support\Http\Interface\HttpTransporterInterface;
 
 describe('Restore Customer Action', function (): void {
