@@ -19,7 +19,7 @@ abstract class AbstractAction
     /**
      * AbstractAction constructor.
      *
-     * @param  HttpTransporter  $transporter  The internal engine used to send
+     * @param  HttpTransporterInterface  $transporter  The internal engine used to send
      *                                        PSR-compliant requests and handle responses.
      */
     public function __construct(
