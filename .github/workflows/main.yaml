@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.4]
+        php: [8.3]
 
     steps:
       # 1️⃣ Checkout do código
