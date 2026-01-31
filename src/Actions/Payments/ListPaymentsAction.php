@@ -31,8 +31,6 @@ final class ListPaymentsAction extends AbstractAction
      */
     public function handle(ListPaymentsDTO $data): array
     {
-        return $this->executeRequest(
-            fn () => $this->client->get('payments', ['query' => $data->toArray()])
-        );
+        return $this->transporter->send('GET', 'payments', $data->toArray());
     }
 }
