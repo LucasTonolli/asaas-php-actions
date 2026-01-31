@@ -34,9 +34,7 @@ abstract class GetByIdAction extends AbstractAction
         $normalizedId = $this->validateAndNormalizeId($id, $this->getResourceName());
         $endpoint = $this->getEndpoint($normalizedId);
 
-        return $this->executeRequest(
-            fn () => $this->client->get($endpoint)
-        );
+        return $this->transporter->send('GET', $endpoint, []);
     }
 
     /**
